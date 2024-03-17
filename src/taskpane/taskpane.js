@@ -14,10 +14,13 @@ Office.onReady((info) => {
 });
 
 export async function run() {
-  /**
-   * Insert your Outlook code here
-   */
-
-  const item = Office.context.mailbox.item;
-  document.getElementById("item-subject").innerHTML = "<b>Subject:</b> <br/>" + item.subject;
+  Office.context.mailbox.item.to.getAsync(
+    function (asyncResult) {
+      if (asyncResult.status === Office.AsyncResultStatus.Failed) {
+        console.log(asyncResult.error.message);
+      } else {
+        // This is a placeholder to put our next steps
+      }
+    }
+  )
 }
