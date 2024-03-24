@@ -54,6 +54,14 @@ module.exports = async (env, options) => {
       ],
     },
     plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: "./src/launchevent/launchevent.js",
+            to: "launchevent.js",
+          },
+        ],
+      }),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
