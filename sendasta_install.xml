@@ -2,10 +2,10 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f8188289-4fca-46ac-abe9-188c96dcb88c</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Sendasta-Static</ProviderName>
+  <ProviderName>Sendasta</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Sendasta-Static"/>
-  <Description DefaultValue="Prevent email accidents, notifies on multiple domains!"/>
+  <DisplayName DefaultValue="Sendasta"/>
+  <Description DefaultValue="Prevent email accidents, notifies on multiple domains! - Free Edition"/>
   <IconUrl DefaultValue="https://cedarace.github.io/Sendasta/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://cedarace.github.io/Sendasta/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://www.sendasta.com/help"/>
