@@ -1,7 +1,7 @@
 {
     "redirects": [
       {
-        "source": "/src/index.html",
+        "source": "index.html",
         "destination": "https://www.sendasta.com/$1",
         "permanent": true
       }
