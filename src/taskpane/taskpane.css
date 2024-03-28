@@ -21,7 +21,7 @@ h1 {
 
 .ms-welcome__header {
    padding: 20px;
-   padding-bottom: 20px;
+   padding-bottom: 10px;
    padding-top: 20px;
    display: -webkit-flex;
    display: flex;
