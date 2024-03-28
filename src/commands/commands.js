@@ -7,18 +7,33 @@ Office.onReady(() => {
   }
 });
 
+
+
 function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
   } else {
-    Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
+    getSenderEmail(function (asyncResult) {
+      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+        const senderEmail = asyncResult.value;
+        const senderDomain = getDomain(senderEmail);
+        Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain } }, getRecipientsCallback);
+      } else {
+        console.error("Failed to get sender's email address");
+        event.completed({ allowEvent: false, errorMessage: "Failed to get sender's email address" });
+      }
+    });
   }
 }
 
+function getSenderEmail(callback) {
+  Office.context.mailbox.userProfile.emailAddress.getAsync(callback);
+}
 
 function getRecipientsCallback(asyncResult) {
   let event = asyncResult.asyncContext;
+  let senderDomain = asyncResult.asyncContext.senderDomain;
   let recipients = [];
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = asyncResult.value;
@@ -30,11 +45,11 @@ function getRecipientsCallback(asyncResult) {
   }
 
   let domainList = getDifferentDomains(recipients);
-  if (domainList.length === 1) {
+  if (domainList.length === 1 && domainList[0] === senderDomain) {
     event.completed({ allowEvent: true });
   } else {
     let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
-    event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
+    event.completed({ allowEvent: false, errorMessage: `The recipients' domains do not match the sender's domain (${senderDomain}):\n${domainListText}` });
   }
 }
 

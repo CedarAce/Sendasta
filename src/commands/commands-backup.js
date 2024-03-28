@@ -1,33 +1,21 @@
 /* global global, Office, self, window */
 
-let isSendastaEnabled = true;
-
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
     Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
   }
-
-  // Get initial slider state from localStorage
-  const storedSliderState = localStorage.getItem("isSendastaEnabled");
-  if (storedSliderState !== null) {
-    isSendastaEnabled = JSON.parse(storedSliderState);
-  }
 });
 
 function onMessageSendHandler(event) {
-  // Get current slider state from localStorage
-  const storedSliderState = localStorage.getItem("isSendastaEnabled");
-  if (storedSliderState !== null) {
-    isSendastaEnabled = JSON.parse(storedSliderState);
-  }
-
-  if (isSendastaEnabled) {
-    Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
-  } else {
+  const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
+  if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
+  } else {
+    Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
   }
 }
+
 
 function getRecipientsCallback(asyncResult) {
   let event = asyncResult.asyncContext;
