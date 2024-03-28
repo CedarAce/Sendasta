@@ -83,6 +83,11 @@ module.exports = async (env, options) => {
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"],
       }),
+        // Added entry for index.html
+      new HtmlWebpackPlugin({
+        filename: "index.html",
+        template: "./src/index.html", // Adjust the path as necessary
+  }),
     ],
     devServer: {
       headers: {
