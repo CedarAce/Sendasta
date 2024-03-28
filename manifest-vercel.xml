@@ -102,9 +102,8 @@
         <bt:Url id="JSRuntime.Url" DefaultValue="https://sendasta.vercel.app/commands.js" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Sendasta Add-in"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane"/>
-        <bt:String id="ActionButton.Label" DefaultValue="Perform an action"/>
+        <bt:String id="GroupLabel" DefaultValue="Sendasta"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Sendasta"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
