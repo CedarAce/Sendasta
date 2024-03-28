@@ -1,6 +1,6 @@
-<!-- Updated 03.28.2024 -->
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
+ <!-- Updated 03.28.2024 -->
   <Id>f8188289-4fca-46ac-abe9-188c96dcb88c</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Sendasta</ProviderName>
