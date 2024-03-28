@@ -14,12 +14,27 @@ Thousands of emails a day are sent to an unintended recipient. Sensitive informa
 
 **Installation Steps**:
 
-1- Download the manifest XML file (aka the settings file) here: [https://cedarace.github.io/Sendasta/sendasta_settings.xml](https://cedarace.github.io/Sendasta/sendasta_install.xml)
+Let's get Sendasta in your Outlook, follow along and apologies for the inconvenience, we are still brand new and waiting to get on the official Microsoft AppSource store - for a 'one-click' install. Till then, here are some simple steps to get started, takes 2 mins max!
 
-2- Open your Outlook inbox and got to 'Add-ins' box, then select 'Get-Add-ins'.
+**1- Download the Sendasta 'install' file:** https://cedarace.github.io/Sendasta/sendasta_install.xml
 
-3- Go down to 'Custom Addins on the left pane, then select the + Add from file
+You can open our settings file (XML) at the link above, then you will need to 'Save-as' this file somewhere you can remember for a minute. This is the file we will point to later one from our inbox.
 
-4- Select the XML file that you downloads.
+**2- Import the setting file to your Outlook:**
 
-5 - That's it! You can open up a draft email, click on the 'Sendasta' app button from add-ins, you can now Enable or Disable Senadasta. Give it a spin!
+Sign in to your MS Outlook account, preferably over the web, and navigate to the 'Apps' button in your top menu bar. This looks like a window icon. You will see your current apps, then a 'Get add-ins +' button on the bottom right of that window. Click that.
+
+Psst: Click this link to go directly to the add-in page (as long as your signed in) and skip most of this: https://aka.ms/olksideload
+
+**3- Get the settings file**
+
+Almost there, now on the left pane select the 'My add-ins', then on the bottom of that, you will see the Custom Addins section. Click on '+Add a custom add-in' - Add from file'. You can now select the Sendasta XML file you downloaded in Step 1.
+
+**4- Sendasta controls**
+
+The add-in should now be installed, let's test it out and see how to enable and disable it. Create a new email, then select the 'Apps' button on the top bar, and click on Sendasta. This open the right hand menu bar for the app. You can either set 'Enabled' or 'Disabled' for the entire add-in if you want to bypass it.
+
+**5- Give it a spin!:**
+
+Enter two emails with different domain names (i.e: @test 1.com and @test2.com) give that a try. NOTE: @hotmail, @gmail and @outlook emails are bypassed and the Sendasta will not check them on the free version. Similarly, a domain name from the same organization (@test1.com if you the sender is also @test1.com) will not be included.
+If you run into any issues or would like immediate support - please contact us at info@sendasta.com.
