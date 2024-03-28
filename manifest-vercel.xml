@@ -72,6 +72,21 @@
                     <SourceLocation resid="Taskpane.Url" />
                   </Action>
                 </Control>
+                  <Control xsi:type="Button" id="ActionButton">
+                  <Label resid="ActionButton.Label" />
+                  <Supertip>
+                    <Title resid="ActionButton.Label" />
+                    <Description resid="ActionButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>onMessageSendHandler</FunctionName>
+                  </Action>
+                </Control>
               </Group>
             </OfficeTab>
           </ExtensionPoint>
@@ -103,11 +118,12 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel" DefaultValue="Sendasta"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Sendasta"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Settings"/>
+        <bt:String id="ActionButton.Label" DefaultValue="Check Domain"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Enable or disable the Sendasta."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Check for domain mix-up now."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

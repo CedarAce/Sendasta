@@ -1,8 +1,5 @@
 /* global global, Office, self, window */
 
-
-/* global global, Office, self, window */
-
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
@@ -19,8 +16,6 @@ function onMessageSendHandler(event) {
   }
 }
 
-
-// ... (keep the remaining code in commands.js unchanged)
 
 function getRecipientsCallback(asyncResult) {
   let event = asyncResult.asyncContext;
