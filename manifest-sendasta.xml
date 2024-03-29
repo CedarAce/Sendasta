@@ -28,7 +28,6 @@
       </DesktopSettings>
     </Form>
   </FormSettings>
-  <Permission>TrustedScriptURL</Permission>
   <Permissions>ReadWriteItem</Permissions>
   <Rule xsi:type="RuleCollection" Mode="Or">
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
