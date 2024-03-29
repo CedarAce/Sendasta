@@ -11,24 +11,19 @@ Office.onReady(() => {
 
 function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
+  const considerInternalDomains = Office.context.roamingSettings.get("considerInternalDomains");
+  
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
   } else {
-    getSenderEmail(function (asyncResult) {
-      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-        const senderEmail = asyncResult.value;
-        const senderDomain = getDomain(senderEmail);
-        Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain } }, getRecipientsCallback);
-      } else {
-        console.error("Failed to get sender's email address");
-        event.completed({ allowEvent: false, errorMessage: "Failed to get sender's email address" });
-      }
-    });
+    const senderEmail = getSenderEmail();
+    const senderDomain = getDomain(senderEmail);
+    Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain, considerInternalDomains } }, getRecipientsCallback);
   }
 }
 
-function getSenderEmail(callback) {
-  Office.context.mailbox.userProfile.emailAddress.getAsync(callback);
+function getSenderEmail() {
+  return Office.context.mailbox.item.from.emailAddress;
 }
 
 function getRecipientsCallback(asyncResult) {
