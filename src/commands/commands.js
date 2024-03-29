@@ -44,18 +44,19 @@ function getRecipientsCallback(asyncResult) {
   let domainList = getDifferentDomains(recipients);
 
   if (considerInternalDomains) {
-    if (domainList.length === 1 && domainList[0] === senderDomain) {
-      event.completed({ allowEvent: true });
+    let externalDomains = domainList.filter(domain => domain !== senderDomain);
+    if (externalDomains.length > 1) {
+      let domainListText = externalDomains.map(domain => `• ${domain}`).join("\n");
+      event.completed({ allowEvent: false, errorMessage: `The recipients contain more than one domain that is different from the sender's domain (${senderDomain}):\n${domainListText}` });
     } else {
-      let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
-      event.completed({ allowEvent: false, errorMessage: `The recipients' domains do not match the sender's domain (${senderDomain}):\n${domainListText}` });
+      event.completed({ allowEvent: true });
     }
   } else {
-    if (domainList.length === 1) {
-      event.completed({ allowEvent: true });
-    } else {
+    if (domainList.length > 1) {
       let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
       event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
+    } else {
+      event.completed({ allowEvent: true });
     }
   }
 }
