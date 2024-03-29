@@ -23,13 +23,16 @@ function onMessageSendHandler(event) {
 }
 
 function getSenderEmail() {
-  return Office.context.mailbox.item.from.emailAddress;
+  return Office.context.mailbox.item.from && Office.context.mailbox.item.from.emailAddress;
 }
 
+
 function getRecipientsCallback(asyncResult) {
-  let event = asyncResult.asyncContext;
+  let event = asyncResult.asyncContext.event;
   let senderDomain = asyncResult.asyncContext.senderDomain;
+  let considerInternalDomains = asyncResult.asyncContext.considerInternalDomains;
   let recipients = [];
+
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = asyncResult.value;
   } else {
@@ -40,11 +43,24 @@ function getRecipientsCallback(asyncResult) {
   }
 
   let domainList = getDifferentDomains(recipients);
-  if (domainList.length === 1 && domainList[0] === senderDomain) {
-    event.completed({ allowEvent: true });
+
+  console.log("Sender Domain:", senderDomain);
+  console.log("Domain List:", domainList);
+
+  if (considerInternalDomains) {
+    if (domainList.length === 1 && domainList[0] === senderDomain) {
+      event.completed({ allowEvent: true });
+    } else {
+      let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
+      event.completed({ allowEvent: false, errorMessage: `The recipients' domains do not match the sender's domain (${senderDomain}):\n${domainListText}` });
+    }
   } else {
-    let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
-    event.completed({ allowEvent: false, errorMessage: `The recipients' domains do not match the sender's domain (${senderDomain}):\n${domainListText}` });
+    if (domainList.length === 1) {
+      event.completed({ allowEvent: true });
+    } else {
+      let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
+      event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
+    }
   }
 }
 
@@ -60,6 +76,7 @@ function getDifferentDomains(recipients) {
 }
 
 function getDomain(email) {
+  if (!email) return ''; // Return empty string or handle as needed if email is falsy
   return email.substring(email.lastIndexOf("@") + 1);
 }
 
