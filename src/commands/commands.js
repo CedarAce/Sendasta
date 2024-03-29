@@ -1,5 +1,4 @@
 /* global global, Office, self, window */
-
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
@@ -7,25 +6,25 @@ Office.onReady(() => {
   }
 });
 
-
-
 function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
   const considerInternalDomains = Office.context.roamingSettings.get("considerInternalDomains");
-  
+
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
   } else {
-    const senderEmail = getSenderEmail();
-    const senderDomain = getDomain(senderEmail);
-    Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain, considerInternalDomains } }, getRecipientsCallback);
+    Office.context.mailbox.item.from.getAsync(function (asyncResult) {
+      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+        const senderEmailAddress = asyncResult.value.emailAddress;
+        const senderDomain = getDomain(senderEmailAddress);
+        Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain, considerInternalDomains } }, getRecipientsCallback);
+      } else {
+        console.error("Failed to get sender's email address. Error: " + asyncResult.error.message);
+        event.completed({ allowEvent: false, errorMessage: "Failed to get sender's email address." });
+      }
+    });
   }
 }
-
-function getSenderEmail() {
-  return Office.context.mailbox.item.from && Office.context.mailbox.item.from.emailAddress;
-}
-
 
 function getRecipientsCallback(asyncResult) {
   let event = asyncResult.asyncContext.event;
@@ -43,9 +42,6 @@ function getRecipientsCallback(asyncResult) {
   }
 
   let domainList = getDifferentDomains(recipients);
-
-  console.log("Sender Domain:", senderDomain);
-  console.log("Domain List:", domainList);
 
   if (considerInternalDomains) {
     if (domainList.length === 1 && domainList[0] === senderDomain) {
@@ -76,7 +72,6 @@ function getDifferentDomains(recipients) {
 }
 
 function getDomain(email) {
-  if (!email) return ''; // Return empty string or handle as needed if email is falsy
   return email.substring(email.lastIndexOf("@") + 1);
 }
 
