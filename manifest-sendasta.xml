@@ -89,11 +89,11 @@
         <bt:Image id="Icon.80x80" DefaultValue="https://sendasta.vercel.app/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://sendasta.vercel.app/commands.html" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://sendasta.vercel.app/taskpane.html" />
-        <bt:Url id="WebViewRuntime.Url" DefaultValue="https://sendasta.vercel.app/commands.html" />
+        <bt:Url id="Commands.Url" DefaultValue="https://cedarace.github.io/Sendasta/src/commands/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://cedarace.github.io/Sendasta/src/taskpane/taskpane.html" />
+        <bt:Url id="WebViewRuntime.Url" DefaultValue="https://cedarace.github.io/Sendasta/src/commands/commands.html" />
         <!-- Entry needed for Outlook on Windows. -->
-        <bt:Url id="JSRuntime.Url" DefaultValue="https://sendasta.vercel.app/commands.js" />
+        <bt:Url id="JSRuntime.Url" DefaultValue="https://cedarace.github.io/Sendasta/src/commands/commands.js" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel" DefaultValue="Sendasta"/>
