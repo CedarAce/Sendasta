@@ -1,37 +1,25 @@
 /* global global, Office, self, window */
+
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
-  if (Office.context && (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null)) {
+  if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
     Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
   }
 });
 
 function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
-  const considerInternalDomains = Office.context.roamingSettings.get("considerInternalDomains");
-
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
   } else {
-    Office.context.mailbox.item.from.getAsync(function (asyncResult) {
-      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-        const senderEmailAddress = asyncResult.value.emailAddress;
-        const senderDomain = getDomain(senderEmailAddress);
-        Office.context.mailbox.item.to.getAsync({ asyncContext: { event, senderDomain, considerInternalDomains } }, getRecipientsCallback);
-      } else {
-        console.error("Failed to get sender's email address. Error: " + asyncResult.error.message);
-        event.completed({ allowEvent: false, errorMessage: "Failed to get sender's email address." });
-      }
-    });
+    Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
   }
 }
 
-function getRecipientsCallback(asyncResult) {
-  let event = asyncResult.asyncContext.event;
-  let senderDomain = asyncResult.asyncContext.senderDomain;
-  let considerInternalDomains = asyncResult.asyncContext.considerInternalDomains;
-  let recipients = [];
 
+function getRecipientsCallback(asyncResult) {
+  let event = asyncResult.asyncContext;
+  let recipients = [];
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = asyncResult.value;
   } else {
@@ -42,17 +30,11 @@ function getRecipientsCallback(asyncResult) {
   }
 
   let domainList = getDifferentDomains(recipients);
-  let externalDomains = domainList.filter(domain => domain !== senderDomain);
-
-  if (externalDomains.length > 0) {
-    if (externalDomains.length === 1 && !considerInternalDomains) {
-      event.completed({ allowEvent: true });
-    } else {
-      let domainListText = externalDomains.map(domain => `• ${domain}`).join("\n");
-      event.completed({ allowEvent: false, errorMessage: `The recipients contain one or more domains that are different from the sender's domain (${senderDomain}):\n${domainListText}` });
-    }
-  } else {
+  if (domainList.length === 1) {
     event.completed({ allowEvent: true });
+  } else {
+    let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
+    event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
   }
 }
 
@@ -72,6 +54,6 @@ function getDomain(email) {
 }
 
 // IMPORTANT: To ensure your add-in is supported in the Outlook client on Windows, remember to map the event handler name specified in the manifest to its JavaScript counterpart.
-if (Office.context && (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null)) {
+if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
   Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
 }
