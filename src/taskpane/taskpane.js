@@ -27,7 +27,7 @@ function getSendastaState() {
   if (isSendastaEnabled !== null) {
     document.getElementById("toggleSwitch").checked = isSendastaEnabled;
   } else {
-    document.getElementById("toggleSwitch").checked = true; // Default to enabled if not set
+    document.getElementById("toggleSwitch").checked = false; // Default to disabled if not set
   }
 }
 
