@@ -50,7 +50,7 @@ function getDifferentDomains(recipients) {
 }
 
 function getDomain(email) {
-  return email.substring(email.lastIndexOf("@") + 1);
+  return email.substring(email.lastIndexOf("@") + 1).toLowerCase();
 }
 
 // IMPORTANT: To ensure your add-in is supported in the Outlook client on Windows, remember to map the event handler name specified in the manifest to its JavaScript counterpart.
