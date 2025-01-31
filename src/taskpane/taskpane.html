@@ -42,15 +42,31 @@
             </li>
         </ul>
         <p class="ms-font-2">Enable or Disable Sendasta notifications. Our 'Professional' version enables custom 'allow combine' email domains.</p>
-        <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
-            <span class="switch-label">Disabled</span>
-            <label class="switch">
-                <input type="checkbox" id="toggleSwitch"> <!-- Add the id attribute here -->
-                <span class="slider round"></span>
-            </label>
-            
-            <span class="switch-label">Enabled</span>
-        </div>
+  <!-- Enable/Disable Sendasta -->
+<div class="setting-container">
+    <h3 class="ms-font-m">Enable Sendasta</h3>
+    <div role="button" class="ms-welcome__action">
+        <span class="switch-label">Disabled</span>
+        <label class="switch">
+            <input type="checkbox" id="toggleSwitch">
+            <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Enabled</span>
+    </div>
+</div>
+
+<!-- Include Cc/Bcc Toggle -->
+<div class="setting-container">
+    <h3 class="ms-font-m">Include Cc/Bcc in Domain Check</h3>
+    <div role="button" class="ms-welcome__action">
+        <span class="switch-label">Disabled</span>
+        <label class="switch">
+            <input type="checkbox" id="toggleCcBcc" checked> <!-- Default enabled -->
+            <span class="slider round"></span>
+        </label>
+        <span class="switch-label">Enabled</span>
+    </div>
+</div>
         <div>  
             <br> 
             <p>For any questions or concerns, please reach out to info@sendasta.com</p>

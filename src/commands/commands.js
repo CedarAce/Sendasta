@@ -12,17 +12,40 @@ function onMessageSendHandler(event) {
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
   } else {
-    Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
-  }
+    const includeCcBcc = Office.context.roamingSettings.get("includeCcBcc") ?? true; // Default to true
+
+    if (includeCcBcc) {
+        Office.context.mailbox.item.to.getAsync({ asyncContext: event }, (toResult) => {
+            Office.context.mailbox.item.cc.getAsync({ asyncContext: { event, toResult } }, (ccResult) => {
+                Office.context.mailbox.item.bcc.getAsync({ asyncContext: { event, toResult, ccResult } }, getRecipientsCallback);
+            });
+        });
+    } else {
+        // Only get "To" recipients if Cc/Bcc scanning is disabled
+        Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
+    }  }
 }
 
-
 function getRecipientsCallback(asyncResult) {
-  let event = asyncResult.asyncContext;
+  let { event, toResult, ccResult } = asyncResult.asyncContext;
   let recipients = [];
+
+  // Merge "To" recipients
+  if (toResult && toResult.status === Office.AsyncResultStatus.Succeeded) {
+    recipients = recipients.concat(toResult.value);
+  }
+
+  // Merge "Cc" recipients
+  if (ccResult && ccResult.status === Office.AsyncResultStatus.Succeeded) {
+    recipients = recipients.concat(ccResult.value);
+  }
+
+  // Merge "Bcc" recipients
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-    recipients = asyncResult.value;
-  } else {
+    recipients = recipients.concat(asyncResult.value);
+  }
+
+  if (recipients.length === 0) {
     let message = "Failed to get recipients";
     console.error(message);
     event.completed({ allowEvent: false, errorMessage: message });
@@ -37,7 +60,6 @@ function getRecipientsCallback(asyncResult) {
     event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
   }
 }
-
 function getDifferentDomains(recipients) {
   if (recipients == null || recipients.length == 0) {
     return [];
