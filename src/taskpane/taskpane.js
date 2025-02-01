@@ -33,26 +33,27 @@ function toggleSendasta() {
   // Get the CC/BCC toggle and its parent label.
   const ccBccToggle = document.getElementById("toggleCcBcc");
   const ccBccLabel = ccBccToggle.parentNode; // the <label class="switch"> element
-
-  // If Sendasta is disabled, uncheck the CC/BCC toggle so it appears "off"
+  
   if (!isSendastaEnabled) {
+    // Uncheck the toggle so the slider moves to the "off" position.
     ccBccToggle.checked = false;
-    // Optionally update the stored setting for includeCcBcc as false:
+    
+    // Optionally update the stored setting for includeCcBcc.
     Office.context.roamingSettings.set("includeCcBcc", false);
     Office.context.roamingSettings.saveAsync(function (asyncResult) {
       if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
         console.log("Cc/Bcc setting updated to disabled.");
       }
     });
-  }
-  
-  // Disable (or enable) the CC/BCC toggle based on Sendasta's state.
-  ccBccToggle.disabled = !isSendastaEnabled;
-
-  // Add or remove a disabled class to the label for visual feedback.
-  if (!isSendastaEnabled) {
-    ccBccLabel.classList.add("disabled");
+    
+    // Use a short delay to allow the visual update (slider movement) to complete.
+    setTimeout(() => {
+      ccBccToggle.disabled = true;
+      ccBccLabel.classList.add("disabled");
+    }, 100); // 100 milliseconds delay; adjust if needed.
   } else {
+    // When re-enabling Sendasta, immediately re-enable the CC/BCC toggle.
+    ccBccToggle.disabled = false;
     ccBccLabel.classList.remove("disabled");
   }
 }
