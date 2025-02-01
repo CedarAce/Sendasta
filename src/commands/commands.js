@@ -1,5 +1,3 @@
-/* global global, Office, self, window */
-
 Office.onReady(() => {
   // If needed, Office.js is ready to be called
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
@@ -22,8 +20,8 @@ function onMessageSendHandler(event) {
         });
     } else {
         // Only get "To" recipients if Cc/Bcc scanning is disabled
-        Office.context.mailbox.item.to.getAsync({ asyncContext: event }, getRecipientsCallback);
-    }  }
+        Office.context.mailbox.item.to.getAsync({ asyncContext: { event } }, getRecipientsCallback);
+      }  }
 }
 
 function getRecipientsCallback(asyncResult) {
