@@ -20,6 +20,7 @@ function toggleSendasta() {
   const isSendastaEnabled = document.getElementById("toggleSwitch").checked;
   console.log("Sendasta is now " + (isSendastaEnabled ? "enabled" : "disabled"));
   
+  // Save the Sendasta setting.
   Office.context.roamingSettings.set("isSendastaEnabled", isSendastaEnabled);
   Office.context.roamingSettings.saveAsync(function (asyncResult) {
     if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
@@ -29,11 +30,23 @@ function toggleSendasta() {
     }
   });
   
-  // Get the CC/BCC toggle input and its parent label
+  // Get the CC/BCC toggle and its parent label.
   const ccBccToggle = document.getElementById("toggleCcBcc");
   const ccBccLabel = ccBccToggle.parentNode; // the <label class="switch"> element
 
-  // Disable (or enable) the CC/BCC toggle based on the Sendasta state.
+  // If Sendasta is disabled, uncheck the CC/BCC toggle so it appears "off"
+  if (!isSendastaEnabled) {
+    ccBccToggle.checked = false;
+    // Optionally update the stored setting for includeCcBcc as false:
+    Office.context.roamingSettings.set("includeCcBcc", false);
+    Office.context.roamingSettings.saveAsync(function (asyncResult) {
+      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+        console.log("Cc/Bcc setting updated to disabled.");
+      }
+    });
+  }
+  
+  // Disable (or enable) the CC/BCC toggle based on Sendasta's state.
   ccBccToggle.disabled = !isSendastaEnabled;
 
   // Add or remove a disabled class to the label for visual feedback.
