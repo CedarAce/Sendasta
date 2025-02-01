@@ -27,6 +27,9 @@ function toggleSendasta() {
       console.error("Failed to save Sendasta state. Error: " + asyncResult.error.message);
     }
   });
+  
+  // Disable the CC/BCC toggle if Sendasta is disabled.
+  document.getElementById("toggleCcBcc").disabled = !isSendastaEnabled;
 }
 
 // Save & retrieve Cc/Bcc toggle state
@@ -46,7 +49,12 @@ function toggleCcBcc() {
 
 function getSendastaState() {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
-  document.getElementById("toggleSwitch").checked = isSendastaEnabled !== null ? isSendastaEnabled : true;
+  // Use true as default if the setting hasn't been set yet.
+  const sendastaEnabled = (isSendastaEnabled !== null ? isSendastaEnabled : true);
+  document.getElementById("toggleSwitch").checked = sendastaEnabled;
+  
+  // Set the CC/BCC toggle disabled state accordingly.
+  document.getElementById("toggleCcBcc").disabled = !sendastaEnabled;
 }
 
 function getCcBccState() {
