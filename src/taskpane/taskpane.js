@@ -28,8 +28,19 @@ function toggleSendasta() {
     }
   });
   
-  // Disable the CC/BCC toggle if Sendasta is disabled.
-  document.getElementById("toggleCcBcc").disabled = !isSendastaEnabled;
+  // Get the CC/BCC toggle input and its parent label
+  const ccBccToggle = document.getElementById("toggleCcBcc");
+  const ccBccLabel = ccBccToggle.parentNode; // the <label class="switch"> element
+
+  // Disable (or enable) the CC/BCC toggle based on the Sendasta state.
+  ccBccToggle.disabled = !isSendastaEnabled;
+
+  // Add or remove a disabled class to the label for visual feedback.
+  if (!isSendastaEnabled) {
+    ccBccLabel.classList.add("disabled");
+  } else {
+    ccBccLabel.classList.remove("disabled");
+  }
 }
 
 // Save & retrieve Cc/Bcc toggle state
@@ -53,11 +64,30 @@ function getSendastaState() {
   const sendastaEnabled = (isSendastaEnabled !== null ? isSendastaEnabled : true);
   document.getElementById("toggleSwitch").checked = sendastaEnabled;
   
-  // Set the CC/BCC toggle disabled state accordingly.
-  document.getElementById("toggleCcBcc").disabled = !sendastaEnabled;
+  const ccBccToggle = document.getElementById("toggleCcBcc");
+  const ccBccLabel = ccBccToggle.parentNode;
+  ccBccToggle.disabled = !sendastaEnabled;
+  if (!sendastaEnabled) {
+    ccBccLabel.classList.add("disabled");
+  } else {
+    ccBccLabel.classList.remove("disabled");
+  }
 }
 
-function getCcBccState() {
-  const isCcBccEnabled = Office.context.roamingSettings.get("includeCcBcc");
-  document.getElementById("toggleCcBcc").checked = isCcBccEnabled !== null ? isCcBccEnabled : true;
+function toggleCcBcc() {
+  const ccBccToggle = document.getElementById("toggleCcBcc");
+  if (ccBccToggle.disabled) {
+    return; // Do nothing if disabled.
+  }
+  const isCcBccEnabled = ccBccToggle.checked;
+  console.log("Include Cc/Bcc: " + (isCcBccEnabled ? "enabled" : "disabled"));
+
+  Office.context.roamingSettings.set("includeCcBcc", isCcBccEnabled);
+  Office.context.roamingSettings.saveAsync(function (asyncResult) {
+    if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+      console.log("Cc/Bcc setting saved successfully.");
+    } else {
+      console.error("Failed to save Cc/Bcc setting. Error: " + asyncResult.error.message);
+    }
+  });
 }
