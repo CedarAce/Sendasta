@@ -14,6 +14,7 @@ Office.onReady((info) => {
     getCcBccState();
   }
 });
+
 // Master toggle function
 function toggleSendasta() {
   const isSendastaEnabled = document.getElementById("toggleSwitch").checked;
@@ -43,9 +44,13 @@ function toggleSendasta() {
   }
 }
 
-// Save & retrieve Cc/Bcc toggle state
+// Cc/Bcc toggle function (keep only one declaration)
 function toggleCcBcc() {
-  const isCcBccEnabled = document.getElementById("toggleCcBcc").checked;
+  const ccBccToggle = document.getElementById("toggleCcBcc");
+  if (ccBccToggle.disabled) {
+    return; // Do nothing if disabled.
+  }
+  const isCcBccEnabled = ccBccToggle.checked;
   console.log("Include Cc/Bcc: " + (isCcBccEnabled ? "enabled" : "disabled"));
 
   Office.context.roamingSettings.set("includeCcBcc", isCcBccEnabled);
@@ -74,20 +79,7 @@ function getSendastaState() {
   }
 }
 
-function toggleCcBcc() {
-  const ccBccToggle = document.getElementById("toggleCcBcc");
-  if (ccBccToggle.disabled) {
-    return; // Do nothing if disabled.
-  }
-  const isCcBccEnabled = ccBccToggle.checked;
-  console.log("Include Cc/Bcc: " + (isCcBccEnabled ? "enabled" : "disabled"));
-
-  Office.context.roamingSettings.set("includeCcBcc", isCcBccEnabled);
-  Office.context.roamingSettings.saveAsync(function (asyncResult) {
-    if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-      console.log("Cc/Bcc setting saved successfully.");
-    } else {
-      console.error("Failed to save Cc/Bcc setting. Error: " + asyncResult.error.message);
-    }
-  });
+function getCcBccState() {
+  const isCcBccEnabled = Office.context.roamingSettings.get("includeCcBcc");
+  document.getElementById("toggleCcBcc").checked = isCcBccEnabled !== null ? isCcBccEnabled : true;
 }
