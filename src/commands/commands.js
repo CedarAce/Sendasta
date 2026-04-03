@@ -1,5 +1,8 @@
 /* global Office */
 
+import { inject } from "@vercel/analytics";
+inject();
+
 Office.onReady(() => {
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
     Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
