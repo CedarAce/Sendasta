@@ -1,3 +1,6 @@
+import { inject } from "@vercel/analytics";
+inject();
+
 Office.onReady((info) => {
   if (info.host === Office.HostType.Outlook) {
     document.getElementById("sideload-msg").style.display = "none";
