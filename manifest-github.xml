@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f8188289-4fca-46ac-abe9-188c96dcb88c</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.1.0.0</Version>
   <ProviderName>Sendasta-Static</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Sendasta-Static"/>
@@ -102,13 +102,13 @@
         <bt:Url id="JSRuntime.Url" DefaultValue="https://cedarace.github.io/Sendasta/src/commands/commands.js" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Sendasta Add-in"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane"/>
-        <bt:String id="ActionButton.Label" DefaultValue="Perform an action"/>
+        <bt:String id="GroupLabel" DefaultValue="Sendasta"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Sendasta"/>
+        <bt:String id="ActionButton.Label" DefaultValue="Check"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens a pane displaying all available properties."/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Enable or disable Sendasta."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Check for domain mix-up now."/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

@@ -1,5 +1,6 @@
+/* global Office */
+
 Office.onReady(() => {
-  // If needed, Office.js is ready to be called
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
     Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
   }
@@ -9,71 +10,126 @@ function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
     event.completed({ allowEvent: true });
-  } else {
-    const includeCcBcc = Office.context.roamingSettings.get("includeCcBcc") ?? true; // Default to true
+    return;
+  }
+
+  const includeCcBcc = Office.context.roamingSettings.get("includeCcBcc") ?? true;
+  const blockedDomains = getListSetting("blockedDomains");
+  const noCombinePairs = getListSetting("noCombinePairs");
+  const allowedPairs = getListSetting("allowedPairs");
+  const internalDomains = getListSetting("internalDomains");
+
+  Office.context.mailbox.item.from.getAsync(function (fromResult) {
+    if (fromResult.status !== Office.AsyncResultStatus.Succeeded) {
+      event.completed({ allowEvent: false, errorMessage: "Sendasta could not read the sender address." });
+      return;
+    }
+
+    const senderDomain = getDomain(fromResult.value.emailAddress);
+    const ctx = { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains };
 
     if (includeCcBcc) {
-        Office.context.mailbox.item.to.getAsync({ asyncContext: event }, (toResult) => {
-            Office.context.mailbox.item.cc.getAsync({ asyncContext: { event, toResult } }, (ccResult) => {
-                Office.context.mailbox.item.bcc.getAsync({ asyncContext: { event, toResult, ccResult } }, getRecipientsCallback);
-            });
+      Office.context.mailbox.item.to.getAsync({ asyncContext: ctx }, (toResult) => {
+        Office.context.mailbox.item.cc.getAsync({ asyncContext: { ...toResult.asyncContext, toResult } }, (ccResult) => {
+          Office.context.mailbox.item.bcc.getAsync({ asyncContext: { ...ccResult.asyncContext, ccResult } }, evaluateRecipients);
         });
+      });
     } else {
-        // Only get "To" recipients if Cc/Bcc scanning is disabled
-        Office.context.mailbox.item.to.getAsync({ asyncContext: { event } }, getRecipientsCallback);
-      }  }
+      Office.context.mailbox.item.to.getAsync({ asyncContext: ctx }, evaluateRecipients);
+    }
+  });
 }
 
-function getRecipientsCallback(asyncResult) {
-  let { event, toResult, ccResult } = asyncResult.asyncContext;
+function evaluateRecipients(asyncResult) {
+  const { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains, toResult, ccResult } = asyncResult.asyncContext;
   let recipients = [];
 
-  // Merge "To" recipients
   if (toResult && toResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = recipients.concat(toResult.value);
   }
-
-  // Merge "Cc" recipients
   if (ccResult && ccResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = recipients.concat(ccResult.value);
   }
-
-  // Merge "Bcc" recipients
   if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
     recipients = recipients.concat(asyncResult.value);
   }
 
   if (recipients.length === 0) {
-    let message = "Failed to get recipients";
-    console.error(message);
-    event.completed({ allowEvent: false, errorMessage: message });
+    event.completed({ allowEvent: true });
     return;
   }
 
-  let domainList = getDifferentDomains(recipients);
-  if (domainList.length === 1) {
-    event.completed({ allowEvent: true });
-  } else {
-    let domainListText = domainList.map(domain => `• ${domain}`).join("\n");
-    event.completed({ allowEvent: false, errorMessage: `You have recipients from different domains:\n${domainListText}` });
+  const recipientDomains = recipients.map((r) => getDomain(r.emailAddress));
+
+  // 1. Blocked domains — hard block regardless of other rules
+  if (blockedDomains.length > 0) {
+    const hits = [...new Set(recipientDomains.filter((d) => blockedDomains.includes(d)))];
+    if (hits.length > 0) {
+      event.completed({
+        allowEvent: false,
+        errorMessage: `Email blocked: recipient domain(s) on your blocked list:\n${hits.map((d) => `• ${d}`).join("\n")}`,
+      });
+      return;
+    }
   }
+
+  // 2. No-combine pairs — block if both domains of any pair are present
+  for (const pair of noCombinePairs) {
+    const [domainA, domainB] = pair;
+    if (recipientDomains.includes(domainA) && recipientDomains.includes(domainB)) {
+      event.completed({
+        allowEvent: false,
+        errorMessage: `Email blocked: "${domainA}" and "${domainB}" must not receive the same email per your rules.`,
+      });
+      return;
+    }
+  }
+
+  // 3. Compute external domains (not sender's domain, not in internalDomains)
+  const allInternalDomains = new Set([senderDomain, ...internalDomains]);
+  const externalDomains = [...new Set(recipientDomains.filter((d) => !allInternalDomains.has(d)))];
+
+  if (externalDomains.length <= 1) {
+    event.completed({ allowEvent: true });
+    return;
+  }
+
+  // 4. Allowed pairs — if every combination of external domains is explicitly trusted, allow
+  if (allowedPairs.length > 0 && areAllPairsAllowed(externalDomains, allowedPairs)) {
+    event.completed({ allowEvent: true });
+    return;
+  }
+
+  // 5. Multi-domain alert
+  event.completed({
+    allowEvent: false,
+    errorMessage: `Recipients span multiple external domains. Please double-check before sending:\n${externalDomains.map((d) => `• ${d}`).join("\n")}`,
+  });
 }
-function getDifferentDomains(recipients) {
-  if (recipients == null || recipients.length == 0) {
+
+function areAllPairsAllowed(domains, allowedPairs) {
+  for (let i = 0; i < domains.length; i++) {
+    for (let j = i + 1; j < domains.length; j++) {
+      const a = domains[i];
+      const b = domains[j];
+      const ok = allowedPairs.some(([pa, pb]) => (pa === a && pb === b) || (pa === b && pb === a));
+      if (!ok) return false;
+    }
+  }
+  return true;
+}
+
+function getListSetting(key) {
+  const raw = Office.context.roamingSettings.get(key);
+  if (!raw) return [];
+  try {
+    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
     return [];
   }
-  const domains = new Set();
-  for (let index = 0; index < recipients.length; index++) {
-    domains.add(getDomain(recipients[index].emailAddress));
-  }
-  return Array.from(domains);
 }
 
 function getDomain(email) {
   return email.substring(email.lastIndexOf("@") + 1).toLowerCase();
 }
-
-// IMPORTANT: To ensure your add-in is supported in the Outlook client on Windows, remember to map the event handler name specified in the manifest to its JavaScript counterpart.
- if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
-  Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
- }
