@@ -291,6 +291,69 @@ input:checked + .slider:before {
   pointer-events: none;
 }
 
+/* ── Activation card ─────────────────────────────────────────────────────────── */
+
+.activation-card {
+  border-color: #0078d7;
+  background: #f0f6ff;
+}
+
+.activation-unlocked {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activation-unlocked--hidden {
+  display: none;
+}
+
+.activation-check {
+  font-size: 20px;
+  color: #107c10;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.activation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.activation-input-row {
+  margin-top: 8px;
+}
+
+.activation-error {
+  font-size: 11px;
+  color: #d13438;
+  min-height: 16px;
+  display: block;
+}
+
+.deactivate-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #666;
+  padding: 3px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.deactivate-btn:hover {
+  border-color: #d13438;
+  color: #d13438;
+}
+
+.pro-locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 /* ── Footer ──────────────────────────────────────────────────────────────────── */
 
 .footer-links {

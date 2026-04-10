@@ -66,6 +66,27 @@
             </div>
         </div>
 
+        <!-- Activation -->
+        <div class="setting-card activation-card" id="activationContainer">
+            <div id="activationUnlocked" class="activation-unlocked activation-unlocked--hidden">
+                <span class="activation-check">&#10003;</span>
+                <div>
+                    <span class="ms-font-m setting-title">Sendasta Pro</span>
+                    <span class="ms-font-xs setting-desc" id="activationEmail"></span>
+                </div>
+                <button type="button" id="deactivateBtn" class="deactivate-btn">Deactivate</button>
+            </div>
+            <div id="activationForm" class="activation-form">
+                <span class="ms-font-m setting-title">Activate Pro</span>
+                <span class="ms-font-xs setting-desc">Enter your license key to unlock custom domain rules. <a href="https://sendasta.com/#pricing" target="_blank" rel="noopener noreferrer">Get a key &rarr;</a></span>
+                <div class="list-input-row activation-input-row">
+                    <input type="text" id="licenseKeyInput" class="domain-input" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" />
+                    <button type="button" id="activateBtn" class="add-btn">Activate</button>
+                </div>
+                <span id="activationError" class="activation-error"></span>
+            </div>
+        </div>
+
         <!-- Internal Domains -->
         <div class="setting-card list-card" id="internalDomainsContainer">
             <span class="ms-font-m setting-title">Internal Domains</span>

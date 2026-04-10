@@ -8,6 +8,12 @@ Office.onReady((info) => {
     appBody.classList.remove("app-body--hidden");
     appBody.style.display = "flex";
 
+    // Activation
+    document.getElementById("activateBtn").onclick = handleActivate;
+    document.getElementById("deactivateBtn").onclick = handleDeactivate;
+    bindEnterKey("licenseKeyInput", handleActivate);
+    loadActivationState();
+
     // Toggles
     document.getElementById("toggleSwitch").onchange = toggleSendasta;
     document.getElementById("toggleCcBcc").onchange = toggleCcBcc;
@@ -276,6 +282,81 @@ function showInputError(input, message) {
     input.classList.remove("input-error");
     input.placeholder = orig;
   }, 2500);
+}
+
+// ── Activation ────────────────────────────────────────────────────────────────
+
+async function handleActivate() {
+  const input = document.getElementById("licenseKeyInput");
+  const btn = document.getElementById("activateBtn");
+  const errorEl = document.getElementById("activationError");
+  const key = input.value.trim();
+
+  if (!key) {
+    errorEl.textContent = "Please enter your license key.";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Checking...";
+  errorEl.textContent = "";
+
+  try {
+    const res = await fetch("/api/validate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ licenseKey: key }),
+    });
+    const data = await res.json();
+
+    if (data.valid) {
+      saveSettings({ licenseKey: key, licenseEmail: data.email ?? "" });
+      showActivated(data.email);
+    } else {
+      errorEl.textContent = data.error ?? "Invalid license key.";
+    }
+  } catch {
+    errorEl.textContent = "Could not reach the license server. Check your connection.";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Activate";
+  }
+}
+
+function handleDeactivate() {
+  saveSettings({ licenseKey: null, licenseEmail: null });
+  showDeactivated();
+}
+
+function loadActivationState() {
+  const key = Office.context.roamingSettings.get("licenseKey");
+  const email = Office.context.roamingSettings.get("licenseEmail");
+  if (key) {
+    showActivated(email);
+  } else {
+    showDeactivated();
+  }
+}
+
+function showActivated(email) {
+  document.getElementById("activationUnlocked").classList.remove("activation-unlocked--hidden");
+  document.getElementById("activationForm").style.display = "none";
+  document.getElementById("activationEmail").textContent = email ? `Licensed to ${email}` : "Pro features unlocked";
+  setProSectionsLocked(false);
+}
+
+function showDeactivated() {
+  document.getElementById("activationUnlocked").classList.add("activation-unlocked--hidden");
+  document.getElementById("activationForm").style.display = "";
+  document.getElementById("licenseKeyInput").value = "";
+  document.getElementById("activationError").textContent = "";
+  setProSectionsLocked(true);
+}
+
+function setProSectionsLocked(locked) {
+  ["internalDomainsContainer", "blockedDomainsContainer", "noCombineContainer", "trustedPairsContainer"].forEach((id) => {
+    document.getElementById(id).classList.toggle("pro-locked", locked);
+  });
 }
 
 function bindEnterKey(inputId, handler) {
