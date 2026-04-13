@@ -302,7 +302,7 @@ async function handleActivate() {
   errorEl.textContent = "";
 
   try {
-    const res = await fetch("/api/validate", {
+    const res = await fetch("https://sendasta.vercel.app/api/validate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ licenseKey: key }),
