@@ -1,0 +1,372 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+
+.ms-welcome__header {
+  padding: 16px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0078d7;
+  color: white;
+}
+
+.header-title {
+  color: white;
+  margin: 8px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ── Sideload message ────────────────────────────────────────────────────────── */
+
+.ms-welcome__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+/* ── App body ────────────────────────────────────────────────────────────────── */
+
+.app-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 12px;
+  gap: 10px;
+}
+
+.app-body--hidden {
+  display: none;
+}
+
+/* ── Setting cards ───────────────────────────────────────────────────────────── */
+
+.setting-card {
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.setting-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.setting-label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.setting-title {
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.setting-desc {
+  color: #666;
+  line-height: 1.4;
+}
+
+/* ── List cards ──────────────────────────────────────────────────────────────── */
+
+.list-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-input-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pair-row {
+  flex-wrap: wrap;
+}
+
+.domain-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #1f1f1f;
+  background: #fafafa;
+  transition: border-color 0.15s;
+}
+
+.domain-input:focus {
+  outline: none;
+  border-color: #0078d7;
+  background: #fff;
+}
+
+.domain-input.input-error {
+  border-color: #d13438;
+  background: #fff0f0;
+  color: #d13438;
+}
+
+.pair-input {
+  min-width: 80px;
+}
+
+.pair-sep {
+  color: #666;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.add-btn {
+  height: 30px;
+  padding: 0 12px;
+  background: #0078d7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.add-btn:hover {
+  background: #106ebe;
+}
+
+.add-btn:active {
+  background: #005a9e;
+}
+
+.add-btn:disabled {
+  background: #c8c8c8;
+  cursor: default;
+}
+
+/* ── Domain list items ───────────────────────────────────────────────────────── */
+
+.domain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.domain-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: #f4f4f4;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.domain-text {
+  color: #1f1f1f;
+  word-break: break-all;
+  flex: 1;
+}
+
+.pair-badge {
+  display: inline-block;
+  padding: 0 4px;
+  background: #deecf9;
+  color: #0078d7;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0 2px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.remove-btn:hover {
+  color: #d13438;
+}
+
+/* ── Toggle switch ───────────────────────────────────────────────────────────── */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: #0078d7;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 0 2px #deecf9;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch.disabled {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* ── Disabled state ──────────────────────────────────────────────────────────── */
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.section-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Activation card ─────────────────────────────────────────────────────────── */
+
+.activation-card {
+  border-color: #0078d7;
+  background: #f0f6ff;
+}
+
+.activation-unlocked {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activation-unlocked--hidden {
+  display: none;
+}
+
+.activation-check {
+  font-size: 20px;
+  color: #107c10;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.activation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.activation-input-row {
+  margin-top: 8px;
+}
+
+.activation-error {
+  font-size: 11px;
+  color: #d13438;
+  min-height: 16px;
+  display: block;
+}
+
+.deactivate-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #666;
+  padding: 3px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.deactivate-btn:hover {
+  border-color: #d13438;
+  color: #d13438;
+}
+
+.pro-locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+
+.footer-links {
+  text-align: center;
+  padding: 8px 0 4px;
+  color: #999;
+}
+
+.footer-links a {
+  color: #0078d7;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}

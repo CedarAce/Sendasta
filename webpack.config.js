@@ -4,7 +4,7 @@ const devCerts = require("office-addin-dev-certs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const urlDev = "https://localhost:3000/";
-const urlProd = "https://sendasta.vercel.app"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+const urlProd = "https://sendasta.com";
 
 async function getHttpsOptions() {
   const httpsOptions = await devCerts.getHttpsServerOptions();
@@ -76,6 +76,14 @@ module.exports = async (env, options) => {
               }
             },
           },
+          {
+            from: "carrd website/index.html",
+            to: "index.html",
+          },
+          {
+            from: "carrd website/assets",
+            to: "assets",
+          },
         ],
       }),
       new HtmlWebpackPlugin({
@@ -83,11 +91,6 @@ module.exports = async (env, options) => {
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"],
       }),
-        // Added entry for index.html
-      new HtmlWebpackPlugin({
-        filename: "index.html",
-        template: "./src/index.html", // Adjust the path as necessary
-  }),
     ],
     devServer: {
       headers: {
