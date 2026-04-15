@@ -84,6 +84,10 @@ module.exports = async (env, options) => {
             from: "carrd website/assets",
             to: "assets",
           },
+          {
+            from: "public-static",
+            to: ".",
+          },
         ],
       }),
       new HtmlWebpackPlugin({
