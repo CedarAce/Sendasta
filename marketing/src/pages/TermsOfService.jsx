@@ -5,6 +5,8 @@
   Replace all [BRACKET] tokens with your actual information.
 */
 
+import { usePageMeta } from '../hooks/usePageMeta'
+
 const COMPANY = 'Sendasta'
 const EFFECTIVE_DATE = '[EFFECTIVE DATE — replace before publishing]'
 const CONTACT_EMAIL = 'info@sendasta.com'
@@ -20,6 +22,11 @@ function Section({ title, children }) {
 }
 
 export default function TermsOfService() {
+  usePageMeta({
+    title: 'Terms of Service — Sendasta',
+    description: 'Terms of Service for Sendasta, the Microsoft Outlook add-in that prevents misdirected emails.',
+  })
+
   return (
     <main className="pt-16 bg-white">
       <div className="max-w-3xl mx-auto px-6 py-20">

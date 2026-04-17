@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import PricingCards from '../components/PricingCards'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 /* ─── Icons ─────────────────────────────────────────────────────────────── */
 
@@ -83,12 +84,12 @@ function Hero({ onDemoClick }) {
           Sendasta warns you the moment it spots the wrong recipient — before you hit send.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="https://sendasta.com/manifest-sendasta.xml"
+          <Link
+            to="/for-it-admins"
             className="w-full sm:w-auto px-8 py-3.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold rounded-lg transition-colors text-sm"
           >
             Install Free — No Sign-up
-          </a>
+          </Link>
           <button
             onClick={onDemoClick}
             className="w-full sm:w-auto px-8 py-3.5 border border-white/40 hover:border-white text-white font-semibold rounded-lg transition-colors text-sm"
@@ -414,100 +415,126 @@ function ContactForm({ formRef }) {
 
   return (
     <section className="py-24 px-6 bg-navy" id="contact" ref={formRef}>
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Get in Touch</span>
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            Questions? We'd love to hear from you.
-          </h2>
-          <p className="mt-4 text-gray-400 text-sm">
-            We're a small team and respond to every message personally — usually within a day.
-          </p>
-        </div>
+      <div className="max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-5 gap-12 items-start">
 
-        {status === 'success' ? (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-10 text-center">
-            <svg className="w-10 h-10 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-gray-900 font-semibold text-lg">Message sent — thanks!</p>
-            <p className="text-gray-500 text-sm mt-1">We'll get back to you shortly at {form.email}.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="grid sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5" htmlFor="name">Your name</label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Jane Smith"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5" htmlFor="email">Your email</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="jane@company.com"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5" htmlFor="company">Company (optional)</label>
-              <input
-                id="company"
-                name="company"
-                type="text"
-                value={form.company}
-                onChange={handleChange}
-                placeholder="Acme Corp"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5" htmlFor="message">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={form.message}
-                onChange={handleChange}
-                placeholder="What are you trying to solve, or what questions do you have?"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition resize-none"
-              />
-            </div>
-
-            {status === 'error' && (
-              <p className="text-sm text-red-600">Something went wrong. Email us directly at info@sendasta.com.</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={status === 'submitting'}
-              className="w-full bg-blue-accent hover:bg-blue-accent-hover disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-colors text-sm"
-            >
-              {status === 'submitting' ? 'Sending...' : 'Send Message'}
-            </button>
-
-            <p className="text-xs text-gray-400 text-center">
-              Or email us directly at{' '}
-              <a href="mailto:info@sendasta.com" className="text-blue-accent hover:underline">
-                info@sendasta.com
-              </a>
+          {/* Left: heading + contact info */}
+          <div className="md:col-span-2">
+            <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Get in Touch</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white leading-tight">
+              Questions? We respond personally.
+            </h2>
+            <p className="mt-4 text-gray-400 text-sm leading-relaxed">
+              Pricing questions, a custom setup for your team, or anything else — send us a message and a real person will get back to you.
             </p>
-          </form>
-        )}
+
+            <div className="mt-8">
+              <a href="mailto:info@sendasta.com" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/15 transition-colors">
+                  <svg className="w-5 h-5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <span className="text-gray-300 group-hover:text-white transition-colors text-sm">info@sendasta.com</span>
+              </a>
+            </div>
+
+            <div className="mt-6 flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3.5">
+              <svg className="w-4 h-4 text-blue-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-gray-300 text-xs">We respond within 1 business day</p>
+            </div>
+          </div>
+
+          {/* Right: form in white card */}
+          <div className="md:col-span-3 bg-white rounded-2xl p-8 shadow-2xl">
+            {status === 'success' ? (
+              <div className="py-8 text-center">
+                <svg className="w-10 h-10 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-gray-900 font-semibold text-lg">Message sent — thanks!</p>
+                <p className="text-gray-500 text-sm mt-1">We'll get back to you shortly at {form.email}.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="name">Your name</label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="Jane Smith"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="email">Your email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="jane@company.com"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="company">Company (optional)</label>
+                  <input
+                    id="company"
+                    name="company"
+                    type="text"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="Acme Corp"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="message">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="What are you trying to solve, or what questions do you have?"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-accent focus:border-transparent transition resize-none"
+                  />
+                </div>
+
+                {status === 'error' && (
+                  <p className="text-sm text-red-600">Something went wrong. Email us directly at info@sendasta.com.</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="w-full bg-blue-accent hover:bg-blue-accent-hover disabled:opacity-60 text-white font-semibold py-3 rounded-lg transition-colors text-sm"
+                >
+                  {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                </button>
+
+                <p className="text-xs text-gray-400 text-center">
+                  Or email us at{' '}
+                  <a href="mailto:info@sendasta.com" className="text-blue-accent hover:underline">
+                    info@sendasta.com
+                  </a>
+                </p>
+              </form>
+            )}
+          </div>
+
+        </div>
       </div>
     </section>
   )
@@ -516,6 +543,11 @@ function ContactForm({ formRef }) {
 /* ─── Home page ─────────────────────────────────────────────────────────── */
 
 export default function Home() {
+  usePageMeta({
+    title: 'Sendasta — Stop Sending Emails to the Wrong Person in Outlook',
+    description: 'Sendasta warns you the moment Outlook autocomplete puts the wrong recipient in your email. Free to try, 5-minute setup. Works on Outlook web, desktop, and Mac.',
+  })
+
   const formRef = useRef(null)
 
   const scrollToForm = () => {
@@ -538,12 +570,12 @@ export default function Home() {
 
       {/* Sticky mobile install CTA */}
       <div className="fixed bottom-0 inset-x-0 md:hidden bg-navy border-t border-white/10 px-4 py-3 z-40">
-        <a
-          href="https://sendasta.com/manifest-sendasta.xml"
+        <Link
+          to="/for-it-admins"
           className="block w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-3 rounded-lg text-sm text-center transition-colors"
         >
           Install Free — No Sign-up
-        </a>
+        </Link>
       </div>
     </>
   )

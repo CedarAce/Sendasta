@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function Check() {
   return (
     <svg className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,12 +101,12 @@ export default function PricingCards({ onContactClick }) {
           ))}
         </ul>
 
-        <a
-          href="https://sendasta.com/manifest-sendasta.xml"
+        <Link
+          to="/for-it-admins"
           className="mt-8 block text-center border border-gray-300 hover:border-blue-accent hover:text-blue-accent text-gray-600 font-semibold py-2.5 rounded-lg transition-colors text-sm"
         >
           Install Free
-        </a>
+        </Link>
         <p className="text-center text-xs text-gray-400 mt-2.5">No account needed. Works immediately.</p>
       </Card>
 

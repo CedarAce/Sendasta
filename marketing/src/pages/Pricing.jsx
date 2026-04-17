@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PricingCards from '../components/PricingCards'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 const FAQ_ITEMS = [
   {
@@ -54,6 +55,11 @@ function FAQItem({ q, a }) {
 }
 
 export default function Pricing() {
+  usePageMeta({
+    title: 'Pricing — Sendasta | Free, Business & Enterprise Plans',
+    description: 'Free for personal use. $299/year for teams up to 25 people. Enterprise plans with dedicated onboarding for larger organizations. No contracts, cancel anytime.',
+  })
+
   const scrollToContact = () => {
     window.location.href = '/#contact'
   }

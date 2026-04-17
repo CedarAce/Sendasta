@@ -7,6 +7,8 @@
   customer due diligence or enterprise sales conversations.
 */
 
+import { usePageMeta } from '../hooks/usePageMeta'
+
 const COMPANY = 'Sendasta'
 const EFFECTIVE_DATE = '[EFFECTIVE DATE — replace before publishing]'
 const CONTACT_EMAIL = 'info@sendasta.com'
@@ -22,6 +24,11 @@ function Section({ title, children }) {
 }
 
 export default function PrivacyPolicy() {
+  usePageMeta({
+    title: 'Privacy Policy — Sendasta',
+    description: 'Privacy Policy for Sendasta. We only read recipient email domains at send time to check your rules — we never read email content or store your messages.',
+  })
+
   return (
     <main className="pt-16 bg-white">
       <div className="max-w-3xl mx-auto px-6 py-20">

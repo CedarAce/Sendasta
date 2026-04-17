@@ -5,10 +5,14 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { pathname } = useLocation()
 
-  const handleContactClick = (e) => {
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleSectionClick = (id) => (e) => {
     if (pathname === '/') {
       e.preventDefault()
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+      scrollTo(id)
       setMobileOpen(false)
     }
   }
@@ -39,12 +43,16 @@ export default function Navbar() {
           <NavLink to="/for-it-admins" className={linkClass}>
             Setup Guide
           </NavLink>
-          <NavLink to="/pricing" className={linkClass}>
+          <Link
+            to={pathname === '/' ? '#pricing' : '/#pricing'}
+            onClick={handleSectionClick('pricing')}
+            className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+          >
             Pricing
-          </NavLink>
+          </Link>
           <Link
             to={pathname === '/' ? '#contact' : '/#contact'}
-            onClick={handleContactClick}
+            onClick={handleSectionClick('contact')}
             className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             Contact
@@ -54,8 +62,8 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden md:flex">
           <Link
-            to={pathname === '/' ? '#contact' : '/#contact'}
-            onClick={handleContactClick}
+            to={pathname === '/' ? '#pricing' : '/#pricing'}
+            onClick={handleSectionClick('pricing')}
             className="bg-blue-accent hover:bg-blue-accent-hover text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
           >
             Get Started
@@ -90,23 +98,23 @@ export default function Navbar() {
           >
             Setup Guide
           </NavLink>
-          <NavLink
-            to="/pricing"
-            className={linkClass}
-            onClick={() => setMobileOpen(false)}
+          <Link
+            to={pathname === '/' ? '#pricing' : '/#pricing'}
+            onClick={handleSectionClick('pricing')}
+            className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             Pricing
-          </NavLink>
+          </Link>
           <Link
-            to="/#contact"
-            onClick={handleContactClick}
+            to={pathname === '/' ? '#contact' : '/#contact'}
+            onClick={handleSectionClick('contact')}
             className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             Contact
           </Link>
           <Link
-            to="/#contact"
-            onClick={handleContactClick}
+            to={pathname === '/' ? '#pricing' : '/#pricing'}
+            onClick={handleSectionClick('pricing')}
             className="mt-2 bg-blue-accent hover:bg-blue-accent-hover text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors text-center"
           >
             Get Started

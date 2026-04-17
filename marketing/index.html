@@ -7,17 +7,20 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://sendasta.com/" />
 
+    <title>Sendasta — Stop Sending Emails to the Wrong Person in Outlook</title>
+    <meta name="description" content="Sendasta warns you the moment Outlook autocomplete puts the wrong recipient in your email. Free to try, 5-minute setup. Works on Outlook web, desktop, and Mac." />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sendasta.com/" />
-    <meta property="og:title" content="Sendasta — Prevent Misdirected Emails Before They Become a Breach" />
-    <meta property="og:description" content="Sendasta is a Microsoft Outlook add-in that stops autocomplete mistakes in real time — protecting your firm's confidential data, client relationships, and compliance posture." />
     <meta property="og:site_name" content="Sendasta" />
+    <meta property="og:title" content="Sendasta — Stop Sending Emails to the Wrong Person in Outlook" />
+    <meta property="og:description" content="Sendasta warns you the moment Outlook autocomplete puts the wrong recipient in your email. Free to try, 5-minute setup. Works on Outlook web, desktop, and Mac." />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sendasta — Prevent Misdirected Emails Before They Become a Breach" />
-    <meta name="twitter:description" content="Sendasta is a Microsoft Outlook add-in that stops autocomplete mistakes in real time — protecting your firm's confidential data, client relationships, and compliance posture." />
+    <meta name="twitter:title" content="Sendasta — Stop Sending Emails to the Wrong Person in Outlook" />
+    <meta name="twitter:description" content="Sendasta warns you the moment Outlook autocomplete puts the wrong recipient in your email. Free to try, 5-minute setup. Works on Outlook web, desktop, and Mac." />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -25,24 +28,75 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Sendasta",
-      "applicationCategory": "SecurityApplication",
-      "operatingSystem": "Microsoft Outlook",
-      "description": "Sendasta is a Microsoft Outlook add-in that prevents misdirected emails and accidental data leaks in real time.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Microsoft Outlook (Web, Desktop, Mac)",
+      "description": "Sendasta is a Microsoft Outlook add-in that warns you the moment autocomplete puts the wrong recipient in your email — before you hit send.",
       "url": "https://sendasta.com",
-      "offers": [
-        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
-        { "@type": "Offer", "name": "Enterprise", "price": "299", "priceCurrency": "USD", "description": "Up to 25 users. Custom domain filters, admin dashboard, cloud-based deployment." }
+      "featureList": [
+        "Real-time wrong-recipient warning",
+        "Domain blocklist for competitors and off-limits addresses",
+        "Team-wide rules via Microsoft 365 admin center",
+        "Works on Outlook web, desktop (Windows/Mac), and New Outlook"
       ],
-      "publisher": { "@type": "Organization", "name": "Sendasta", "url": "https://sendasta.com" }
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Real-time wrong-recipient warnings for individual use. No sign-up required."
+        },
+        {
+          "@type": "Offer",
+          "name": "Business",
+          "price": "299",
+          "priceCurrency": "USD",
+          "description": "Team-wide domain rules and centralized rollout for up to 25 users. Billed annually."
+        },
+        {
+          "@type": "Offer",
+          "name": "Enterprise",
+          "description": "Custom pricing for 100+ users. Includes dedicated onboarding, audit logs, priority support."
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sendasta",
+        "url": "https://sendasta.com",
+        "email": "info@sendasta.com"
+      }
     }
     </script>
+
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <!-- ▼ TRACKING — replace YOUR_GA4_ID and YOUR_CLARITY_ID before deploying ▼ -->
+
+    <!-- Google Analytics GA4 — replace G-XXXXXXXXXX with your Measurement ID -->
+    <!-- Get it at: analytics.google.com → Admin → Data Streams → your stream → Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Microsoft Clarity — replace YOUR_CLARITY_ID with your Project ID -->
+    <!-- Get it at: clarity.microsoft.com → your project → Settings → Overview -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "YOUR_CLARITY_ID");
+    </script>
+
+    <!-- ▲ TRACKING ▲ -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-    <title>Sendasta — Prevent Misdirected Emails Before They Become a Breach</title>
-    <meta name="description" content="Sendasta is a Microsoft Outlook add-in that stops autocomplete mistakes in real time — protecting your firm's confidential data, client relationships, and compliance posture." />
   </head>
   <body>
     <div id="root"></div>

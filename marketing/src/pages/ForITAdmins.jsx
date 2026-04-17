@@ -1,4 +1,51 @@
+import { usePageMeta } from '../hooks/usePageMeta'
+
+const MANIFEST_URL = 'https://sendasta.com/manifest-sendasta.xml'
+
+const SELF_INSTALL_STEPS = [
+  {
+    title: 'Open Outlook on the web',
+    detail: (
+      <>
+        Go to{' '}
+        <a href="https://outlook.office.com" target="_blank" rel="noopener noreferrer" className="text-blue-accent hover:underline font-medium">
+          outlook.office.com
+        </a>{' '}
+        and sign in with your Microsoft 365 account.
+      </>
+    ),
+  },
+  {
+    title: 'Open the Add-ins manager',
+    detail: 'In Outlook, click the Apps icon in the toolbar (looks like a grid of squares), or go to Settings → Get Add-ins.',
+  },
+  {
+    title: 'Add from URL',
+    detail: 'In the Add-ins dialog, click "My add-ins" tab, scroll to the bottom, and choose "Add a custom add-in → Add from URL".',
+  },
+  {
+    title: 'Paste the manifest URL',
+    detail: (
+      <>
+        Enter the URL below and click <strong>OK</strong>, then <strong>Install</strong>:<br />
+        <code className="mt-2 inline-block bg-gray-100 text-gray-800 text-sm font-mono px-3 py-1.5 rounded border border-gray-200">
+          {MANIFEST_URL}
+        </code>
+      </>
+    ),
+  },
+  {
+    title: 'Sendasta is ready',
+    detail: 'The add-in appears immediately in your Outlook compose window. Open a new email and you\'ll see Sendasta in the toolbar.',
+  },
+]
+
 export default function ForITAdmins() {
+  usePageMeta({
+    title: 'Setup Guide — How to Install Sendasta in Outlook',
+    description: 'Step-by-step instructions to install Sendasta in Microsoft Outlook. Set up for yourself in 3 minutes, or deploy to your entire organization via Exchange Admin Center in 5.',
+  })
+
   const steps = [
     {
       number: '01',
@@ -60,39 +107,85 @@ export default function ForITAdmins() {
         <div className="max-w-4xl mx-auto">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Setup Guide</span>
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold text-white leading-tight">
-            Deploy Sendasta to Your Organization in 5 Minutes
+            Get Sendasta Running in Minutes
           </h1>
           <p className="mt-6 text-gray-300 text-lg max-w-2xl leading-relaxed">
-            No AppSource approval required. No end-user action needed. Deploy privately
-            to your entire Microsoft 365 organization directly through the Exchange Admin Center.
+            Installing just for yourself takes about 3 minutes. Rolling it out to your whole team
+            takes about 5 — no AppSource approval, no end-user action needed.
           </p>
           <div className="mt-8 flex flex-wrap gap-6">
             <div className="flex items-center gap-2 text-gray-300 text-sm">
               <svg className="w-5 h-5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              No AppSource listing
+              Works on Outlook Web, Desktop &amp; Mac
             </div>
             <div className="flex items-center gap-2 text-gray-300 text-sm">
               <svg className="w-5 h-5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              Centrally managed
+              No AppSource listing required
             </div>
             <div className="flex items-center gap-2 text-gray-300 text-sm">
               <svg className="w-5 h-5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              Works on Outlook Web, Desktop, and Mac
+              No IT expertise needed
             </div>
           </div>
         </div>
       </section>
 
-      {/* Deployment steps */}
-      <section className="py-24 px-6 bg-white">
+      {/* Self install — individual users */}
+      <section className="py-20 px-6 bg-white border-b border-gray-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-12">Deployment Steps</h2>
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-accent uppercase tracking-widest">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Just for me
+            </span>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900">Install Sendasta for yourself</h2>
+            <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              Takes about 3 minutes. No admin access required — works on Outlook web immediately.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-0">
+            {SELF_INSTALL_STEPS.map((step, i) => (
+              <div key={step.title} className="flex gap-6 relative">
+                {i < SELF_INSTALL_STEPS.length - 1 && (
+                  <div className="absolute left-5 top-11 bottom-0 w-px bg-gray-200" />
+                )}
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-accent/10 border-2 border-blue-accent/30 flex items-center justify-center z-10">
+                  <span className="text-blue-accent font-bold text-xs">{String(i + 1).padStart(2, '0')}</span>
+                </div>
+                <div className="pb-8 flex-1">
+                  <h3 className="text-base font-semibold text-gray-900 mt-2 mb-1.5">{step.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{step.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Deployment steps — organization rollout */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-12">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-accent uppercase tracking-widest">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              For my whole team
+            </span>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900">Deploy to your entire organization</h2>
+            <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              As an IT administrator, you can roll Sendasta out to your whole Microsoft 365 organization in minutes — no end-user action needed.
+            </p>
+          </div>
 
           <div className="flex flex-col gap-0">
             {steps.map((step, i) => (
