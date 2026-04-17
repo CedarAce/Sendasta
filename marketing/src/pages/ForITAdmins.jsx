@@ -1,8 +1,18 @@
 import { usePageMeta } from '../hooks/usePageMeta'
 
-const MANIFEST_URL = 'https://sendasta.com/manifest-sendasta.xml'
-
 const SELF_INSTALL_STEPS = [
+  {
+    title: 'Download the Sendasta manifest file',
+    detail: (
+      <>
+        Click the download button above to save{' '}
+        <code className="bg-gray-100 text-gray-800 text-xs font-mono px-1.5 py-0.5 rounded border border-gray-200">
+          manifest-sendasta.xml
+        </code>{' '}
+        to your computer. You'll need this file in the next step.
+      </>
+    ),
+  },
   {
     title: 'Open Outlook on the web',
     detail: (
@@ -11,32 +21,21 @@ const SELF_INSTALL_STEPS = [
         <a href="https://outlook.office.com" target="_blank" rel="noopener noreferrer" className="text-blue-accent hover:underline font-medium">
           outlook.office.com
         </a>{' '}
-        and sign in with your Microsoft 365 account.
+        and sign in with your Microsoft 365 account. (Desktop Outlook also works — the steps are the same.)
       </>
     ),
   },
   {
     title: 'Open the Add-ins manager',
-    detail: 'In Outlook, click the Apps icon in the toolbar (looks like a grid of squares), or go to Settings → Get Add-ins.',
+    detail: 'Click the Apps icon in the Outlook toolbar (looks like a grid of squares), or go to Settings → Get Add-ins.',
   },
   {
-    title: 'Add from URL',
-    detail: 'In the Add-ins dialog, click "My add-ins" tab, scroll to the bottom, and choose "Add a custom add-in → Add from URL".',
+    title: 'Upload the manifest file',
+    detail: 'Click the "My add-ins" tab, scroll to the bottom, and choose "Add a custom add-in → Add from My Computer". Select the manifest-sendasta.xml file you downloaded.',
   },
   {
-    title: 'Paste the manifest URL',
-    detail: (
-      <>
-        Enter the URL below and click <strong>OK</strong>, then <strong>Install</strong>:<br />
-        <code className="mt-2 inline-block bg-gray-100 text-gray-800 text-sm font-mono px-3 py-1.5 rounded border border-gray-200">
-          {MANIFEST_URL}
-        </code>
-      </>
-    ),
-  },
-  {
-    title: 'Sendasta is ready',
-    detail: 'The add-in appears immediately in your Outlook compose window. Open a new email and you\'ll see Sendasta in the toolbar.',
+    title: 'Click Install',
+    detail: 'Outlook will show a confirmation prompt — click Install to confirm. Sendasta appears immediately in your compose toolbar. Open a new email to see it.',
   },
 ]
 
@@ -148,8 +147,21 @@ export default function ForITAdmins() {
             </span>
             <h2 className="mt-2 text-2xl font-bold text-gray-900">Install Sendasta for yourself</h2>
             <p className="mt-3 text-gray-500 text-sm leading-relaxed">
-              Takes about 3 minutes. No admin access required — works on Outlook web immediately.
+              Takes about 3 minutes. No admin access required — works on Outlook web and desktop.
             </p>
+
+            {/* Download button */}
+            <a
+              href="/manifest-sendasta.xml"
+              download="manifest-sendasta.xml"
+              className="mt-5 inline-flex items-center gap-2.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download manifest-sendasta.xml
+            </a>
+            <p className="mt-2 text-xs text-gray-400">Small XML file — your browser will save it to your Downloads folder</p>
           </div>
 
           <div className="flex flex-col gap-0">
