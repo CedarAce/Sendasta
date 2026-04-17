@@ -122,7 +122,7 @@ function Hero({ onDemoClick }) {
       </div>
 
       {/* Demo video */}
-      <div className="mt-16 max-w-3xl mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+      <div className="mt-16 max-w-5xl mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl">
         <video
           className="w-full"
           src="/assets/videos/video01.mp4"

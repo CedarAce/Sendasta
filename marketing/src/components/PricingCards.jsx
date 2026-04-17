@@ -1,4 +1,56 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
+// ▼ Replace with your Stripe Payment Link once created at dashboard.stripe.com
+// Leave as-is for now — the button will show a "contact us" popup instead
+const STRIPE_BUSINESS_URL = null
+
+function trackEvent(eventName, params = {}) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', eventName, params)
+  }
+}
+
+function ContactModal({ onClose }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Panel */}
+      <div
+        className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="w-12 h-12 bg-blue-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-6 h-6 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">Interested in Business?</h3>
+        <p className="text-gray-500 text-sm leading-relaxed mb-6">
+          Drop us an email and we'll get you set up personally — usually within the same business day.
+        </p>
+        <a
+          href="mailto:info@sendasta.com?subject=Sendasta Business Plan&body=Hi, I'm interested in the Sendasta Business plan ($299/yr) for my team."
+          className="block w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-3 rounded-lg transition-colors text-sm mb-3"
+          onClick={onClose}
+        >
+          Email us — info@sendasta.com
+        </a>
+        <button
+          onClick={onClose}
+          className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          Maybe later
+        </button>
+      </div>
+    </div>
+  )
+}
 
 function Check() {
   return (
@@ -80,7 +132,6 @@ export default function PricingCards({ onContactClick }) {
       {/* Free */}
       <Card>
         <span className={labelClass(false)}>Free</span>
-        {/* Price row — identical structure across all three cards */}
         <div className="mt-3 flex items-baseline gap-1.5">
           <span className={priceClass(false)}>$0</span>
           <span className="text-sm text-gray-400">/ forever</span>
@@ -103,6 +154,7 @@ export default function PricingCards({ onContactClick }) {
 
         <Link
           to="/for-it-admins"
+          onClick={() => trackEvent('select_plan', { plan: 'free' })}
           className="mt-8 block text-center border border-gray-300 hover:border-blue-accent hover:text-blue-accent text-gray-600 font-semibold py-2.5 rounded-lg transition-colors text-sm"
         >
           Install Free
@@ -133,12 +185,15 @@ export default function PricingCards({ onContactClick }) {
           ))}
         </ul>
 
-        <button
-          onClick={onContactClick}
-          className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+        <a
+          href={STRIPE_BUSINESS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent('begin_checkout', { plan: 'business', value: 299, currency: 'USD' })}
+          className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
         >
           Get Started
-        </button>
+        </a>
         <p className="text-center text-xs text-gray-500 mt-2.5">No contracts. Cancel anytime.</p>
       </Card>
 
@@ -147,7 +202,6 @@ export default function PricingCards({ onContactClick }) {
         <span className={labelClass(false)}>Enterprise</span>
         <div className="mt-3 flex items-baseline gap-1.5">
           <span className={priceClass(false)}>Custom</span>
-          {/* invisible placeholder keeps this row the same height as the other two */}
           <span className="text-sm text-transparent select-none" aria-hidden="true">/yr</span>
         </div>
         <p className={subNoteClass(false)}>100+ users. Tailored to your team.</p>
@@ -167,7 +221,10 @@ export default function PricingCards({ onContactClick }) {
         </ul>
 
         <button
-          onClick={onContactClick}
+          onClick={() => {
+            trackEvent('select_plan', { plan: 'enterprise' })
+            onContactClick()
+          }}
           className="mt-8 w-full bg-navy hover:bg-navy-800 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
         >
           Contact Us
