@@ -12,7 +12,9 @@
     "dev_server_port": 3000
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && cd marketing && npm ci && npm run build",
+    "build:addin": "webpack --mode production",
+    "dev:marketing": "cp 'carrd website/assets/images/logo-sendasta-white.svg' public/assets/ && cp 'carrd website/assets/images/favicon.png' public/assets/ && cd marketing && npm run dev",
     "build:dev": "webpack --mode development",
     "dev-server": "webpack serve --mode development",
     "lint": "office-addin-lint check",

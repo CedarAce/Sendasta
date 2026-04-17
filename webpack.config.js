@@ -77,12 +77,17 @@ module.exports = async (env, options) => {
             },
           },
           {
-            from: "carrd website/index.html",
-            to: "index.html",
+            // Marketing site static assets — logo, favicon, videos used by the Vite React app
+            from: "carrd website/assets/images/logo-sendasta-white.svg",
+            to: "assets/logo-sendasta-white.svg",
           },
           {
-            from: "carrd website/assets",
-            to: "assets",
+            from: "carrd website/assets/images/favicon.png",
+            to: "assets/favicon.png",
+          },
+          {
+            from: "carrd website/assets/videos",
+            to: "assets/videos",
           },
           {
             from: "public-static",
