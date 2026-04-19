@@ -1,10 +1,10 @@
 /* global Office */
 
-Office.onReady(() => {
-  if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
-    Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
-  }
-});
+// Register the event handler at the root level (NOT inside Office.onReady).
+// For event-based add-ins, the JavaScript-only runtime can dispatch the event
+// before Office.onReady resolves. If the handler isn't associated in time,
+// Outlook falls back to showing "Sendasta is unavailable".
+Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
 
 function onMessageSendHandler(event) {
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
