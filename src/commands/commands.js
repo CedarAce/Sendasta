@@ -14,11 +14,10 @@ function onMessageSendHandler(event) {
   }
 
   const includeCcBcc = Office.context.roamingSettings.get("includeCcBcc") ?? true;
-  const isPro = !!Office.context.roamingSettings.get("licenseKey");
-  const blockedDomains = isPro ? getListSetting("blockedDomains") : [];
-  const noCombinePairs = isPro ? getListSetting("noCombinePairs") : [];
-  const allowedPairs = isPro ? getListSetting("allowedPairs") : [];
-  const internalDomains = isPro ? getListSetting("internalDomains") : [];
+  const blockedDomains = getListSetting("blockedDomains");
+  const noCombinePairs = getListSetting("noCombinePairs");
+  const allowedPairs = getListSetting("allowedPairs");
+  const internalDomains = getListSetting("internalDomains");
 
   Office.context.mailbox.item.from.getAsync(function (fromResult) {
     if (fromResult.status !== Office.AsyncResultStatus.Succeeded) {

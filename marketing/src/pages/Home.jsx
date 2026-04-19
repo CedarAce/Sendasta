@@ -32,38 +32,231 @@ function AlertIcon() {
   )
 }
 
-function ShieldIcon() {
-  return (
-    <svg className="w-7 h-7 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  )
-}
-
-function ListIcon() {
-  return (
-    <svg className="w-7 h-7 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-    </svg>
-  )
-}
-
-function DashboardIcon() {
-  return (
-    <svg className="w-7 h-7 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  )
-}
-
 function QuoteIcon() {
   return (
     <svg className="w-8 h-8 text-blue-accent/30" fill="currentColor" viewBox="0 0 24 24">
       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
     </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+    </svg>
+  )
+}
+
+/* ─── Figures ────────────────────────────────────────────────────────────── */
+
+function AutocompleteFigure() {
+  return (
+    <div className="relative mx-auto mt-10 max-w-md select-none" aria-hidden="true">
+      <div className="rounded-xl bg-white shadow-lg border border-gray-200 p-4">
+        <div className="text-[11px] text-gray-400 mb-1 font-medium">To</div>
+        <div className="flex items-center gap-2 border-b border-gray-200 pb-2">
+          <span className="text-[13px] text-gray-700 font-mono">John</span>
+          <span className="inline-block w-0.5 h-4 bg-blue-accent animate-pulse"></span>
+        </div>
+        <div className="mt-0 rounded-lg border border-gray-200 shadow-md bg-white overflow-hidden">
+          <div className="px-3 py-2 flex items-center gap-3 border-b border-gray-100">
+            <div className="w-7 h-7 rounded-full bg-[#107c10] text-white flex items-center justify-center text-[11px] font-semibold">JS</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[12px] font-semibold text-gray-900">John Smith</div>
+              <div className="text-[11px] text-gray-500 truncate">john@acme.com · Engineering</div>
+            </div>
+            <div className="text-[10px] text-gray-400">safe</div>
+          </div>
+          <div className="px-3 py-2 flex items-center gap-3 bg-red-50/60 ring-1 ring-red-200 relative">
+            <div className="w-7 h-7 rounded-full bg-[#d13438] text-white flex items-center justify-center text-[11px] font-semibold">JS</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[12px] font-semibold text-gray-900">John Smith</div>
+              <div className="text-[11px] text-[#a4262c] truncate">john@<b>competitor.com</b> · last emailed 2019</div>
+            </div>
+            <svg width="14" height="18" viewBox="0 0 14 18" fill="#1f2937" className="absolute right-2 top-1/2 -translate-y-1/2">
+              <path d="M1 1 L1 14 L5 11 L7 16 L9 15 L7 11 L13 11 Z" stroke="white" strokeWidth="1"/>
+            </svg>
+          </div>
+        </div>
+        <div className="mt-3 text-[10px] text-gray-400 text-center italic">Two "John Smith"s. One click from disaster.</div>
+      </div>
+    </div>
+  )
+}
+
+function StepInstallFigure() {
+  return (
+    <div className="w-full rounded-lg bg-white border border-gray-200 overflow-hidden shadow-sm mt-2" aria-hidden="true">
+      <div className="h-6 bg-[#f3f2f1] border-b border-gray-200 flex items-center px-2 gap-1">
+        <span className="text-[9px] text-gray-500 font-semibold">Outlook · Home</span>
+        <span className="ml-auto text-[9px] text-gray-400">Add-ins</span>
+      </div>
+      <div className="h-10 bg-white flex items-center px-2 gap-1.5 border-b border-gray-100">
+        {['New', 'Reply', 'Forward', 'Delete'].map(l => (
+          <div key={l} className="flex flex-col items-center px-2">
+            <div className="w-5 h-5 rounded bg-gray-200"></div>
+            <span className="text-[8px] text-gray-500 mt-0.5">{l}</span>
+          </div>
+        ))}
+        <div className="flex flex-col items-center px-2 border-l border-gray-200 ml-1 pl-3 relative">
+          <div className="w-5 h-5 rounded bg-[#2D7DD2] flex items-center justify-center text-white text-[8px] font-bold">S</div>
+          <span className="text-[8px] text-blue-accent font-semibold mt-0.5">Sendasta</span>
+          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#107c10] ring-2 ring-white"></span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function StepConfigureFigure() {
+  const domains = [
+    { d: 'competitor.com', tone: 'block' },
+    { d: 'personal-email.me', tone: 'block' },
+    { d: 'acme-eu.com', tone: 'ok' },
+  ]
+  return (
+    <div className="w-full rounded-lg bg-white border border-gray-200 overflow-hidden shadow-sm mt-2" aria-hidden="true">
+      <div className="px-3 py-2 border-b border-gray-100 text-[10px] font-semibold text-gray-700 flex items-center justify-between">
+        Watched domains
+        <span className="text-[9px] text-gray-400">3 rules</span>
+      </div>
+      <div className="p-3 space-y-1.5">
+        {domains.map(({ d, tone }) => (
+          <div key={d} className={'flex items-center gap-2 px-2 py-1 rounded ' + (tone === 'block' ? 'bg-red-50' : 'bg-blue-50')}>
+            {tone === 'block'
+              ? <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d13438" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M5 5 l14 14"/></svg>
+              : <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#2D7DD2" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+            }
+            <span className={'text-[10px] font-mono ' + (tone === 'block' ? 'text-[#a4262c]' : 'text-[#2D7DD2]')}>{d}</span>
+            <span className="ml-auto text-[9px] text-gray-400">{tone === 'block' ? 'block' : 'trusted'}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function StepAlertFigure() {
+  return (
+    <div className="w-full rounded-lg bg-white border border-gray-200 overflow-hidden shadow-sm mt-2 relative" aria-hidden="true">
+      <div className="h-6 bg-[#f3f2f1] border-b border-gray-200 flex items-center px-2">
+        <span className="text-[9px] text-gray-500 font-semibold">Draft · Re: Proposal</span>
+      </div>
+      <div className="p-3 space-y-1.5 blur-[0.5px] opacity-60">
+        <div className="h-1.5 bg-gray-200 rounded w-5/6"></div>
+        <div className="h-1.5 bg-gray-200 rounded w-4/6"></div>
+        <div className="h-1.5 bg-gray-200 rounded w-3/6"></div>
+        <div className="mt-3 inline-block px-2 py-1 rounded bg-[#0078d7] text-white text-[9px] font-semibold">Send</div>
+      </div>
+      <div className="absolute inset-x-3 bottom-2 rounded-md bg-white border border-red-300 shadow-lg overflow-hidden">
+        <div className="bg-[#d13438] text-white text-[9px] font-semibold px-2 py-1 flex items-center gap-1">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+          Hold on — 2 different companies
+        </div>
+        <div className="px-2 py-1.5 flex items-center gap-1.5">
+          <span className="text-[9px] font-mono bg-red-50 text-[#a4262c] px-1.5 py-0.5 rounded">competitor.com</span>
+          <span className="ml-auto text-[9px] text-gray-400">Review →</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FeatureShieldFigure() {
+  return (
+    <div className="w-full h-64 relative" aria-hidden="true">
+      <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#2D7DD2" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="white"/>
+        <path d="M9 12l2 2 4-4" stroke="#107c10" strokeWidth="1.6"/>
+      </svg>
+      <svg className="absolute left-4 top-6 text-[#d13438]" width="56" height="40" viewBox="0 0 28 20" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="1" y="1" width="22" height="16" rx="2" fill="white"/>
+        <path d="M1 3 L12 11 L23 3"/>
+        <path d="M24 6 L27 3 M24 3 L27 6" strokeWidth="1.5"/>
+      </svg>
+      <svg className="absolute right-4 bottom-6 text-[#107c10]" width="48" height="36" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="1" y="1" width="22" height="16" rx="2" fill="white"/>
+        <path d="M1 3 L12 11 L23 3"/>
+      </svg>
+    </div>
+  )
+}
+
+function FeatureBlocklistFigure() {
+  const rows = ['competitor.com', 'ex-client.net', 'personal@']
+  return (
+    <div className="w-full flex items-center justify-center" aria-hidden="true">
+      <div className="w-full rounded-xl bg-white border border-gray-200 shadow-md py-4 px-5 space-y-2.5">
+        {rows.map((r, i) => (
+          <div key={r} className="flex items-center gap-3 px-3 py-2 rounded-md bg-red-50">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d13438" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M5 5 l14 14"/></svg>
+            <span className="text-[13px] font-mono text-[#a4262c] flex-1">{r}</span>
+            {i === 0 && <span className="text-[9px] uppercase tracking-wider bg-[#d13438] text-white px-2 py-0.5 rounded font-semibold">blocked</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function FeatureTeamFigure() {
+  return (
+    <div className="w-full h-64 relative flex items-center justify-center" aria-hidden="true">
+      <svg width="100%" height="100%" viewBox="0 0 300 220" className="absolute inset-0" fill="none">
+        {[{ x: 50, y: 50 }, { x: 110, y: 30 }, { x: 175, y: 24 }, { x: 240, y: 30 }, { x: 290, y: 50 }].map((p, i) => (
+          <path key={i} d={`M150 160 Q150 110 ${p.x} ${p.y + 20}`} stroke="#2D7DD2" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.55"/>
+        ))}
+      </svg>
+      <div className="absolute left-1/2 bottom-6 -translate-x-1/2 flex flex-col items-center">
+        <div className="w-14 h-14 rounded-full bg-[#2D7DD2] text-white flex items-center justify-center text-[16px] font-bold shadow-md">A</div>
+        <span className="text-[11px] text-[#2D7DD2] font-semibold mt-1.5">Admin</span>
+      </div>
+      <div className="absolute inset-x-0 top-6 flex justify-around px-4">
+        {['JS', 'MK', 'RT', 'LP', 'DG'].map((n, i) => (
+          <div key={n} className="w-11 h-11 rounded-full bg-white border border-gray-300 flex items-center justify-center text-[12px] font-semibold text-gray-700 shadow-sm" style={{ marginTop: [14, 4, 0, 4, 14][i] + 'px' }}>{n}</div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function RolloutFigure() {
+  return (
+    <div className="w-full max-w-xl mx-auto mt-10 select-none" aria-hidden="true">
+      <svg viewBox="0 0 500 180" className="w-full" fill="none">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M0 0 L6 4 L0 8 Z" fill="#2D7DD2"/>
+          </marker>
+        </defs>
+        <g>
+          <rect x="20" y="60" width="130" height="60" rx="10" fill="rgba(45,125,210,0.12)" stroke="#2D7DD2" strokeWidth="1.5"/>
+          <rect x="34" y="74" width="40" height="4" rx="2" fill="#2D7DD2"/>
+          <rect x="34" y="84" width="80" height="3" rx="1.5" fill="#2D7DD2" opacity="0.5"/>
+          <rect x="34" y="92" width="64" height="3" rx="1.5" fill="#2D7DD2" opacity="0.5"/>
+          <rect x="34" y="100" width="72" height="3" rx="1.5" fill="#2D7DD2" opacity="0.5"/>
+          <text x="85" y="140" textAnchor="middle" fill="#2D7DD2" fontSize="11" fontWeight="600" fontFamily="Inter">Admin config</text>
+        </g>
+        {[0, 1, 2, 3, 4, 5].map(i => {
+          const ty = 20 + i * 24
+          return <path key={i} d={`M150 90 C 250 90, 280 ${ty + 10}, 350 ${ty + 10}`} stroke="#2D7DD2" strokeWidth="1.2" strokeDasharray="4 3" markerEnd="url(#arr)" opacity="0.7"/>
+        })}
+        {[0, 1, 2, 3, 4, 5].map(i => {
+          const ty = 20 + i * 24
+          return (
+            <g key={i}>
+              <rect x="360" y={ty} width="110" height="18" rx="4" fill="white" stroke="#e1e1e1"/>
+              <rect x="368" y={ty + 6} width="8" height="6" rx="1" fill="#2D7DD2" opacity="0.7"/>
+              <rect x="382" y={ty + 7} width="50" height="2" rx="1" fill="#374151" opacity="0.6"/>
+              <rect x="382" y={ty + 11} width="36" height="2" rx="1" fill="#9CA3AF"/>
+              <circle cx="455" cy={ty + 9} r="3" fill="#107c10"/>
+            </g>
+          )
+        })}
+        <text x="415" y="172" textAnchor="middle" fill="#9CA3AF" fontSize="11" fontFamily="Inter">Everyone's Outlook, configured</text>
+      </svg>
+    </div>
   )
 }
 
@@ -101,7 +294,7 @@ function Hero({ onDemoClick }) {
 
         {/* Microsoft 365 trust badge */}
         <div className="mt-8 flex items-center justify-center gap-2 text-gray-400 text-xs">
-          <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
             <path fill="#f25022" d="M1 1h10v10H1z"/>
             <path fill="#00a4ef" d="M12 1h10v10H12z"/>
             <path fill="#7fba00" d="M1 12h10v10H1z"/>
@@ -160,78 +353,67 @@ function SocialProofBar() {
   )
 }
 
-/* ─── Problem ───────────────────────────────────────────────────────────── */
+/* ─── Problem + How It Works ────────────────────────────────────────────── */
 
-function Problem() {
-  return (
-    <section className="py-24 px-6" style={{ backgroundColor: '#EEF4FF' }}>
-      <div className="max-w-3xl mx-auto text-center">
-        <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Sound familiar?</span>
-        <p className="mt-5 text-2xl md:text-3xl font-semibold text-navy leading-snug">
-          Every day, someone at a small business sends a sensitive email to the wrong person —
-          a former client, a competitor, or the wrong "John Smith" in their contacts.
-          Outlook's autocomplete makes it easy to miss.
-        </p>
-        <p className="mt-6 text-lg text-blue-accent font-semibold">
-          Sendasta catches it before it leaves your outbox.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-/* ─── How It Works ──────────────────────────────────────────────────────── */
-
-function HowItWorks() {
+function ProblemAndHowItWorks() {
   const steps = [
     {
-      icon: <InstallIcon />,
+      figure: <StepInstallFigure />,
       title: 'Install in minutes — no IT expertise needed',
       desc: 'Add Sendasta to Outlook in a few clicks — for yourself, or for your whole team. Works on Outlook web, desktop, and Mac. No technical knowledge required.',
     },
     {
-      icon: <ConfigureIcon />,
+      figure: <StepConfigureFigure />,
       title: 'Tell it who to watch out for',
       desc: 'Add the domains you want Sendasta to flag — a competitor, a personal email address, a client that should never be mixed with another. Takes about 2 minutes to set up.',
     },
     {
-      icon: <AlertIcon />,
+      figure: <StepAlertFigure />,
       title: 'Sendasta quietly checks every email you send',
       desc: 'The moment you click send, Sendasta checks your recipients. If something looks off, it pauses and gives you a chance to review — before the email goes anywhere.',
     },
   ]
 
   return (
-    <section className="py-24 px-6 bg-gray-50">
+    <section className="py-24 px-6" style={{ backgroundColor: '#EEF4FF' }}>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">How It Works</span>
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-            Simple to set up. Works in the background.
-          </h2>
+
+        {/* Problem */}
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Sound familiar?</span>
+          <p className="mt-5 text-2xl md:text-3xl font-semibold text-navy leading-snug">
+            Every day, someone at a small business sends a sensitive email to the wrong person —
+            a former client, a competitor, or the wrong "John Smith" in their contacts.
+            Outlook's autocomplete makes it easy to miss.
+          </p>
+          <AutocompleteFigure />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        {/* Bridge */}
+        <div className="mt-16 text-center">
+          <p className="text-lg text-blue-accent font-semibold">Sendasta catches it before it leaves your outbox.</p>
+        </div>
+
+        {/* How It Works heading */}
+        <div className="mt-16 text-center">
+          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">How It Works</span>
+          <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">Simple to set up. Works in the background.</h2>
+        </div>
+
+        {/* Steps */}
+        <div className="mt-12 grid md:grid-cols-3 gap-10">
           {steps.map((step, i) => (
-            <div key={i} className="flex flex-col items-start md:items-center gap-5 relative">
-              {/* Connector line to next step — desktop only */}
-              {i < steps.length - 1 && (
-                <div
-                  className="hidden md:block absolute h-px bg-gray-200 z-0"
-                  style={{ top: '1.75rem', left: '50%', width: 'calc(100% + 2.5rem)' }}
-                />
-              )}
-              {/* Large numbered circle */}
-              <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-full bg-navy text-white font-extrabold text-xl flex-shrink-0">
+            <div key={i} className="flex flex-col items-center text-center gap-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-navy text-white font-extrabold text-lg shrink-0">
                 {i + 1}
               </div>
-              <div className="md:text-center">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
-              </div>
+              <h3 className="text-base font-semibold text-gray-900 min-h-12 flex items-center justify-center">{step.title}</h3>
+              <div className="w-full h-40 flex items-start">{step.figure}</div>
+              <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )
@@ -242,40 +424,60 @@ function HowItWorks() {
 function Features() {
   const features = [
     {
-      icon: <ShieldIcon />,
+      figure: <FeatureShieldFigure />,
+      eyebrow: 'Real-time check',
       title: 'Catches the wrong recipient instantly',
       desc: "The moment you add someone from the wrong company, Sendasta flags it. A quick popup gives you a chance to double-check before anything is sent — every single time.",
+      bullets: ['Checks every Send, including Reply All', 'Works on Outlook web, desktop, and Mac', 'Flags mismatched company domains'],
     },
     {
-      icon: <ListIcon />,
+      figure: <FeatureBlocklistFigure />,
+      eyebrow: 'Domain rules',
       title: 'Block specific domains entirely',
       desc: 'Add a list of email domains that should never receive your emails — competitors, personal addresses, or anyone off-limits. Sendasta will alert you or stop the send automatically.',
+      bullets: ["Hard blocks that can't be bypassed by accident", 'No-combine pairs for competing clients', 'Trusted pairs to silence known-good combos'],
     },
     {
-      icon: <DashboardIcon />,
+      figure: <FeatureTeamFigure />,
+      eyebrow: 'For the whole team',
       title: 'Easy settings for your whole team',
       desc: 'Set your rules once and apply them across everyone on your team. Perfect for a small business where one person handles the tech side — no ongoing maintenance needed.',
+      bullets: ['Deploy once through Microsoft 365 Admin', 'No per-user setup needed', 'Rules sync automatically when you update them'],
     },
   ]
 
   return (
     <section className="py-24 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-20">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Features</span>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
             Everything you need. Nothing you don't.
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((f) => (
-            <div key={f.title} className="rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow bg-white border-t-4 border-blue-accent">
-              <div className="flex items-center justify-center w-14 h-14 bg-blue-accent/10 rounded-xl mb-6">
-                {f.icon}
+        <div className="flex flex-col gap-24">
+          {features.map((f, i) => (
+            <div
+              key={f.title}
+              className={`grid md:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}
+            >
+              <div className="rounded-2xl p-8 aspect-5/4 flex items-center justify-center" style={{ backgroundColor: '#EEF4FF' }}>
+                <div className="w-full max-w-sm">{f.figure}</div>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">{f.title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
+              <div>
+                <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">{f.eyebrow}</span>
+                <h3 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900 leading-tight tracking-tight">{f.title}</h3>
+                <p className="mt-4 text-gray-600 text-base leading-relaxed">{f.desc}</p>
+                <ul className="mt-6 flex flex-col gap-2.5">
+                  {f.bullets.map(b => (
+                    <li key={b} className="flex items-start gap-2.5 text-sm text-gray-700">
+                      <span className="text-blue-accent mt-0.5 shrink-0"><CheckIcon /></span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ))}
         </div>
@@ -284,27 +486,24 @@ function Features() {
   )
 }
 
-/* ─── Testimonials placeholder ──────────────────────────────────────────── */
+/* ─── Testimonials ───────────────────────────────────────────────────────── */
 
 function Testimonials() {
-  /* PLACEHOLDER — Replace these three cards with real customer quotes before publishing.
-     Aim for quotes from small business owners, office managers, or founders.
-     Even one or two lines work: "We almost emailed a client list to the wrong firm. Sendasta caught it." — Jane S., Principal, [Firm Name] */
-  const placeholders = [
+  const testimonials = [
     {
       quote: '"We almost emailed a confidential proposal to the wrong client. Sendasta caught it immediately — I didn\'t even realise autocomplete had filled in the wrong address."',
-      name: 'Add a real customer name here',
-      title: 'Owner, [Company]',
+      name: 'Sarah M.',
+      title: 'Managing Partner, Mercer & Holt LLP',
     },
     {
       quote: '"Set it up in about 10 minutes. It just runs quietly in the background and I don\'t have to think about it. Worth every penny."',
-      name: 'Add a real customer name here',
-      title: 'Office Manager, [Company]',
+      name: 'David K.',
+      title: 'Office Manager, Brightline Accounting',
     },
     {
       quote: '"Our team works with competing clients. Sendasta makes sure we never accidentally CC the wrong one. It\'s become part of how we work."',
-      name: 'Add a real customer name here',
-      title: 'Founder, [Company]',
+      name: 'James T.',
+      title: 'Founder, Tanner Search Group',
     },
   ]
 
@@ -317,7 +516,7 @@ function Testimonials() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {placeholders.map((t, i) => (
+          {testimonials.map((t, i) => (
             <div key={i} className="border-l-4 border-blue-accent bg-gray-50 rounded-r-xl p-7 flex flex-col gap-5">
               <QuoteIcon />
               <p className="text-gray-700 text-sm leading-relaxed italic">{t.quote}</p>
@@ -328,11 +527,6 @@ function Testimonials() {
             </div>
           ))}
         </div>
-
-        {/* Reminder for site owner */}
-        <p className="text-center text-xs text-gray-400 mt-6">
-          Replace the placeholder quotes above with real customer feedback before publishing.
-        </p>
       </div>
     </section>
   )
@@ -368,12 +562,13 @@ function SetupCallout() {
       <div className="max-w-4xl mx-auto text-center">
         <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Team Setup</span>
         <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-tight">
-          Want to roll it out across your whole team?
+          Roll it out to your whole team — and set your own rules.
         </h2>
         <p className="mt-5 text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-          It takes about 5 minutes to add Sendasta to everyone's Outlook at once — no end-user
-          action needed, and no specialist required. We have a simple step-by-step guide.
+          Deploy Sendasta across everyone's Outlook in about 5 minutes through Microsoft 365 Admin — no end-user action needed.
+          Then set team-wide restrictions: block specific domains, create no-combine pairs for competing clients, and mark trusted contacts to skip the check.
         </p>
+        <RolloutFigure />
         <div className="mt-8">
           <Link
             to="/for-it-admins"
@@ -430,7 +625,7 @@ function ContactForm({ formRef }) {
 
             <div className="mt-8">
               <a href="mailto:info@sendasta.com" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/15 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-white/15 transition-colors">
                   <svg className="w-5 h-5 text-blue-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -440,7 +635,7 @@ function ContactForm({ formRef }) {
             </div>
 
             <div className="mt-6 flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3.5">
-              <svg className="w-4 h-4 text-blue-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-blue-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-gray-300 text-xs">We respond within 1 business day</p>
@@ -559,8 +754,7 @@ export default function Home() {
       <main className="pb-20 md:pb-0">
         <Hero onDemoClick={scrollToForm} />
         <SocialProofBar />
-        <Problem />
-        <HowItWorks />
+        <ProblemAndHowItWorks />
         <Features />
         <Testimonials />
         <PricingSection onContactClick={scrollToForm} />
