@@ -66,17 +66,6 @@ module.exports = async (env, options) => {
             to: "assets/[name][ext][query]",
           },
           {
-            from: "manifest*.xml",
-            to: "[name]" + "[ext]",
-            transform(content) {
-              if (dev) {
-                return content;
-              } else {
-                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
-              }
-            },
-          },
-          {
             // Marketing site static assets — logo, favicon, videos used by the Vite React app
             from: "carrd website/assets/images/logo-sendasta-white.svg",
             to: "assets/logo-sendasta-white.svg",
