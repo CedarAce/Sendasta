@@ -433,16 +433,16 @@ function Features() {
     {
       figure: <FeatureBlocklistFigure />,
       eyebrow: 'Domain rules',
-      title: 'Block specific domains entirely',
-      desc: 'Add a list of email domains that should never receive your emails — competitors, personal addresses, or anyone off-limits. Sendasta will alert you or stop the send automatically.',
-      bullets: ["Hard blocks that can't be bypassed by accident", 'No-combine pairs for competing clients', 'Trusted pairs to silence known-good combos'],
+      title: 'Flag the domains that should never get your emails',
+      desc: 'Add competitors, former clients, or any off-limits address to your watchlist. When someone on that list appears in a send, Sendasta stops and asks you to confirm before anything goes out.',
+      bullets: ['Requires a deliberate "Send Anyway" to override — no silent slips', 'No-combine pairs for competing clients who must never share an email', 'Trusted pairs to silence alerts for known-safe combos'],
     },
     {
       figure: <FeatureTeamFigure />,
       eyebrow: 'For the whole team',
-      title: 'Easy settings for your whole team',
-      desc: 'Set your rules once and apply them across everyone on your team. Perfect for a small business where one person handles the tech side — no ongoing maintenance needed.',
-      bullets: ['Deploy once through Microsoft 365 Admin', 'No per-user setup needed', 'Rules sync automatically when you update them'],
+      title: 'One deployment, everyone protected',
+      desc: 'Roll Sendasta out to your whole team through Microsoft 365 Admin in about 5 minutes — no end-user setup, no per-person configuration. Everyone gets the same protection automatically.',
+      bullets: ['Deploy once through Microsoft 365 Admin Center', 'No end-user action or setup required', 'Works on Outlook web, desktop, and new Outlook for Mac'],
     },
   ]
 
@@ -566,7 +566,7 @@ function SetupCallout() {
         </h2>
         <p className="mt-5 text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
           Deploy Sendasta across everyone's Outlook in about 5 minutes through Microsoft 365 Admin — no end-user action needed.
-          Then set team-wide restrictions: block specific domains, create no-combine pairs for competing clients, and mark trusted contacts to skip the check.
+          Each person can then configure their own rules: flag domains that should never receive your emails, create no-combine pairs for competing clients, and mark trusted contacts to skip the alert.
         </p>
         <RolloutFigure />
         <div className="mt-8">
