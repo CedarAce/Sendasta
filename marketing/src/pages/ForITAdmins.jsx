@@ -223,23 +223,6 @@ export default function ForITAdmins() {
         </div>
       </section>
 
-      {/* Install guide video */}
-      <section className="py-16 px-6 bg-gray-50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Video Walkthrough</h2>
-          <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-            <video
-              className="w-full"
-              src="/assets/videos/video02.mp4"
-              poster="/assets/videos/video02_poster.jpg"
-              controls
-              muted
-              playsInline
-            />
-          </div>
-        </div>
-      </section>
-
       {/* System requirements */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
