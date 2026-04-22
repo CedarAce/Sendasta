@@ -95,7 +95,7 @@ function evaluateRecipients(asyncResult) {
       log("completed-blocked-domain");
       event.completed({
         allowEvent: false,
-        errorMessage: `⚠️ Recipient on restricted list\n${hits.map((d) => `${d} is on your organization's restricted domain list.`).join("\n")}\nAre you sure you want to send this email?`,
+        errorMessage: `⚠️ Recipient on restricted list\nThe following domain(s) are on your organization's restricted list:\n${hits.map((d) => `• ${d}`).join("\n")}\nAre you sure you want to send this email?`,
       });
       return;
     }
@@ -108,7 +108,7 @@ function evaluateRecipients(asyncResult) {
       log("completed-no-combine");
       event.completed({
         allowEvent: false,
-        errorMessage: `⚠️ Conflicting recipients detected\nYour policy prevents sending to ${domainA} and ${domainB} on the same email. Review recipients before proceeding.`,
+        errorMessage: `Conflicting recipients detected\nYour policy prevents sending to these domains on the same email:\n• ${domainA}\n• ${domainB}\nReview recipients before proceeding.`,
       });
       return;
     }
@@ -135,7 +135,7 @@ function evaluateRecipients(asyncResult) {
   log("completed-multi-domain-block");
   event.completed({
     allowEvent: false,
-    errorMessage: `⚠️ Multiple external domains detected\nThis email is addressed to ${externalDomains.length} external organization${externalDomains.length > 1 ? "s" : ""}: ${externalDomains.join(", ")}. Confirm this is intentional.`,
+    errorMessage: `Multiple external domains detected\nThis email is addressed to ${externalDomains.length} external organization${externalDomains.length > 1 ? "s" : ""}:\n${externalDomains.map((d) => `• ${d}`).join("\n")}\nConfirm this is intentional.`,
   });
 }
 
