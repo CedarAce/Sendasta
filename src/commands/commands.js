@@ -10,10 +10,15 @@ function log(msg) {
   } catch (_) {}
 }
 
-// Register at the root level — the JavaScript-only runtime on Windows dispatches events
-// before Office.onReady resolves, so the handler must be associated immediately.
+// Register at root level for classic Outlook on Windows (JS-only runtime fires events
+// before Office.onReady resolves). Also register inside onReady for new Outlook / WebView
+// runtimes where Office must be initialized before associations are accepted.
 log("commands-js-loaded");
 Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
+Office.onReady(() => {
+  log("office-ready");
+  Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
+});
 
 function onMessageSendHandler(event) {
   log("handler-called");
