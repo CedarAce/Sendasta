@@ -1,12 +1,26 @@
 /* global Office */
 
+function log(msg) {
+  try {
+    fetch("https://sendasta.com/api/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ msg }),
+    });
+  } catch (_) {}
+}
+
 // Register at the root level — the JavaScript-only runtime on Windows dispatches events
 // before Office.onReady resolves, so the handler must be associated immediately.
+log("commands-js-loaded");
 Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
 
 function onMessageSendHandler(event) {
+  log("handler-called");
+
   const isSendastaEnabled = Office.context.roamingSettings.get("isSendastaEnabled");
   if (isSendastaEnabled !== null && !isSendastaEnabled) {
+    log("disabled-allow");
     event.completed({ allowEvent: true });
     return;
   }
@@ -17,8 +31,12 @@ function onMessageSendHandler(event) {
   const allowedPairs = getListSetting("allowedPairs");
   const internalDomains = getListSetting("internalDomains");
 
+  log("calling-from-getAsync");
   Office.context.mailbox.item.from.getAsync(function (fromResult) {
+    log("from-callback-fired");
+
     if (fromResult.status !== Office.AsyncResultStatus.Succeeded) {
+      log("from-failed");
       event.completed({ allowEvent: false, errorMessage: "Sendasta could not read the sender address." });
       return;
     }
@@ -27,18 +45,23 @@ function onMessageSendHandler(event) {
     const ctx = { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains };
 
     if (includeCcBcc) {
+      log("calling-to-getAsync");
       Office.context.mailbox.item.to.getAsync({ asyncContext: ctx }, (toResult) => {
+        log("to-callback-fired");
         Office.context.mailbox.item.cc.getAsync({ asyncContext: { ...toResult.asyncContext, toResult } }, (ccResult) => {
+          log("cc-callback-fired");
           Office.context.mailbox.item.bcc.getAsync({ asyncContext: { ...ccResult.asyncContext, ccResult } }, evaluateRecipients);
         });
       });
     } else {
+      log("calling-to-getAsync-only");
       Office.context.mailbox.item.to.getAsync({ asyncContext: ctx }, evaluateRecipients);
     }
   });
 }
 
 function evaluateRecipients(asyncResult) {
+  log("evaluate-recipients-called");
   const { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains, toResult, ccResult } = asyncResult.asyncContext;
   let recipients = [];
 
@@ -53,16 +76,18 @@ function evaluateRecipients(asyncResult) {
   }
 
   if (recipients.length === 0) {
+    log("completed-no-recipients");
     event.completed({ allowEvent: true });
     return;
   }
 
   const recipientDomains = recipients.map((r) => getDomain(r.emailAddress));
 
-  // 1. Blocked domains — hard block regardless of other rules
+  // 1. Blocked domains
   if (blockedDomains.length > 0) {
     const hits = [...new Set(recipientDomains.filter((d) => blockedDomains.includes(d)))];
     if (hits.length > 0) {
+      log("completed-blocked-domain");
       event.completed({
         allowEvent: false,
         errorMessage: `Email blocked: recipient domain(s) on your blocked list:\n${hits.map((d) => `• ${d}`).join("\n")}`,
@@ -71,10 +96,11 @@ function evaluateRecipients(asyncResult) {
     }
   }
 
-  // 2. No-combine pairs — block if both domains of any pair are present
+  // 2. No-combine pairs
   for (const pair of noCombinePairs) {
     const [domainA, domainB] = pair;
     if (recipientDomains.includes(domainA) && recipientDomains.includes(domainB)) {
+      log("completed-no-combine");
       event.completed({
         allowEvent: false,
         errorMessage: `Email blocked: "${domainA}" and "${domainB}" must not receive the same email per your rules.`,
@@ -83,22 +109,25 @@ function evaluateRecipients(asyncResult) {
     }
   }
 
-  // 3. Compute external domains (not sender's domain, not in internalDomains)
+  // 3. External domains
   const allInternalDomains = new Set([senderDomain, ...internalDomains]);
   const externalDomains = [...new Set(recipientDomains.filter((d) => !allInternalDomains.has(d)))];
 
   if (externalDomains.length <= 1) {
+    log("completed-single-domain-allow");
     event.completed({ allowEvent: true });
     return;
   }
 
-  // 4. Allowed pairs — if every combination of external domains is explicitly trusted, allow
+  // 4. Allowed pairs
   if (allowedPairs.length > 0 && areAllPairsAllowed(externalDomains, allowedPairs)) {
+    log("completed-allowed-pairs");
     event.completed({ allowEvent: true });
     return;
   }
 
   // 5. Multi-domain alert
+  log("completed-multi-domain-block");
   event.completed({
     allowEvent: false,
     errorMessage: `Recipients span multiple external domains. Please double-check before sending:\n${externalDomains.map((d) => `• ${d}`).join("\n")}`,
