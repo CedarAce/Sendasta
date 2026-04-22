@@ -58,6 +58,7 @@ export default function Pricing() {
   usePageMeta({
     title: 'Pricing — Sendasta | Free, Business & Enterprise Plans',
     description: 'Free for personal use. $299/year for teams up to 25 people. Enterprise plans with dedicated onboarding for larger organizations. No contracts, cancel anytime.',
+    canonical: 'https://sendasta.com/pricing',
   })
 
   const scrollToContact = () => {

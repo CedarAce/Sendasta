@@ -18,6 +18,7 @@ export default function TermsOfService() {
   usePageMeta({
     title: 'Terms of Service — Sendasta',
     description: 'Terms of Service for Sendasta, the Microsoft Outlook add-in that prevents misdirected emails.',
+    canonical: 'https://sendasta.com/terms-of-service',
   })
 
   return (

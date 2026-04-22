@@ -18,6 +18,7 @@ export default function PrivacyPolicy() {
   usePageMeta({
     title: 'Privacy Policy — Sendasta',
     description: 'Privacy Policy for Sendasta. We only read recipient email domains at send time to check your rules — we never read email content or store your messages.',
+    canonical: 'https://sendasta.com/privacy-policy',
   })
 
   return (

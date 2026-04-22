@@ -42,7 +42,8 @@ const SELF_INSTALL_STEPS = [
 export default function ForITAdmins() {
   usePageMeta({
     title: 'Setup Guide — How to Install Sendasta in Outlook',
-    description: 'Step-by-step instructions to install Sendasta in Microsoft Outlook. Set up for yourself in 3 minutes, or deploy to your entire organization via Exchange Admin Center in 5.',
+    description: 'Install Sendasta in Outlook in 3 minutes. Step-by-step guide for self-install or full team deployment via the Microsoft 365 Admin Center.',
+    canonical: 'https://sendasta.com/for-it-admins',
   })
 
   const steps = [

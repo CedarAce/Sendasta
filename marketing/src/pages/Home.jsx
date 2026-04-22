@@ -741,6 +741,7 @@ export default function Home() {
   usePageMeta({
     title: 'Sendasta — Stop Sending Emails to the Wrong Person in Outlook',
     description: 'Sendasta warns you the moment Outlook autocomplete puts the wrong recipient in your email. Free to try, 5-minute setup. Works on Outlook web, desktop, and Mac.',
+    canonical: 'https://sendasta.com/',
   })
 
   const formRef = useRef(null)
