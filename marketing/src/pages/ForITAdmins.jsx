@@ -27,15 +27,15 @@ const SELF_INSTALL_STEPS = [
   },
   {
     title: 'Open the Add-ins manager',
-    detail: 'Click the Apps icon in the Outlook toolbar (looks like a grid of squares), or go to Settings → Get Add-ins.',
+    detail: 'Click the Apps icon in the Outlook toolbar, then click "Get add-ins". This opens the "Add-ins for Outlook" window.',
   },
   {
     title: 'Upload the manifest file',
-    detail: 'Click the "My add-ins" tab, scroll to the bottom, and choose "Add a custom add-in → Add from My Computer". Select the manifest-sendasta.xml file you downloaded.',
+    detail: 'In the left pane, select "My add-ins". Scroll to the bottom to find "Custom Add-ins". Click "Add a custom add-in" → "Add from file", then select the manifest-sendasta.xml file you downloaded.',
   },
   {
-    title: 'Click Install',
-    detail: 'Outlook will show a confirmation prompt — click Install to confirm. Sendasta appears immediately in your compose toolbar. Open a new email to see it.',
+    title: 'Confirm the installation',
+    detail: 'Outlook will show a confirmation prompt — click "Yes" to confirm. Sendasta appears immediately in your compose toolbar. Open a new email to see it.',
   },
 ]
 
@@ -81,7 +81,7 @@ export default function ForITAdmins() {
         <>
           Enter the following URL and click "Install":<br />
           <code className="mt-2 inline-block bg-gray-100 text-gray-800 text-sm font-mono px-3 py-1.5 rounded border border-gray-200">
-            https://sendasta.com/manifest.xml
+            https://sendasta.com/manifest-sendasta.xml
           </code>
         </>
       ),
