@@ -24,16 +24,18 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 inset-x-0 z-50 bg-navy border-b border-white/10">
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16 relative">
+        {/* Spacer for flex balancing on mobile */}
+        <div className="w-8 md:hidden"></div>
 
         {/* Logo + wordmark */}
-        <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+        <Link to="/" className="flex items-center gap-3 md:gap-2.5 flex-shrink-0 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
           <img
             src="/assets/logo-sendasta-white.svg"
             alt=""
-            className="h-7 w-auto"
+            className="h-8 md:h-7 w-auto"
           />
-          <span className="text-white font-bold text-lg tracking-tight">
+          <span className="text-white font-bold text-xl md:text-lg tracking-tight">
             Sendasta
           </span>
         </Link>

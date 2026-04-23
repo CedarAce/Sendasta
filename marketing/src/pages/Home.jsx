@@ -315,7 +315,7 @@ function Hero({ onDemoClick }) {
       </div>
 
       {/* Demo video */}
-      <div className="mt-16 max-w-5xl mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+      <div className="mt-16 max-w-5xl mx-auto rounded-none md:rounded-xl overflow-hidden border-y md:border border-white/10 shadow-2xl w-[calc(100%+3rem)] -mx-6 md:w-full md:mx-auto">
         <video
           className="w-full"
           src="/assets/videos/video01.mp4"
@@ -456,7 +456,7 @@ function Features() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-16 md:gap-24">
           {features.map((f, i) => (
             <div
               key={f.title}
@@ -751,27 +751,15 @@ export default function Home() {
   }
 
   return (
-    <>
-      <main className="pb-20 md:pb-0">
-        <Hero onDemoClick={scrollToForm} />
-        <SocialProofBar />
-        <ProblemAndHowItWorks />
-        <Features />
-        <Testimonials />
-        <PricingSection onContactClick={scrollToForm} />
-        <SetupCallout />
-        <ContactForm formRef={formRef} />
-      </main>
-
-      {/* Sticky mobile install CTA */}
-      <div className="fixed bottom-0 inset-x-0 md:hidden bg-navy border-t border-white/10 px-4 py-3 z-40">
-        <Link
-          to="/for-it-admins"
-          className="block w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-3 rounded-lg text-sm text-center transition-colors"
-        >
-          Install Free — No Sign-up
-        </Link>
-      </div>
-    </>
+    <main>
+      <Hero onDemoClick={scrollToForm} />
+      <SocialProofBar />
+      <ProblemAndHowItWorks />
+      <Features />
+      <Testimonials />
+      <PricingSection onContactClick={scrollToForm} />
+      <SetupCallout />
+      <ContactForm formRef={formRef} />
+    </main>
   )
 }
