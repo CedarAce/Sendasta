@@ -1,11 +1,12 @@
 /* global Office */
 
-function log(msg) {
+function log(payload) {
   try {
+    const body = typeof payload === "string" ? { msg: payload } : payload;
     fetch("https://sendasta.com/api/log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ msg }),
+      body: JSON.stringify(body),
     });
   } catch (_) {}
 }
@@ -46,8 +47,11 @@ function onMessageSendHandler(event) {
       return;
     }
 
-    const senderDomain = getDomain(fromResult.value.emailAddress);
-    const ctx = { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains };
+    const senderEmail = fromResult.value.emailAddress;
+    const senderDomain = getDomain(senderEmail);
+    log({ action: "scan_started", companyDomain: senderDomain, senderEmail });
+
+    const ctx = { event, senderEmail, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains };
 
     if (includeCcBcc) {
       log("calling-to-getAsync");
@@ -67,7 +71,7 @@ function onMessageSendHandler(event) {
 
 function evaluateRecipients(asyncResult) {
   log("evaluate-recipients-called");
-  const { event, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains, toResult, ccResult } = asyncResult.asyncContext;
+  const { event, senderEmail, senderDomain, blockedDomains, noCombinePairs, allowedPairs, internalDomains, toResult, ccResult } = asyncResult.asyncContext;
   let recipients = [];
 
   if (toResult && toResult.status === Office.AsyncResultStatus.Succeeded) {
@@ -87,12 +91,13 @@ function evaluateRecipients(asyncResult) {
   }
 
   const recipientDomains = recipients.map((r) => getDomain(r.emailAddress));
+  const recipientEmails = recipients.map((r) => r.emailAddress);
 
   // 1. Blocked domains
   if (blockedDomains.length > 0) {
     const hits = [...new Set(recipientDomains.filter((d) => blockedDomains.includes(d)))];
     if (hits.length > 0) {
-      log("completed-blocked-domain");
+      log({ action: "email_blocked", reason: "blocked_domain", companyDomain: senderDomain, senderEmail, recipientEmails });
       event.completed({
         allowEvent: false,
         errorMessage: `⚠️ Recipient on restricted list\n\nThe following recipient domain${hits.length > 1 ? "s are" : " is"} on your organization's restricted list:\n\n${hits.map((d) => `• ${d}`).join("\n")}\n\nAre you sure you want to send this email?`,
@@ -105,7 +110,7 @@ function evaluateRecipients(asyncResult) {
   for (const pair of noCombinePairs) {
     const [domainA, domainB] = pair;
     if (recipientDomains.includes(domainA) && recipientDomains.includes(domainB)) {
-      log("completed-no-combine");
+      log({ action: "email_blocked", reason: "no_combine", companyDomain: senderDomain, senderEmail, recipientEmails });
       event.completed({
         allowEvent: false,
         errorMessage: `Conflicting recipients detected\n\nYour organization's policy does not allow sending to these domains together:\n\n• ${domainA}\n• ${domainB}\n\nReview recipients before proceeding.`,
@@ -119,20 +124,20 @@ function evaluateRecipients(asyncResult) {
   const externalDomains = [...new Set(recipientDomains.filter((d) => !allInternalDomains.has(d)))];
 
   if (externalDomains.length <= 1) {
-    log("completed-single-domain-allow");
+      log({ action: "email_allowed", reason: "single_external_domain", companyDomain: senderDomain, senderEmail, recipientEmails });
     event.completed({ allowEvent: true });
     return;
   }
 
   // 4. Allowed pairs
   if (allowedPairs.length > 0 && areAllPairsAllowed(externalDomains, allowedPairs)) {
-    log("completed-allowed-pairs");
+    log({ action: "email_allowed", reason: "allowed_pairs", companyDomain: senderDomain, senderEmail, recipientEmails });
     event.completed({ allowEvent: true });
     return;
   }
 
   // 5. Multi-domain alert
-  log("completed-multi-domain-block");
+  log({ action: "email_blocked", reason: "multi_domain_alert", companyDomain: senderDomain, senderEmail, recipientEmails });
   event.completed({
     allowEvent: false,
     errorMessage: `Multiple external domains detected\n\nThis email is addressed to ${externalDomains.length} external organization${externalDomains.length > 1 ? "s" : ""}:\n\n${externalDomains.map((d) => `• ${d}`).join("\n")}\n\nConfirm this is intentional.`,
