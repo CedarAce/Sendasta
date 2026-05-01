@@ -281,13 +281,13 @@ function Hero({ onDemoClick }) {
             to="/for-it-admins"
             className="w-full sm:w-auto px-8 py-3.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Install Free — No Sign-up
+            Try Now — Install Free
           </Link>
           <button
-            onClick={onDemoClick}
+            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full sm:w-auto px-8 py-3.5 border border-white/40 hover:border-white text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Sign Up
+            Learn More
           </button>
         </div>
         <p className="mt-4 text-gray-500 text-xs">Free forever for personal use. No credit card needed.</p>
@@ -375,7 +375,7 @@ function ProblemAndHowItWorks() {
   ]
 
   return (
-    <section className="py-24 px-6" style={{ backgroundColor: '#EEF4FF' }}>
+    <section id="how-it-works" className="py-24 px-6" style={{ backgroundColor: '#EEF4FF' }}>
       <div className="max-w-6xl mx-auto">
 
         {/* Problem */}
