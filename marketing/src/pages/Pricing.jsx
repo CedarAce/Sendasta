@@ -121,7 +121,7 @@ export default function Pricing() {
               href="/#contact"
               className="inline-flex items-center gap-2 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold px-8 py-3 rounded-lg transition-colors text-sm"
             >
-              Contact Us
+              Sign Up
             </a>
           </div>
         </div>

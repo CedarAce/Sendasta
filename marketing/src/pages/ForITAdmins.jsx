@@ -259,7 +259,7 @@ export default function ForITAdmins() {
               href="/#contact"
               className="w-full sm:w-auto px-8 py-3.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold rounded-lg transition-colors text-sm"
             >
-              Contact Us
+              Sign Up
             </a>
             <a
               href="mailto:info@sendasta.com"

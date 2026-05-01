@@ -287,7 +287,7 @@ function Hero({ onDemoClick }) {
             onClick={onDemoClick}
             className="w-full sm:w-auto px-8 py-3.5 border border-white/40 hover:border-white text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Contact Us
+            Sign Up
           </button>
         </div>
         <p className="mt-4 text-gray-500 text-xs">Free forever for personal use. No credit card needed.</p>

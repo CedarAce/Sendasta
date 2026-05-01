@@ -189,7 +189,7 @@ export default function PricingCards({ onContactClick }) {
             Get Started
           </a>
         ) : (
-          /* 2. If URL is null, show the "Contact Us" trigger */
+          /* 2. If URL is null, show the "Sign Up" trigger */
           <button
             onClick={() => {
               trackEvent("select_plan", { plan: "business_interest" });
@@ -197,7 +197,7 @@ export default function PricingCards({ onContactClick }) {
             }}
             className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
           >
-            Contact Us
+            Sign Up
           </button>
         )}
         <p className="text-center text-xs text-gray-500 mt-2.5">No contracts. Cancel anytime.</p>
@@ -235,7 +235,7 @@ export default function PricingCards({ onContactClick }) {
           }}
           className="mt-8 w-full bg-navy hover:bg-navy-800 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
         >
-          Contact Us
+          Sign Up
         </button>
         <p className="text-center text-xs text-gray-400 mt-2.5">We'll put together a custom quote.</p>
       </Card>
