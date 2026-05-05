@@ -10,7 +10,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is the difference between Business and Enterprise?',
-    a: 'Business is self-serve — you set up your rules, roll it out to your team (up to 25 people), and manage settings yourself. Enterprise is for larger teams (100+ users) and includes a dedicated onboarding session, we configure your domain policies for you, priority support with a 4-hour response time, quarterly review calls, audit logs, and a named account contact. Pricing is custom based on your team size.',
+    a: 'Business is self-serve — you set up your rules, roll it out to your team, and manage settings yourself. Enterprise is for larger organizations and includes a dedicated onboarding session, we configure your domain policies for you, priority support with a 4-hour response time, quarterly review calls, audit logs, and a named account contact. Pricing is custom based on your team size.',
   },
   {
     q: 'Does this require the Microsoft AppSource store?',
@@ -23,10 +23,6 @@ const FAQ_ITEMS = [
   {
     q: 'What information does Sendasta see?',
     a: "Sendasta only looks at the email domain names of your recipients at the moment you hit send — to check them against your rules. It does not read your email content, store your messages, or share your data with anyone. See our Privacy Policy for full details.",
-  },
-  {
-    q: 'What happens if I need more than 25 users but am not sure about Enterprise?',
-    a: "Just reach out — we'll have a quick chat and find the right fit. There's no pressure and no hard cutoff.",
   },
 ]
 
@@ -57,7 +53,7 @@ function FAQItem({ q, a }) {
 export default function Pricing() {
   usePageMeta({
     title: 'Pricing — Sendasta | Free, Business & Enterprise Plans',
-    description: 'Free for personal use. $299/year for teams up to 25 people. Enterprise plans with dedicated onboarding for larger organizations. No contracts, cancel anytime.',
+    description: 'Free for personal use. $299/year for teams of any size. Enterprise plans with dedicated onboarding for larger organizations. No contracts, cancel anytime.',
     canonical: 'https://sendasta.com/pricing',
   })
 

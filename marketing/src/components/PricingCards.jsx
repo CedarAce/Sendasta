@@ -165,7 +165,7 @@ export default function PricingCards({ onContactClick }) {
           <span className={priceClass(true)}>$299</span>
           <span className="text-sm text-gray-500">/yr</span>
         </div>
-        <p className={subNoteClass(true)}>Up to 25 people — about $25/month.</p>
+        <p className={subNoteClass(true)}>For teams of any size — about $25/month.</p>
         <p className={descClass(true)}>Protect your whole team with shared rules and easy rollout via Microsoft 365.</p>
         <div className={dividerClass(true)} />
         <ul className="flex flex-col gap-2.5 flex-1">
@@ -212,7 +212,7 @@ export default function PricingCards({ onContactClick }) {
             /yr
           </span>
         </div>
-        <p className={subNoteClass(false)}>100+ users. Tailored to your team.</p>
+        <p className={subNoteClass(false)}>Large organizations. Tailored to your team.</p>
         <p className={descClass(false)}>
           Hands-on setup, deeper controls, and a dedicated contact for your organization.
         </p>
