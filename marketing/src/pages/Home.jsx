@@ -267,16 +267,19 @@ function Hero({ onDemoClick }) {
     <section className="bg-navy pt-32 pb-20 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 bg-white/10 text-blue-accent text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full mb-8">
+          <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#f25022" d="M1 1h10v10H1z"/>
+            <path fill="#00a4ef" d="M12 1h10v10H12z"/>
+            <path fill="#7fba00" d="M1 12h10v10H1z"/>
+            <path fill="#ffb900" d="M12 12h10v10H12z"/>
+          </svg>
           Microsoft Outlook Add-in
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
           The wrong recipient is one autocomplete away.
         </h1>
         <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-          Sendasta watches every email you send and stops the ones going to the wrong person — the competitor, the former client, the John Smith you didn't mean. Before you hit send, not after.
-        </p>
-        <p className="mt-4 text-sm text-gray-500 max-w-xl mx-auto">
-          Built for small firms where one wrong email can end a client relationship — law, accounting, consulting, and other professional services.
+          Sendasta watches every email leaving your firm and stops the ones going to the wrong person — the competitor, the former client, the John Smith nobody meant to email. Before it lands in the wrong inbox.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
@@ -573,21 +576,6 @@ function SetupCallout() {
   )
 }
 
-/* ─── Founder Note ──────────────────────────────────────────────────────── */
-
-function FounderNote() {
-  return (
-    <section className="py-16 px-6 bg-gray-50 border-y border-gray-100">
-      <div className="max-w-2xl mx-auto text-center">
-        <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Why I built this</span>
-        <p className="mt-5 text-gray-600 text-base leading-relaxed">
-          I'm Mo, the founder. I built Sendasta after watching too many smart people send the wrong email and have a terrible afternoon. If you're a small firm trying to keep your team out of that situation, send me a note — I read every message myself.
-        </p>
-      </div>
-    </section>
-  )
-}
-
 /* ─── Contact Form ──────────────────────────────────────────────────────── */
 
 function ContactForm({ formRef }) {
@@ -762,7 +750,6 @@ export default function Home() {
       <StatsSection />
       <PricingSection onContactClick={scrollToForm} />
       <SetupCallout />
-      <FounderNote />
       <ContactForm formRef={formRef} />
     </main>
   )
