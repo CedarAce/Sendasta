@@ -5,7 +5,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postbuild": "react-snap"
+  },
+  "reactSnap": {
+    "source": "../public",
+    "destination": "../public",
+    "include": ["/", "/for-it-admins"],
+    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"],
+    "puppeteerExecutablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "crawl": false,
+    "skipThirdPartyRequests": true,
+    "minifyHtml": { "collapseWhitespace": false, "removeComments": false }
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,6 +26,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "react-snap": "^1.23.0",
     "tailwindcss": "^4.0.0",
     "vite": "^5.4.0"
   }
