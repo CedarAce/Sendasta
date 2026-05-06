@@ -270,48 +270,29 @@ function Hero({ onDemoClick }) {
           Microsoft Outlook Add-in
         </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
-          Stop the Wrong Email<br className="hidden md:block" /> Before It's Too Late
+          The wrong recipient is one autocomplete away.
         </h1>
         <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-          One wrong autocomplete and your client's contract lands in a competitor's inbox.
-          Sendasta warns you the moment it spots the wrong recipient — before you hit send.
+          Sendasta watches every email you send and stops the ones going to the wrong person — the competitor, the former client, the John Smith you didn't mean. Before you hit send, not after.
+        </p>
+        <p className="mt-4 text-sm text-gray-500 max-w-xl mx-auto">
+          Built for small firms where one wrong email can end a client relationship — law, accounting, consulting, and other professional services.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/for-it-admins"
             className="w-full sm:w-auto px-8 py-3.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Try Now — Install Free
+            Try Free — 5 min install
           </Link>
           <button
             onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full sm:w-auto px-8 py-3.5 border border-white/40 hover:border-white text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Learn More
+            See how it works
           </button>
         </div>
-        <p className="mt-4 text-gray-500 text-xs">Free forever for personal use. No credit card needed.</p>
-
-        {/* Microsoft 365 trust badge */}
-        <div className="mt-8 flex items-center justify-center gap-2 text-gray-400 text-xs">
-          <svg className="w-4 h-4 shrink-0" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#f25022" d="M1 1h10v10H1z"/>
-            <path fill="#00a4ef" d="M12 1h10v10H12z"/>
-            <path fill="#7fba00" d="M1 12h10v10H1z"/>
-            <path fill="#ffb900" d="M12 12h10v10H12z"/>
-          </svg>
-          <span>Works exclusively with Microsoft 365 &amp; Outlook</span>
-        </div>
-
-        {/* Who it's for — industry pills */}
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          <span className="text-gray-500 text-xs font-medium">Used by:</span>
-          {['Law Firms', 'Accounting', 'Consultancies', 'Recruiters', 'Real Estate', 'Finance'].map(tag => (
-            <span key={tag} className="bg-white/10 border border-white/10 text-gray-400 text-xs px-3 py-1 rounded-full">
-              {tag}
-            </span>
-          ))}
-        </div>
+        <p className="mt-4 text-gray-500 text-xs">Free for personal use · No credit card · Works on Outlook web, desktop, and Mac</p>
       </div>
 
       {/* Demo video */}
@@ -330,24 +311,27 @@ function Hero({ onDemoClick }) {
   )
 }
 
-/* ─── Social Proof Bar ──────────────────────────────────────────────────── */
+/* ─── Autocomplete Trap ─────────────────────────────────────────────────── */
 
-function SocialProofBar() {
-  const stats = [
-    { value: '1 in 3', label: 'employees has sent an email to the wrong person' },
-    { value: 'Free', label: 'to try — no credit card, no sign-up, works today' },
-    { value: '5 min', label: 'to set up — no IT experience needed' },
-  ]
-
+function AutocompleteTrap() {
   return (
-    <section className="bg-white border-y border-gray-100">
-      <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 md:divide-x md:divide-gray-100">
-        {stats.map((s) => (
-          <div key={s.value} className="text-center md:px-8">
-            <p className="text-3xl font-extrabold text-blue-accent">{s.value}</p>
-            <p className="mt-2 text-sm text-gray-500 leading-snug">{s.label}</p>
-          </div>
-        ))}
+    <section className="py-20 px-6 bg-white">
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-snug">
+          Outlook autocomplete was built for 2003.
+        </h2>
+        <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+          Back then your contact list had 50 names and the worst-case mistake was an awkward apology. Today it has thousands, half of them similar, and one wrong selection sends a privileged document to a competitor, a former client, or somebody's personal Gmail.
+        </p>
+        <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+          Outlook hasn't fixed this. The feature is unchanged. The stakes aren't.
+        </p>
+        <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+          Sendasta is the layer that should have been built into Outlook fifteen years ago.
+        </p>
+        <p className="mt-8 text-sm text-gray-400">
+          Used in environments subject to GDPR, PIPEDA, and confidentiality obligations like attorney-client privilege.
+        </p>
       </div>
     </section>
   )
@@ -359,18 +343,18 @@ function ProblemAndHowItWorks() {
   const steps = [
     {
       figure: <StepInstallFigure />,
-      title: 'Install in minutes — no IT expertise needed',
-      desc: 'Add Sendasta to Outlook in a few clicks — for yourself, or for your whole team. Works on Outlook web, desktop, and Mac. No technical knowledge required.',
+      title: 'Install',
+      desc: 'Add Sendasta to your own Outlook in a few clicks, or roll it out to your whole team through Microsoft 365 Admin. Works on Outlook web, desktop, and Mac. No technical knowledge required.',
     },
     {
       figure: <StepConfigureFigure />,
-      title: 'Tell it who to watch out for',
-      desc: 'Add the domains you want Sendasta to flag — a competitor, a personal email address, a client that should never be mixed with another. Takes about 2 minutes to set up.',
+      title: 'Set your rules',
+      desc: 'Tell Sendasta which domains to flag — competitors, former clients, personal addresses, anything that should never receive your work email. Add no-combine pairs for clients who must stay separated. Takes about two minutes.',
     },
     {
       figure: <StepAlertFigure />,
-      title: 'Sendasta quietly checks every email you send',
-      desc: 'The moment you click send, Sendasta checks your recipients. If something looks off, it pauses and gives you a chance to review — before the email goes anywhere.',
+      title: 'Send normally',
+      desc: "When you click Send, Sendasta checks your recipients against your rules. If something looks off, it pauses and shows you why. If everything checks out, the email goes. You won't notice it most days. The day you do, it's worth it.",
     },
   ]
 
@@ -382,9 +366,7 @@ function ProblemAndHowItWorks() {
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Sound familiar?</span>
           <p className="mt-5 text-2xl md:text-3xl font-semibold text-navy leading-snug">
-            Every day, someone at a small business sends a sensitive email to the wrong person —
-            a former client, a competitor, or the wrong "John Smith" in their contacts.
-            Outlook's autocomplete makes it easy to miss.
+            You start typing a name. Outlook fills in the rest. You attach the file, hit send, and a second later realize the autocomplete grabbed the wrong contact — the one with the similar last name, the old client, the personal address. By then it's gone.
           </p>
           <AutocompleteFigure />
         </div>
@@ -397,7 +379,7 @@ function ProblemAndHowItWorks() {
         {/* How It Works heading */}
         <div className="mt-16 text-center">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">How It Works</span>
-          <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">Simple to set up. Works in the background.</h2>
+          <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">Three steps. Five minutes.</h2>
         </div>
 
         {/* Steps */}
@@ -426,22 +408,22 @@ function Features() {
     {
       figure: <FeatureShieldFigure />,
       eyebrow: 'Real-time check',
-      title: 'Catches the wrong recipient instantly',
-      desc: "The moment you add someone from the wrong company, Sendasta flags it. A quick popup gives you a chance to double-check before anything is sent — every single time.",
+      title: "Catches recipients that don't belong",
+      desc: "When the recipients on an email don't match — a competitor's domain mixed with your client's, a personal address mixed with a corporate one — Sendasta pauses the send and asks you to confirm. Works on every Send and every Reply All.",
       bullets: ['Checks every Send, including Reply All', 'Works on Outlook web, desktop, and Mac', 'Flags mismatched company domains'],
     },
     {
       figure: <FeatureBlocklistFigure />,
       eyebrow: 'Domain rules',
-      title: 'Flag the domains that should never get your emails',
-      desc: 'Add competitors, former clients, or any off-limits address to your watchlist. When someone on that list appears in a send, Sendasta stops and asks you to confirm before anything goes out.',
+      title: 'Enforces a rule, not a hope',
+      desc: "Add the domains you don't want emails going to, ever. Competitors. Former clients. The journalist's address you accidentally added six months ago. Sendasta requires a deliberate \"Send Anyway\" — no silent slips.",
       bullets: ['Requires a deliberate "Send Anyway" to override — no silent slips', 'No-combine pairs for competing clients who must never share an email', 'Trusted pairs to silence alerts for known-safe combos'],
     },
     {
       figure: <FeatureTeamFigure />,
       eyebrow: 'For the whole team',
-      title: 'One deployment, everyone protected',
-      desc: 'Roll Sendasta out to your whole team through Microsoft 365 Admin in about 5 minutes — no end-user setup, no per-person configuration. Everyone gets the same protection automatically.',
+      title: 'One deployment, whole team',
+      desc: 'Roll out through Microsoft 365 Admin in about five minutes. No per-user setup, no end-user action. Everyone protected automatically.',
       bullets: ['Deploy once through Microsoft 365 Admin Center', 'No end-user action or setup required', 'Works on Outlook web, desktop, and new Outlook for Mac'],
     },
   ]
@@ -452,7 +434,7 @@ function Features() {
         <div className="text-center mb-20">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Features</span>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-            Everything you need. Nothing you don't.
+            What it actually does
           </h2>
         </div>
 
@@ -486,46 +468,56 @@ function Features() {
   )
 }
 
-/* ─── Testimonials ───────────────────────────────────────────────────────── */
+/* ─── Stats Section ─────────────────────────────────────────────────────── */
 
-function Testimonials() {
-  const testimonials = [
+function StatsSection() {
+  // TODO: verify all five stats against original sources before publishing
+  const stats = [
     {
-      quote: '"We almost emailed a confidential proposal to the wrong client. Sendasta caught it immediately — I didn\'t even realise autocomplete had filled in the wrong address."',
-      name: 'Sarah M.',
-      title: 'Managing Partner, Mercer & Holt LLP',
+      value: '65%',
+      label: 'of organizations had data leave through email by employee mistake in the past year.',
+      source: 'Ponemon, 2022',
     },
     {
-      quote: '"Set it up in about 10 minutes. It just runs quietly in the background and I don\'t have to think about it. Worth every penny."',
-      name: 'David K.',
-      title: 'Office Manager, Brightline Accounting',
+      value: '1 in 3',
+      label: 'employees has sent an email to the wrong person.',
+      source: 'Tessian, 2022',
     },
     {
-      quote: '"Our team works with competing clients. Sendasta makes sure we never accidentally CC the wrong one. It\'s become part of how we work."',
-      name: 'James T.',
-      title: 'Founder, Tanner Search Group',
+      value: '27%',
+      label: 'of data protection incidents involve misdirected emails.',
+      source: 'Verizon DBIR (verify before publishing)',
+    },
+    {
+      value: '47%',
+      label: 'of misdirected emails are discovered by the recipient, not by security tools.',
+      source: 'Verify before publishing',
+    },
+    {
+      value: '$4.45M',
+      label: 'average cost of a data breach involving misdirected email.',
+      source: 'IBM Cost of a Data Breach Report, 2023',
     },
   ]
 
   return (
-    <section className="py-20 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">What customers say</span>
-          <h2 className="mt-3 text-3xl font-bold text-gray-900">Used by small businesses every day</h2>
+    <section className="py-20 px-6 bg-navy">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-14">
+          <h2 className="text-2xl md:text-3xl font-bold text-white">The numbers nobody likes to talk about</h2>
         </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
-            <div key={i} className="border-l-4 border-blue-accent bg-gray-50 rounded-r-xl p-7 flex flex-col gap-5">
-              <QuoteIcon />
-              <p className="text-gray-700 text-sm leading-relaxed italic">{t.quote}</p>
-              <div className="mt-auto pt-4 border-t border-gray-200">
-                <p className="text-sm font-semibold text-gray-900">{t.name}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{t.title}</p>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          {stats.map((s) => (
+            <div key={s.value} className="text-center">
+              <p className="text-3xl font-extrabold text-blue-accent">{s.value}</p>
+              <p className="mt-3 text-sm text-gray-300 leading-relaxed">{s.label}</p>
+              <p className="mt-2 text-xs text-gray-500">{s.source}</p>
             </div>
           ))}
+        </div>
+        <div className="mt-14 text-center border-t border-white/10 pt-10">
+          <p className="text-xl md:text-2xl font-bold text-white">One click is all it takes.</p>
+          <p className="mt-3 text-gray-300 max-w-xl mx-auto">One misdirected email can end a client relationship that took years to build. Sendasta protects your team for $4 per user per month.</p>
         </div>
       </div>
     </section>
@@ -541,11 +533,8 @@ function PricingSection({ onContactClick }) {
         <div className="text-center mb-16">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Pricing</span>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-            Free to try. Affordable for any small business.
+            Two plans. No surprises.
           </h2>
-          <p className="mt-4 text-gray-500 max-w-xl mx-auto text-sm">
-            No contracts. No hidden fees. Cancel anytime.
-          </p>
         </div>
 
         <PricingCards onContactClick={onContactClick} />
@@ -562,11 +551,10 @@ function SetupCallout() {
       <div className="max-w-4xl mx-auto text-center">
         <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Team Setup</span>
         <h2 className="mt-4 text-3xl md:text-4xl font-bold text-white leading-tight">
-          Roll it out to your whole team — and set your own rules.
+          For IT and admins
         </h2>
         <p className="mt-5 text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-          Deploy Sendasta across everyone's Outlook in about 5 minutes through Microsoft 365 Admin — no end-user action needed.
-          Each person can then configure their own rules: flag domains that should never receive your emails, create no-combine pairs for competing clients, and mark trusted contacts to skip the alert.
+          Deploy Sendasta to everyone's Outlook in about five minutes through Microsoft 365 Admin Center — no end-user action, no per-person configuration. Each person can configure their own watched domains, no-combine pairs, and trusted contacts after install.
         </p>
         <RolloutFigure />
         <div className="mt-8">
@@ -580,6 +568,21 @@ function SetupCallout() {
             </svg>
           </Link>
         </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── Founder Note ──────────────────────────────────────────────────────── */
+
+function FounderNote() {
+  return (
+    <section className="py-16 px-6 bg-gray-50 border-y border-gray-100">
+      <div className="max-w-2xl mx-auto text-center">
+        <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Why I built this</span>
+        <p className="mt-5 text-gray-600 text-base leading-relaxed">
+          I'm Mo, the founder. I built Sendasta after watching too many smart people send the wrong email and have a terrible afternoon. If you're a small firm trying to keep your team out of that situation, send me a note — I read every message myself.
+        </p>
       </div>
     </section>
   )
@@ -617,10 +620,10 @@ function ContactForm({ formRef }) {
           <div className="md:col-span-2">
             <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Get in Touch</span>
             <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white leading-tight">
-              Questions? We respond personally.
+              Questions? A real person answers.
             </h2>
             <p className="mt-4 text-gray-400 text-sm leading-relaxed">
-              Pricing questions, a custom setup for your team, or anything else — send us a message and a real person will get back to you.
+              Pricing questions, custom setup, integration questions — send a message and you'll hear back within one business day.
             </p>
 
             <div className="mt-8">
@@ -753,12 +756,13 @@ export default function Home() {
   return (
     <main>
       <Hero onDemoClick={scrollToForm} />
-      <SocialProofBar />
+      <AutocompleteTrap />
       <ProblemAndHowItWorks />
       <Features />
-      <Testimonials />
+      <StatsSection />
       <PricingSection onContactClick={scrollToForm} />
       <SetupCallout />
+      <FounderNote />
       <ContactForm formRef={formRef} />
     </main>
   )

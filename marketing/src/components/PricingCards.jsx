@@ -32,12 +32,12 @@ function ContactModal({ onClose }) {
             />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Interested in Business?</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">Start your free trial</h3>
         <p className="text-gray-500 text-sm leading-relaxed mb-6">
           Drop us an email and we'll get you set up personally — usually within the same business day.
         </p>
         <a
-          href="mailto:info@sendasta.com?subject=Sendasta Business Plan&body=Hi, I'm interested in the Sendasta Business plan ($299/yr) for my team."
+          href="mailto:info@sendasta.com?subject=Sendasta Business Trial&body=Hi, I'd like to start a 30-day free trial of Sendasta Business for my team."
           className="block w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-3 rounded-lg transition-colors text-sm mb-3"
           onClick={onClose}
         >
@@ -72,20 +72,20 @@ const FREE_FEATURES = [
 ];
 
 const BUSINESS_FEATURES = [
-  "Everything in Free, plus:",
+  "Everything in Personal, plus:",
   "Block specific domains for your whole team",
-  "Simple settings panel — manage everyone",
-  "Automatic rollout via Microsoft 365",
+  "Shared rules and policies, set once",
+  "Automatic rollout via Microsoft 365 Admin",
   "Choose which team members get it",
   "Priority email support",
 ];
 
 const ENTERPRISE_FEATURES = [
   "Everything in Business, plus:",
-  "Dedicated onboarding and setup session",
-  "We configure your domain policy for you",
+  "Dedicated onboarding session",
+  "We configure your domain policy with you",
   "Priority support — 4-hour response time",
-  "Quarterly policy review call",
+  "Quarterly policy review",
   "Audit logs and email alert history",
   "Multi-team and department management",
   "Dedicated account contact",
@@ -126,119 +126,87 @@ export default function PricingCards({ onContactClick }) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
-      {/* Free */}
-      <Card>
-        <span className={labelClass(false)}>Free</span>
-        <div className="mt-3 flex items-baseline gap-1.5">
-          <span className={priceClass(false)}>$0</span>
-          <span className="text-sm text-gray-400">/ forever</span>
-        </div>
-        <p className={subNoteClass(false)}>No sign-up. No credit card. Works today.</p>
-        <p className={descClass(false)}>Protect yourself from autocomplete mistakes — no team setup required.</p>
+    <div className="flex flex-col items-center gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-3xl w-full mx-auto items-stretch">
+        {/* Personal */}
+        <Card>
+          <span className={labelClass(false)}>Personal</span>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className={priceClass(false)}>$0</span>
+          </div>
+          <p className={subNoteClass(false)}>Free forever</p>
+          <p className={descClass(false)}>For individuals who want to stop misdirected emails on their own inbox.</p>
 
-        <div className={dividerClass(false)} />
+          <div className={dividerClass(false)} />
 
-        <ul className="flex flex-col gap-2.5 flex-1">
-          {FREE_FEATURES.map((f) => (
-            <li key={f} className="flex items-start gap-2.5">
-              <Check />
-              <span className={featureTextClass(false, false)}>{f}</span>
-            </li>
-          ))}
-        </ul>
+          <ul className="flex flex-col gap-2.5 flex-1">
+            {FREE_FEATURES.map((f) => (
+              <li key={f} className="flex items-start gap-2.5">
+                <Check />
+                <span className={featureTextClass(false, false)}>{f}</span>
+              </li>
+            ))}
+          </ul>
 
-        <Link
-          to="/for-it-admins"
-          onClick={() => trackEvent("select_plan", { plan: "free" })}
-          className="mt-8 block text-center border border-gray-300 hover:border-blue-accent hover:text-blue-accent text-gray-600 font-semibold py-2.5 rounded-lg transition-colors text-sm"
-        >
-          Install Free
-        </Link>
-        <p className="text-center text-xs text-gray-400 mt-2.5">No account needed. Works immediately.</p>
-      </Card>
-
-      {/* Business */}
-      <Card highlight>
-        <span className={labelClass(true)}>Business</span>
-        <div className="mt-3 flex items-baseline gap-1.5">
-          <span className={priceClass(true)}>$299</span>
-          <span className="text-sm text-gray-500">/yr</span>
-        </div>
-        <p className={subNoteClass(true)}>For teams of any size — about $25/month.</p>
-        <p className={descClass(true)}>Protect your whole team with shared rules and easy rollout via Microsoft 365.</p>
-        <div className={dividerClass(true)} />
-        <ul className="flex flex-col gap-2.5 flex-1">
-          {BUSINESS_FEATURES.map((f) => (
-            <li key={f} className="flex items-start gap-2.5">
-              <Check />
-              <span className={featureTextClass(true, f.startsWith("Everything"))}>{f}</span>
-            </li>
-          ))}
-        </ul>
-
-        {STRIPE_BUSINESS_URL ? (
-          /* 1. If URL exists, show the direct Stripe link */
-          <a
-            href={STRIPE_BUSINESS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent("begin_checkout", { plan: "business", value: 299, currency: "USD" })}
-            className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+          <Link
+            to="/for-it-admins"
+            onClick={() => trackEvent("select_plan", { plan: "free" })}
+            className="mt-8 block text-center border border-gray-300 hover:border-blue-accent hover:text-blue-accent text-gray-600 font-semibold py-2.5 rounded-lg transition-colors text-sm"
           >
-            Get Started
-          </a>
-        ) : (
-          /* 2. If URL is null, show the "Sign Up" trigger */
-          <button
-            onClick={() => {
-              trackEvent("select_plan", { plan: "business_interest" });
-              onContactClick(); // This opens the popup
-            }}
-            className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-          >
-            Sign Up
-          </button>
-        )}
-        <p className="text-center text-xs text-gray-500 mt-2.5">No contracts. Cancel anytime.</p>
-      </Card>
+            Install Free
+          </Link>
+          <p className="text-center text-xs text-gray-400 mt-2.5">No account needed. Works immediately.</p>
+        </Card>
 
-      {/* Enterprise */}
-      <Card>
-        <span className={labelClass(false)}>Enterprise</span>
-        <div className="mt-3 flex items-baseline gap-1.5">
-          <span className={priceClass(false)}>Custom</span>
-          <span className="text-sm text-transparent select-none" aria-hidden="true">
-            /yr
-          </span>
-        </div>
-        <p className={subNoteClass(false)}>Large organizations. Tailored to your team.</p>
-        <p className={descClass(false)}>
-          Hands-on setup, deeper controls, and a dedicated contact for your organization.
-        </p>
+        {/* Business */}
+        <Card highlight>
+          <span className={labelClass(true)}>Business</span>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className={priceClass(true)}>$4</span>
+            <span className="text-sm text-gray-500">/user/month</span>
+          </div>
+          <p className={subNoteClass(true)}>Billed annually ($48/user/year). Or $5/user/month billed monthly. 5-user minimum.</p>
+          <p className={descClass(true)}>For small firms where one wrong email can end a client relationship. Cheaper than one billable hour spent fixing a misdirected email.</p>
+          <div className={dividerClass(true)} />
+          <ul className="flex flex-col gap-2.5 flex-1">
+            {BUSINESS_FEATURES.map((f) => (
+              <li key={f} className="flex items-start gap-2.5">
+                <Check />
+                <span className={featureTextClass(true, f.startsWith("Everything"))}>{f}</span>
+              </li>
+            ))}
+          </ul>
 
-        <div className={dividerClass(false)} />
+          {STRIPE_BUSINESS_URL ? (
+            <a
+              href={STRIPE_BUSINESS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("begin_checkout", { plan: "business", currency: "USD" })}
+              className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+            >
+              Start 30-day free trial
+            </a>
+          ) : (
+            <button
+              onClick={() => {
+                trackEvent("select_plan", { plan: "business_interest" });
+                onContactClick();
+              }}
+              className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+            >
+              Start 30-day free trial
+            </button>
+          )}
+          <p className="text-center text-xs text-gray-500 mt-2.5">No credit card. Full access. Cancel anytime.</p>
+        </Card>
+      </div>
 
-        <ul className="flex flex-col gap-2.5 flex-1">
-          {ENTERPRISE_FEATURES.map((f) => (
-            <li key={f} className="flex items-start gap-2.5">
-              <Check />
-              <span className={featureTextClass(false, f.startsWith("Everything"))}>{f}</span>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          onClick={() => {
-            trackEvent("select_plan", { plan: "enterprise" });
-            onContactClick();
-          }}
-          className="mt-8 w-full bg-navy hover:bg-navy-800 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-        >
-          Sign Up
-        </button>
-        <p className="text-center text-xs text-gray-400 mt-2.5">We'll put together a custom quote.</p>
-      </Card>
+      <p className="text-sm text-gray-400 text-center max-w-md">
+        Need something custom for a larger team or specific compliance requirements?{' '}
+        <a href="mailto:info@sendasta.com" className="text-blue-accent hover:underline">Email info@sendasta.com</a>
+        {' '}— we'll figure it out.
+      </p>
     </div>
   );
 }
