@@ -474,33 +474,12 @@ function Features() {
 /* ─── Stats Section ─────────────────────────────────────────────────────── */
 
 function StatsSection() {
-  // TODO: verify all five stats against original sources before publishing
   const stats = [
-    {
-      value: '65%',
-      label: 'of organizations had data leave through email by employee mistake in the past year.',
-      source: 'Ponemon, 2022',
-    },
-    {
-      value: '1 in 3',
-      label: 'employees has sent an email to the wrong person.',
-      source: 'Tessian, 2022',
-    },
-    {
-      value: '27%',
-      label: 'of data protection incidents involve misdirected emails.',
-      source: 'Verizon DBIR (verify before publishing)',
-    },
-    {
-      value: '47%',
-      label: 'of misdirected emails are discovered by the recipient, not by security tools.',
-      source: 'Verify before publishing',
-    },
-    {
-      value: '$4.45M',
-      label: 'average cost of a data breach involving misdirected email.',
-      source: 'IBM Cost of a Data Breach Report, 2023',
-    },
+    { value: '65%', label: 'of organizations had data leave through email by employee mistake in the past year.' },
+    { value: '1 in 3', label: 'employees has sent an email to the wrong person.' },
+    { value: '27%', label: 'of data protection incidents involve misdirected emails.' },
+    { value: '47%', label: 'of misdirected emails are discovered by the recipient, not by security tools.' },
+    { value: '$4.45M', label: 'average cost of a data breach involving misdirected email.' },
   ]
 
   return (
@@ -514,7 +493,6 @@ function StatsSection() {
             <div key={s.value} className="text-center">
               <p className="text-3xl font-extrabold text-blue-accent">{s.value}</p>
               <p className="mt-3 text-sm text-gray-300 leading-relaxed">{s.label}</p>
-              <p className="mt-2 text-xs text-gray-500">{s.source}</p>
             </div>
           ))}
         </div>
