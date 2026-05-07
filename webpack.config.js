@@ -22,7 +22,7 @@ module.exports = async (env, options) => {
     },
     output: {
       path: path.resolve(__dirname, 'public'), // Add this line
-      clean: true,
+      clean: !process.env.VERCEL,
     },
     resolve: {
       extensions: [".html", ".js"],
