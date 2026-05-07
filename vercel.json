@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/for-it-admins", "destination": "/index.html" },
     { "source": "/pricing", "destination": "/index.html" },
+    { "source": "/faq", "destination": "/index.html" },
     { "source": "/privacy-policy", "destination": "/index.html" },
     { "source": "/terms-of-service", "destination": "/index.html" }
   ]
