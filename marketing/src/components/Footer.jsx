@@ -24,6 +24,7 @@ export default function Footer() {
               <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Product</span>
               <Link to="/for-it-admins" className="text-gray-400 hover:text-white text-sm transition-colors">For IT Admins</Link>
               <Link to="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">Pricing</Link>
+              <Link to="/faq" className="text-gray-400 hover:text-white text-sm transition-colors">FAQ</Link>
               <a href="/#contact" className="text-gray-400 hover:text-white text-sm transition-colors">Contact</a>
             </div>
             <div className="flex flex-col gap-2">

@@ -52,6 +52,9 @@ export default function Navbar() {
           >
             Pricing
           </Link>
+          <NavLink to="/faq" className={linkClass}>
+            FAQ
+          </NavLink>
           <Link
             to={pathname === '/' ? '#contact' : '/#contact'}
             onClick={handleSectionClick('contact')}
@@ -62,7 +65,13 @@ export default function Navbar() {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="https://sendasta.com/login"
+            className="text-sm font-medium text-gray-400 hover:text-white border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg transition-colors"
+          >
+            Log In
+          </a>
           <Link
             to={pathname === '/' ? '#pricing' : '/#pricing'}
             onClick={handleSectionClick('pricing')}

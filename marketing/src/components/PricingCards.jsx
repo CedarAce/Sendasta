@@ -64,15 +64,8 @@ function Check() {
   );
 }
 
-const FREE_FEATURES = [
-  "Real-time wrong-recipient warning",
-  "Basic domain filter",
-  "Self-install in under 5 minutes",
-  "Works on Outlook web, desktop, and Mac",
-];
-
 const BUSINESS_FEATURES = [
-  "Everything in Personal, plus:",
+  "Real-time wrong-recipient warning",
   "Block specific domains for your whole team",
   "Shared rules and policies, set once",
   "Automatic rollout via Microsoft 365 Admin",
@@ -80,99 +73,55 @@ const BUSINESS_FEATURES = [
   "Priority email support",
 ];
 
-const ENTERPRISE_FEATURES = [
-  "Everything in Business, plus:",
-  "Dedicated onboarding session",
-  "We configure your domain policy with you",
-  "Priority support — 4-hour response time",
-  "Quarterly policy review",
-  "Audit logs and email alert history",
-  "Multi-team and department management",
-  "Dedicated account contact",
-];
-
-function Card({ highlight, children }) {
-  if (highlight) {
-    return (
-      <div
-        className="rounded-xl p-7 flex flex-col h-full relative ring-2 ring-blue-accent"
-        style={{ backgroundColor: "#EEF4FF" }}
-      >
-        <div className="absolute top-0 right-0 bg-blue-accent text-white text-xs font-semibold px-3 py-1 rounded-bl-lg">
-          Most Popular
-        </div>
-        {children}
-      </div>
-    );
-  }
-  return <div className="bg-white border border-gray-200 rounded-xl p-7 flex flex-col h-full">{children}</div>;
-}
-
 export default function PricingCards({ onContactClick }) {
-  const labelClass = (highlight) =>
-    `text-xs font-semibold uppercase tracking-wider ${highlight ? "text-blue-accent" : "text-gray-400"}`;
-
-  const priceClass = (highlight) => `text-4xl font-bold ${highlight ? "text-navy" : "text-gray-900"}`;
-
-  const subNoteClass = (highlight) => `mt-1 text-xs ${highlight ? "text-gray-500" : "text-gray-400"}`;
-
-  const descClass = (highlight) => `mt-3 text-sm leading-relaxed ${highlight ? "text-gray-700" : "text-gray-500"}`;
-
-  const dividerClass = (highlight) => `my-6 border-t ${highlight ? "border-blue-accent/20" : "border-gray-100"}`;
-
-  const featureTextClass = (highlight, isHeader) => {
-    if (isHeader) return "text-sm text-blue-accent font-medium";
-    return `text-sm ${highlight ? "text-gray-700" : "text-gray-600"}`;
-  };
+  const [yearly, setYearly] = useState(true);
 
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-3xl w-full mx-auto items-stretch">
-        {/* Personal */}
-        <Card>
-          <span className={labelClass(false)}>Personal</span>
-          <div className="mt-3 flex items-baseline gap-1.5">
-            <span className={priceClass(false)}>$0</span>
-          </div>
-          <p className={subNoteClass(false)}>Free forever</p>
-          <p className={descClass(false)}>For individuals who want to stop misdirected emails on their own inbox.</p>
-
-          <div className={dividerClass(false)} />
-
-          <ul className="flex flex-col gap-2.5 flex-1">
-            {FREE_FEATURES.map((f) => (
-              <li key={f} className="flex items-start gap-2.5">
-                <Check />
-                <span className={featureTextClass(false, false)}>{f}</span>
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            to="/for-it-admins"
-            onClick={() => trackEvent("select_plan", { plan: "free" })}
-            className="mt-8 block text-center border border-gray-300 hover:border-blue-accent hover:text-blue-accent text-gray-600 font-semibold py-2.5 rounded-lg transition-colors text-sm"
+      {/* Billing toggle */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center bg-gray-100 rounded-full p-1">
+          <button
+            onClick={() => setYearly(false)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              !yearly ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+            }`}
           >
-            Install Free
-          </Link>
-          <p className="text-center text-xs text-gray-400 mt-2.5">No account needed. Works immediately.</p>
-        </Card>
+            Monthly
+          </button>
+          <button
+            onClick={() => setYearly(true)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              yearly ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Yearly
+          </button>
+        </div>
+        <span className={`text-sm font-semibold text-blue-accent transition-opacity duration-150 ${yearly ? "opacity-100" : "opacity-0"}`}>
+          Save 20%
+        </span>
+      </div>
 
-        {/* Business */}
-        <Card highlight>
-          <span className={labelClass(true)}>Business</span>
-          <div className="mt-3 flex items-baseline gap-1.5">
-            <span className={priceClass(true)}>$4</span>
-            <span className="text-sm text-gray-500">/user/month</span>
+      {/* Business card — single centered card */}
+      <div className="w-full max-w-125 mx-auto">
+        <div className="rounded-xl p-8 flex flex-col ring-2 ring-blue-accent" style={{ backgroundColor: "#EEF4FF" }}>
+          <div className="mt-1 flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold text-navy">{yearly ? "$4" : "$5"}</span>
+            <span className="text-sm text-gray-500">per user / month</span>
           </div>
-          <p className={subNoteClass(true)}>Billed annually ($48/user/year). Or $5/user/month billed monthly. 5-user minimum.</p>
-          <p className={descClass(true)}>For small firms where one wrong email can end a client relationship. Cheaper than one billable hour spent fixing a misdirected email.</p>
-          <div className={dividerClass(true)} />
-          <ul className="flex flex-col gap-2.5 flex-1">
+
+          <p className="mt-3 text-sm leading-relaxed text-gray-700">
+            From small businesses to large enterprises — wherever a misdirected email can't be undone.
+          </p>
+
+          <div className="my-6 border-t border-blue-accent/20" />
+
+          <ul className="flex flex-col gap-2.5">
             {BUSINESS_FEATURES.map((f) => (
               <li key={f} className="flex items-start gap-2.5">
                 <Check />
-                <span className={featureTextClass(true, f.startsWith("Everything"))}>{f}</span>
+                <span className="text-sm text-gray-700">{f}</span>
               </li>
             ))}
           </ul>
@@ -199,7 +148,7 @@ export default function PricingCards({ onContactClick }) {
             </button>
           )}
           <p className="text-center text-xs text-gray-500 mt-2.5">No credit card. Full access. Cancel anytime.</p>
-        </Card>
+        </div>
       </div>
 
       <p className="text-sm text-gray-400 text-center max-w-md">

@@ -286,7 +286,7 @@ function Hero({ onDemoClick }) {
             to="/for-it-admins"
             className="w-full sm:w-auto px-8 py-3.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold rounded-lg transition-colors text-sm"
           >
-            Try Free — 5 min install
+            Try Free Now
           </Link>
           <button
             onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
@@ -314,31 +314,6 @@ function Hero({ onDemoClick }) {
   )
 }
 
-/* ─── Autocomplete Trap ─────────────────────────────────────────────────── */
-
-function AutocompleteTrap() {
-  return (
-    <section className="py-20 px-6 bg-white">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-snug">
-          Outlook autocomplete was built for 2003.
-        </h2>
-        <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-          Back then your contact list had 50 names and the worst-case mistake was an awkward apology. Today it has thousands, half of them similar, and one wrong selection sends a privileged document to a competitor, a former client, or somebody's personal Gmail.
-        </p>
-        <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-          Outlook hasn't fixed this. The feature is unchanged. The stakes aren't.
-        </p>
-        <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-          Sendasta is the layer that should have been built into Outlook fifteen years ago.
-        </p>
-        <p className="mt-8 text-sm text-gray-400">
-          Used in environments subject to GDPR, PIPEDA, and confidentiality obligations like attorney-client privilege.
-        </p>
-      </div>
-    </section>
-  )
-}
 
 /* ─── Problem + How It Works ────────────────────────────────────────────── */
 
@@ -372,6 +347,13 @@ function ProblemAndHowItWorks() {
             You start typing a name. Outlook fills in the rest. You attach the file, hit send, and a second later realize the autocomplete grabbed the wrong contact — the one with the similar last name, the old client, the personal address. By then it's gone.
           </p>
           <AutocompleteFigure />
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            {['GDPR', 'PIPEDA', 'Attorney-Client Privilege'].map(badge => (
+              <span key={badge} className="text-xs font-medium text-blue-accent bg-blue-accent/10 border border-blue-accent/20 px-3 py-1.5 rounded-full">
+                {badge}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Bridge */}
@@ -514,7 +496,7 @@ function PricingSection({ onContactClick }) {
         <div className="text-center mb-16">
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Pricing</span>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-            Two plans. No surprises.
+            Simple, fair pricing.
           </h2>
         </div>
 
@@ -549,6 +531,73 @@ function SetupCallout() {
             </svg>
           </Link>
         </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── FAQ Section ───────────────────────────────────────────────────────── */
+
+const HOME_FAQS = [
+  {
+    q: 'Does Sendasta read or store my emails?',
+    a: 'No. Sendasta only checks recipient addresses against your rules at the moment you click Send — it never reads the subject line, body, or attachments. Nothing is sent to Sendasta servers.',
+  },
+  {
+    q: 'Which versions of Outlook does it support?',
+    a: 'Sendasta works on Outlook on the web, Outlook for Windows, and new Outlook for Mac. It requires a Microsoft 365 account.',
+  },
+  {
+    q: 'Does it block emails or just warn?',
+    a: 'Both — your choice. You can set domains to trigger a warning (confirm before sending) or a hard block (email is stopped until the flagged recipient is removed).',
+  },
+  {
+    q: 'Do employees need to set it up themselves after an admin deploys it?',
+    a: 'No. Admins push shared rules to the whole team automatically. Sendasta is active in everyone\'s Outlook from day one, with your rules already applied.',
+  },
+  {
+    q: 'Is there a free trial for the paid plan?',
+    a: '30 days, full access, no credit card required. Email info@sendasta.com and we\'ll get you set up.',
+  },
+]
+
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border-b border-gray-100 last:border-0">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-start justify-between gap-4 py-5 text-left group"
+      >
+        <span className="text-sm font-medium text-gray-900 group-hover:text-navy transition-colors leading-snug">{q}</span>
+        <span className={`shrink-0 mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${open ? 'bg-blue-accent border-blue-accent' : 'border-gray-300 group-hover:border-blue-accent'}`}>
+          <svg className={`w-2.5 h-2.5 transition-transform ${open ? 'rotate-180 text-white' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </button>
+      {open && <p className="pb-5 text-sm text-gray-600 leading-relaxed -mt-1">{a}</p>}
+    </div>
+  )
+}
+
+function FAQSection() {
+  return (
+    <section className="py-20 px-6 bg-gray-50">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">FAQ</span>
+          <h2 className="mt-3 text-2xl md:text-3xl font-bold text-gray-900">Common questions</h2>
+        </div>
+        <div className="border-t border-gray-200">
+          {HOME_FAQS.map(item => <FAQItem key={item.q} {...item} />)}
+        </div>
+        <p className="mt-8 text-center text-sm text-gray-400">
+          More questions?{' '}
+          <Link to="/faq" className="text-blue-accent hover:underline">See the full FAQ</Link>
+          {' '}or{' '}
+          <a href="mailto:info@sendasta.com" className="text-blue-accent hover:underline">email us directly</a>.
+        </p>
       </div>
     </section>
   )
@@ -722,11 +771,11 @@ export default function Home() {
   return (
     <main>
       <Hero onDemoClick={scrollToForm} />
-      <AutocompleteTrap />
       <ProblemAndHowItWorks />
       <Features />
       <StatsSection />
       <PricingSection onContactClick={scrollToForm} />
+      <FAQSection />
       <SetupCallout />
       <ContactForm formRef={formRef} />
     </main>
