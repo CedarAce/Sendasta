@@ -1,7 +1,8 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
-import puppeteer from 'puppeteer';
+import chromium from '@sparticuz/chromium';
+import puppeteer from 'puppeteer-core';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,13 +57,14 @@ server.listen(0, async () => {
   console.log(`Static server started on port ${port}`);
 
   try {
-    const executablePath = puppeteer.executablePath();
+    const executablePath = await chromium.executablePath();
     console.log(`Using Chromium from: ${executablePath}`);
-    
+
     const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
       executablePath,
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: chromium.headless,
     });
 
     const routes = ['/', '/for-it-admins'];
