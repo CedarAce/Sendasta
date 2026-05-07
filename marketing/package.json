@@ -13,7 +13,6 @@
     "destination": "../public",
     "include": ["/", "/for-it-admins"],
     "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"],
-    "puppeteerExecutablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "crawl": false,
     "skipThirdPartyRequests": true,
     "minifyHtml": { "collapseWhitespace": false, "removeComments": false }
