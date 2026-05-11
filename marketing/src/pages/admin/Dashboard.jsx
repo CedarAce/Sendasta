@@ -37,7 +37,7 @@ export default function Dashboard() {
         <h2 className="text-base font-semibold text-navy mb-2">Getting started</h2>
         <ol className="text-sm text-gray-700 space-y-2 list-decimal pl-5">
           <li>
-            Configure your <strong>Block List</strong> and <strong>Bypass List</strong> for
+            Configure your <strong>Warning List</strong> and <strong>Bypass List</strong> for
             organization-wide policies.
           </li>
           <li>

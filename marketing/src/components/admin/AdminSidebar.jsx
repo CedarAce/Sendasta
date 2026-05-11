@@ -5,7 +5,7 @@ const NAV_ITEMS = [
   { to: '/admin', label: 'Dashboard', end: true, icon: HomeIcon },
   { to: '/admin/users', label: 'Users', icon: UsersIcon },
   { to: '/admin/alert-lists', label: 'Alert Lists', icon: BellIcon },
-  { to: '/admin/block-list', label: 'Block List', icon: ShieldIcon },
+  { to: '/admin/warning-list', label: 'Warning List', icon: ShieldIcon },
   { to: '/admin/bypass-list', label: 'Bypass List', icon: CheckIcon },
   { to: '/admin/billing', label: 'Billing', icon: CardIcon },
   { to: '/admin/languages', label: 'Languages', icon: GlobeIcon },
@@ -67,7 +67,7 @@ export default function AdminSidebar() {
 function Icon({ children }) {
   return (
     <svg
-      className="w-4 h-4 flex-shrink-0"
+      className="w-4 h-4 shrink-0"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

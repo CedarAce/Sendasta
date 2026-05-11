@@ -279,7 +279,7 @@ function Hero({ onDemoClick }) {
           The wrong recipient is one autocomplete away.
         </h1>
         <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-          Sendasta watches every email leaving your firm and stops the ones going to the wrong person — the competitor, the former client, the John Smith nobody meant to email. Before it lands in the wrong inbox.
+          Sendasta catches every email going to the wrong person — the competitor, the former client, the John Smith nobody meant to email — and warns you the moment before it lands. One last check, so you can catch the mistake yourself.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
@@ -548,8 +548,8 @@ const HOME_FAQS = [
     a: 'Sendasta works on Outlook on the web, Outlook for Windows, and new Outlook for Mac. It requires a Microsoft 365 account.',
   },
   {
-    q: 'Does it block emails or just warn?',
-    a: 'Both — your choice. You can set domains to trigger a warning (confirm before sending) or a hard block (email is stopped until the flagged recipient is removed).',
+    q: 'Does it block emails, or just warn?',
+    a: 'It warns. When you click Send, Sendasta checks the recipients against your rules and shows a popup if something matches — the wrong domain, a competitor, a mixed thread. You can fix the recipients, or send anyway if it\'s a false alarm. The decision is always yours.',
   },
   {
     q: 'Do employees need to set it up themselves after an admin deploys it?',

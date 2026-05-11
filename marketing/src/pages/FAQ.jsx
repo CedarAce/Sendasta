@@ -45,12 +45,12 @@ const FAQS = [
         a: "Before the email leaves your outbox, Sendasta checks the recipient list against your configured rules. If everything is fine, the email sends normally — you won't notice anything. If a recipient matches a blocked domain or a flagged combination, Sendasta pauses the send and shows you a warning.",
       },
       {
-        q: 'Does Sendasta block emails or just warn?',
-        a: 'Both, depending on your rules. You can set domains to trigger a warning (where you confirm before sending) or a hard block (where the email is stopped until you remove the flagged recipient). You can also configure trusted combinations that are always allowed through without prompting.',
+        q: 'Does Sendasta block emails, or just warn?',
+        a: 'It warns. When you click Send, Sendasta checks the recipients against your rules and shows a popup if something matches — the wrong domain, a competitor, a mixed thread. You can also configure trusted combinations that are always allowed through without prompting. The decision to send is always yours.',
       },
       {
         q: 'What if I genuinely need to send to a flagged domain?',
-        a: "If a domain is set to warn rather than hard-block, you'll see a confirmation prompt. You can review the recipients and choose \"Send Anyway\" to proceed. Hard-blocked domains require you to remove the recipient before sending.",
+        a: "You'll see a confirmation prompt with the recipients and the rule that fired. Review it, and if the warning's a false alarm, choose \"Send Anyway\" to proceed. You can also add the recipient pair to your Trusted list so you're not asked again.",
       },
       {
         q: 'Can I flag combinations of recipients — not just individual domains?',

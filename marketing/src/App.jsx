@@ -17,7 +17,7 @@ import AdminLayout from './components/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import Users from './pages/admin/Users'
 import AlertLists from './pages/admin/AlertLists'
-import BlockList from './pages/admin/BlockList'
+import WarningList from './pages/admin/WarningList'
 import BypassList from './pages/admin/BypassList'
 import Billing from './pages/admin/Billing'
 import Languages from './pages/admin/Languages'
@@ -65,7 +65,7 @@ export default function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/alert-lists" element={<AlertLists />} />
-          <Route path="/admin/block-list" element={<BlockList />} />
+          <Route path="/admin/warning-list" element={<WarningList />} />
           <Route path="/admin/bypass-list" element={<BypassList />} />
           <Route path="/admin/billing" element={<Billing />} />
           <Route path="/admin/languages" element={<Languages />} />

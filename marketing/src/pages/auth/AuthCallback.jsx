@@ -30,7 +30,7 @@ export default function AuthCallback() {
   }, [navigate])
 
   return (
-    <div className="min-h-screen bg-navy flex items-center justify-center text-gray-400 text-sm">
+    <div className="min-h-screen bg-linear-to-br from-navy-700 via-navy to-navy flex items-center justify-center text-gray-300 text-sm">
       {error ? `Error: ${error}` : 'Signing you in…'}
     </div>
   )
