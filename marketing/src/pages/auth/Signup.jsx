@@ -7,6 +7,7 @@ const INPUT =
   'w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-accent focus:ring-2 focus:ring-blue-accent/15 transition-shadow'
 
 export default function Signup() {
+  const [fullName, setFullName] = useState('')
   const [companyName, setCompanyName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -31,7 +32,7 @@ export default function Signup() {
       email,
       password,
       options: {
-        data: { company_name: companyName },
+        data: { full_name: fullName.trim(), company_name: companyName },
         emailRedirectTo: window.location.origin + '/auth/callback',
       },
     })
@@ -108,6 +109,18 @@ export default function Signup() {
       </div>
 
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium text-gray-700">Full name</span>
+          <input
+            type="text"
+            required
+            autoComplete="name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className={INPUT}
+          />
+        </label>
+
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-gray-700">Company name</span>
           <input
