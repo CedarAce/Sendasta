@@ -4,6 +4,12 @@
     { "source": "/pricing", "destination": "/index.html" },
     { "source": "/faq", "destination": "/index.html" },
     { "source": "/privacy-policy", "destination": "/index.html" },
-    { "source": "/terms-of-service", "destination": "/index.html" }
+    { "source": "/terms-of-service", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/signup", "destination": "/index.html" },
+    { "source": "/forgot-password", "destination": "/index.html" },
+    { "source": "/reset-password", "destination": "/index.html" },
+    { "source": "/auth/callback", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" }
   ]
 }
