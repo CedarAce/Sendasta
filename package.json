@@ -29,9 +29,11 @@
   },
   "dependencies": {
     "@microsoft/office-js": "^1.1.91",
+    "@supabase/supabase-js": "^2.105.4",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.0.10",
     "core-js": "^3.9.1",
+    "jose": "^6.2.3",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {

@@ -19,6 +19,8 @@ module.exports = async (env, options) => {
       polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
       taskpane: ["./src/taskpane/taskpane.js", "./src/taskpane/taskpane.html"],
       commands: "./src/commands/commands.js",
+      "taskpane-v2": ["./src/taskpane-v2/taskpane.js", "./src/taskpane-v2/taskpane.html"],
+      "commands-v2": "./src/commands-v2/commands.js",
     },
     output: {
       path: path.resolve(__dirname, 'public'), // Add this line
@@ -88,6 +90,16 @@ module.exports = async (env, options) => {
         filename: "commands.html",
         template: "./src/commands/commands.html",
         chunks: ["polyfill", "commands"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "taskpane-v2.html",
+        template: "./src/taskpane-v2/taskpane.html",
+        chunks: ["polyfill", "taskpane-v2"],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "commands-v2.html",
+        template: "./src/commands-v2/commands.html",
+        chunks: ["polyfill", "commands-v2"],
       }),
     ],
     devServer: {
