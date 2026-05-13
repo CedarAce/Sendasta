@@ -23,8 +23,12 @@ module.exports = async (env, options) => {
       "commands-v2": "./src/commands-v2/commands.js",
     },
     output: {
-      path: path.resolve(__dirname, 'public'), // Add this line
-      clean: !process.env.VERCEL,
+      path: path.resolve(__dirname, 'public'),
+      // Don't clean public/ — the marketing site's Vite build also emits here,
+      // and webpack overwrites its own files deterministically anyway. Cleaning
+      // wipes the marketing site (index.html, for-it-admins/, hashed assets)
+      // every time `npm run build:addin` runs locally.
+      clean: false,
     },
     resolve: {
       extensions: [".html", ".js"],
