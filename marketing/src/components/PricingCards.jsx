@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // ▼ Replace with your Stripe Payment Link once created at dashboard.stripe.com
@@ -51,10 +50,10 @@ function ContactModal({ onClose }) {
   );
 }
 
-function Check() {
+function Check({ muted }) {
   return (
     <svg
-      className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-accent"
+      className={`w-4 h-4 flex-shrink-0 mt-0.5 ${muted ? "text-gray-400" : "text-blue-accent"}`}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -64,60 +63,87 @@ function Check() {
   );
 }
 
+const PERSONAL_FEATURES = [
+  "Real-time conflicting-domain warning",
+  "One-click enable / disable",
+  "Works on Outlook web, desktop & Mac",
+  "Self-install in under 5 minutes",
+];
+
 const BUSINESS_FEATURES = [
-  "Real-time wrong-recipient warning",
   "Block specific domains for your whole team",
-  "Shared rules and policies, set once",
+  "Internal-domain bypass list",
+  "No-combine pairs for conflicting clients",
+  "Trusted pairs to silence false alarms",
+  "Cc & Bcc recipient checking",
+  "Central admin console — set rules once",
   "Automatic rollout via Microsoft 365 Admin",
-  "Choose which team members get it",
   "Priority email support",
 ];
 
 export default function PricingCards({ onContactClick }) {
-  const [yearly, setYearly] = useState(true);
-
   return (
     <div className="flex flex-col items-center gap-8">
-      {/* Billing toggle */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center bg-gray-100 rounded-full p-1">
-          <button
-            onClick={() => setYearly(false)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              !yearly ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setYearly(true)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              yearly ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Yearly
-          </button>
-        </div>
-        <span className={`text-sm font-semibold text-blue-accent transition-opacity duration-150 ${yearly ? "opacity-100" : "opacity-0"}`}>
-          Save 20%
-        </span>
-      </div>
+      {/* Two tiers side by side */}
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        {/* Personal — free */}
+        <div className="rounded-xl p-8 flex flex-col bg-white ring-1 ring-gray-200 h-full">
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Personal</span>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold text-navy">$0</span>
+            <span className="text-sm text-gray-500">free forever</span>
+          </div>
 
-      {/* Business card — single centered card */}
-      <div className="w-full max-w-125 mx-auto">
-        <div className="rounded-xl p-8 flex flex-col ring-2 ring-blue-accent" style={{ backgroundColor: "#EEF4FF" }}>
-          <div className="mt-1 flex items-baseline gap-1.5">
-            <span className="text-4xl font-bold text-navy">{yearly ? "$4" : "$5"}</span>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">
+            For individuals who want to stop misdirected emails in their own inbox. No account, no sign-in.
+          </p>
+
+          <div className="my-6 border-t border-gray-200" />
+
+          <ul className="flex flex-col gap-2.5 flex-1">
+            {PERSONAL_FEATURES.map((f) => (
+              <li key={f} className="flex items-start gap-2.5">
+                <Check muted />
+                <span className="text-sm text-gray-700">{f}</span>
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            to="/for-it-admins"
+            onClick={() => trackEvent("select_plan", { plan: "personal" })}
+            className="mt-8 block text-center bg-gray-900 hover:bg-gray-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+          >
+            Install Free
+          </Link>
+          <p className="text-center text-xs text-gray-500 mt-2.5">No account needed. Works immediately.</p>
+        </div>
+
+        {/* Business — paid */}
+        <div className="rounded-xl p-8 flex flex-col ring-2 ring-blue-accent h-full" style={{ backgroundColor: "#EEF4FF" }}>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Business</span>
+            <span className="text-xs font-semibold text-blue-accent bg-white/70 px-2 py-0.5 rounded-full">
+              Most popular
+            </span>
+          </div>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold text-navy">$5</span>
             <span className="text-sm text-gray-500">per user / month</span>
           </div>
 
           <p className="mt-3 text-sm leading-relaxed text-gray-700">
-            From small businesses to large enterprises — wherever a misdirected email can't be undone.
+            Everything in Personal, plus team-wide rules and a central admin console — wherever a
+            misdirected email can't be undone.
           </p>
 
           <div className="my-6 border-t border-blue-accent/20" />
 
-          <ul className="flex flex-col gap-2.5">
+          <ul className="flex flex-col gap-2.5 flex-1">
+            <li className="flex items-start gap-2.5">
+              <Check />
+              <span className="text-sm font-semibold text-gray-800">Everything in Personal, plus:</span>
+            </li>
             {BUSINESS_FEATURES.map((f) => (
               <li key={f} className="flex items-start gap-2.5">
                 <Check />
@@ -147,7 +173,9 @@ export default function PricingCards({ onContactClick }) {
               Start 30-day free trial
             </button>
           )}
-          <p className="text-center text-xs text-gray-500 mt-2.5">No credit card. Full access. Cancel anytime.</p>
+          <p className="text-center text-xs text-gray-500 mt-2.5">
+            No credit card. Cancel anytime.
+          </p>
         </div>
       </div>
 

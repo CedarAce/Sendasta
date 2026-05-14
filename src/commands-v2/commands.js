@@ -60,7 +60,11 @@ function onMessageSendHandler(event) {
     return;
   }
 
-  const includeCcBcc = Office.context.roamingSettings.get("includeCcBcc") ?? true;
+  // Cc/Bcc checking is a Business-tier feature. Personal (and any session
+  // where the tier hasn't been resolved yet) only checks the To field.
+  const tier = Office.context.roamingSettings.get("tier");
+  const includeCcBcc =
+    tier === "business" ? (Office.context.roamingSettings.get("includeCcBcc") ?? true) : false;
   const blockedDomains = getListSetting("blockedDomains");
   const noCombinePairs = getListSetting("noCombinePairs");
   const allowedPairs = getListSetting("allowedPairs");

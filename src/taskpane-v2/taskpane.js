@@ -88,6 +88,8 @@ function pairsToTuples(pairs) {
 function renderPersonalUI() {
   document.getElementById("proUpsellCard").hidden = false;
   document.getElementById("managedBanner").hidden = true;
+  // Cc/Bcc checking is a Business-tier feature.
+  document.getElementById("ccBccContainer").hidden = true;
   document.getElementById("internalDomainsContainer").hidden = true;
   document.getElementById("blockedDomainsContainer").hidden = true;
   document.getElementById("noCombineContainer").hidden = true;

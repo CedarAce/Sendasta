@@ -6,19 +6,19 @@ import { usePageMeta } from '../hooks/usePageMeta'
 const FAQ_ITEMS = [
   {
     q: 'Do I need to be technical to set this up?',
-    a: 'Not at all. Installing Sendasta for yourself takes about 5 minutes and just involves adding it from a URL inside Outlook — no code, no IT knowledge needed. If you want to roll it out to your whole team at once, we have a simple step-by-step guide that walks you through it. Enterprise customers get a dedicated onboarding session where we handle setup for you.',
+    a: 'Not at all. Installing Sendasta for yourself takes about 5 minutes and just involves adding it from a URL inside Outlook — no code, no IT knowledge needed. If you want to roll it out to your whole team at once, we have a simple step-by-step guide that walks you through it.',
   },
   {
-    q: 'What is the difference between Business and Enterprise?',
-    a: 'Business is self-serve — you set up your rules, roll it out to your team, and manage settings yourself. Enterprise is for larger organizations and includes a dedicated onboarding session, we configure your domain policies for you, priority support with a 4-hour response time, quarterly review calls, audit logs, and a named account contact. Pricing is custom based on your team size.',
+    q: 'What is the difference between Personal and Business?',
+    a: 'Personal is free forever — it gives every individual real-time conflicting-domain warnings in their own inbox, with no account or sign-in required. Business is for teams: a central admin console where you set domain rules once (blocked domains, internal-domain bypass, no-combine pairs, trusted pairs), Cc and Bcc recipient checking, automatic rollout via Microsoft 365 Admin, and priority support.',
   },
   {
     q: 'Does this require the Microsoft AppSource store?',
     a: 'No. Sendasta is installed directly — either by you in Outlook, or across your team via the Microsoft 365 admin settings. No store approval, no waiting, no IT helpdesk ticket.',
   },
   {
-    q: 'Can I try Business or Enterprise before paying?',
-    a: "Yes. Send us a message and we'll set you up with a trial so you can see the full feature set in action before committing to anything.",
+    q: 'Can I try Business before paying?',
+    a: "Yes — Business comes with a 30-day free trial, no credit card required. If you have a larger team or specific compliance requirements, email info@sendasta.com and we'll set you up with whatever you need.",
   },
   {
     q: 'What information does Sendasta see?',
@@ -52,8 +52,8 @@ function FAQItem({ q, a }) {
 
 export default function Pricing() {
   usePageMeta({
-    title: 'Pricing — Sendasta | Free, Business & Enterprise Plans',
-    description: 'Free for personal use. $299/year for teams of any size. Enterprise plans with dedicated onboarding for larger organizations. No contracts, cancel anytime.',
+    title: 'Pricing — Sendasta | Free Personal & Business Plans',
+    description: 'Free forever for personal use. $4/user/month for teams — central admin console, team-wide domain rules, and Microsoft 365 rollout. No contracts, cancel anytime.',
     canonical: 'https://sendasta.com/pricing',
   })
 
@@ -88,8 +88,8 @@ export default function Pricing() {
       <section className="py-10 px-6 bg-white border-y border-gray-100">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-gray-600 text-sm">
-            All plans include real-time wrong-recipient warnings. Business adds team-wide rules and rollout.
-            Enterprise adds hands-on setup, audit logs, and dedicated support.{' '}
+            Personal is free forever — real-time conflicting-domain warnings, no account needed.
+            Business adds team-wide domain rules, a central admin console, and Microsoft 365 rollout.{' '}
             <Link to="/for-it-admins" className="text-blue-accent hover:underline">
               View deployment guide
             </Link>
