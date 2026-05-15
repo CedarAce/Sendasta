@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
 
-const MANIFEST_URL = 'https://sendasta.com/manifest-sendasta.xml'
+const MANIFEST_URL = 'https://sendasta.com/sendasta-manifest.xml'
 
 const DEPLOY_STEPS = [
   {

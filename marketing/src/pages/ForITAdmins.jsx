@@ -7,7 +7,7 @@ const SELF_INSTALL_STEPS = [
       <>
         Click the download button above to save{' '}
         <code className="bg-gray-100 text-gray-800 text-xs font-mono px-1.5 py-0.5 rounded border border-gray-200">
-          manifest-sendasta.xml
+          sendasta-manifest.xml
         </code>{' '}
         to your computer. You'll need this file in the next step.
       </>
@@ -31,7 +31,7 @@ const SELF_INSTALL_STEPS = [
   },
   {
     title: 'Upload the manifest file',
-    detail: 'In the left pane, select "My add-ins". Scroll to the bottom to find "Custom Add-ins". Click "Add a custom add-in" → "Add from file", then select the manifest-sendasta.xml file you downloaded.',
+    detail: 'In the left pane, select "My add-ins". Scroll to the bottom to find "Custom Add-ins". Click "Add a custom add-in" → "Add from file", then select the sendasta-manifest.xml file you downloaded.',
   },
   {
     title: 'Confirm the installation',
@@ -82,7 +82,7 @@ export default function ForITAdmins() {
         <>
           Enter the following URL and click "Install":<br />
           <code className="mt-2 inline-block bg-gray-100 text-gray-800 text-sm font-mono px-3 py-1.5 rounded border border-gray-200">
-            https://sendasta.com/manifest-sendasta.xml
+            https://sendasta.com/sendasta-manifest.xml
           </code>
         </>
       ),
@@ -153,14 +153,14 @@ export default function ForITAdmins() {
 
             {/* Download button */}
             <a
-              href="/manifest-sendasta.xml"
-              download="manifest-sendasta.xml"
+              href="/sendasta-manifest.xml"
+              download="sendasta-manifest.xml"
               className="mt-5 inline-flex items-center gap-2.5 bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              Download manifest-sendasta.xml
+              Download sendasta-manifest.xml
             </a>
             <p className="mt-2 text-xs text-gray-400">Small XML file — your browser will save it to your Downloads folder</p>
           </div>
