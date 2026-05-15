@@ -84,11 +84,11 @@ const FAQS = [
       },
       {
         q: 'What does the paid plan include?',
-        a: 'The paid plan adds team-wide shared rules, organization-level domain blocking, automatic rollout via Microsoft 365 Admin, and priority support. It starts at $4 per user per month billed annually, or $5 month-to-month.',
+        a: 'The Business plan adds team-wide shared rules, organization-level domain blocking, Cc/Bcc recipient checking, automatic rollout via Microsoft 365 Admin, and priority support. $5 per user per month, flat.',
       },
       {
         q: 'Is there a free trial for the paid plan?',
-        a: "Yes — 30 days, full access, no credit card required. Get in touch at info@sendasta.com and we'll get you set up.",
+        a: "Yes — 30 days, full access. Cancel anytime before the trial ends and you won't be charged. Get in touch at info@sendasta.com and we'll get you set up.",
       },
     ],
   },

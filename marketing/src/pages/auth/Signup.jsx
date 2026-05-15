@@ -78,7 +78,7 @@ export default function Signup() {
   return (
     <AuthLayout
       title="Start your free trial"
-      subtitle="30 days free. No credit card required."
+      subtitle="30 days free. Cancel anytime before the trial ends to avoid being charged."
       footer={
         <>
           Already have an account?{' '}

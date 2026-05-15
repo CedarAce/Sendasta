@@ -18,7 +18,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I try Business before paying?',
-    a: "Yes — Business comes with a 30-day free trial, no credit card required. If you have a larger team or specific compliance requirements, email info@sendasta.com and we'll set you up with whatever you need.",
+    a: "Yes — Business comes with a 30-day free trial. You won't be charged until the trial ends, and you can cancel anytime before then. If you have a larger team or specific compliance requirements, email info@sendasta.com and we'll set you up with whatever you need.",
   },
   {
     q: 'What information does Sendasta see?',

@@ -480,7 +480,7 @@ function StatsSection() {
         </div>
         <div className="mt-14 text-center border-t border-white/10 pt-10">
           <p className="text-xl md:text-2xl font-bold text-white">One click is all it takes.</p>
-          <p className="mt-3 text-gray-300 max-w-xl mx-auto">One misdirected email can end a client relationship that took years to build. Sendasta protects your team for $4 per user per month.</p>
+          <p className="mt-3 text-gray-300 max-w-xl mx-auto">One misdirected email can end a client relationship that took years to build. Sendasta protects your team for $5 per user per month.</p>
         </div>
       </div>
     </section>
@@ -557,7 +557,7 @@ const HOME_FAQS = [
   },
   {
     q: 'Is there a free trial for the paid plan?',
-    a: '30 days, full access, no credit card required. Email info@sendasta.com and we\'ll get you set up.',
+    a: '30 days, full access. Cancel anytime before the trial ends and you won\'t be charged. Email info@sendasta.com and we\'ll get you set up.',
   },
 ]
 

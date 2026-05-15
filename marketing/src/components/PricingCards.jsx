@@ -119,14 +119,9 @@ export default function PricingCards({ onContactClick }) {
           <p className="text-center text-xs text-gray-500 mt-2.5">No account needed. Works immediately.</p>
         </div>
 
-        {/* Business — paid */}
+        {/* Business — paid (visually highlighted) */}
         <div className="rounded-xl p-8 flex flex-col ring-2 ring-blue-accent h-full" style={{ backgroundColor: "#EEF4FF" }}>
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Business</span>
-            <span className="text-xs font-semibold text-blue-accent bg-white/70 px-2 py-0.5 rounded-full">
-              Most popular
-            </span>
-          </div>
+          <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Business</span>
           <div className="mt-3 flex items-baseline gap-1.5">
             <span className="text-4xl font-bold text-navy">$5</span>
             <span className="text-sm text-gray-500">per user / month</span>
@@ -174,7 +169,7 @@ export default function PricingCards({ onContactClick }) {
             </button>
           )}
           <p className="text-center text-xs text-gray-500 mt-2.5">
-            No credit card. Cancel anytime.
+            30-day free trial, then $5/user/month. Cancel anytime.
           </p>
         </div>
       </div>

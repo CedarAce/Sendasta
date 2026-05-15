@@ -11,7 +11,7 @@ export default function Billing() {
       <TodoBanner>TODO: wire to Stripe</TodoBanner>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Stat label="Current plan" value="Business" hint="$4 per user / month" />
+        <Stat label="Current plan" value="Business" hint="$5 per user / month" />
         <Stat label="Seats" value="12 / 25" hint="13 available" />
         <Stat label="Next renewal" value="Mar 5, 2027" hint="Billed annually" />
       </div>
