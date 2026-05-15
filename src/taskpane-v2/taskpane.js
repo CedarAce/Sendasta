@@ -85,29 +85,47 @@ function pairsToTuples(pairs) {
 
 // ── Tier UI renderers ──────────────────────────────────────────────────────────
 
+const BUSINESS_FEATURE_CONTAINERS = [
+  "ccBccContainer",
+  "internalDomainsContainer",
+  "blockedDomainsContainer",
+  "noCombineContainer",
+  "trustedPairsContainer",
+];
+
 function renderPersonalUI() {
-  document.getElementById("proUpsellCard").hidden = false;
+  document.getElementById("freePlanBanner").hidden = false;
   document.getElementById("managedBanner").hidden = true;
-  // Cc/Bcc checking is a Business-tier feature.
-  document.getElementById("ccBccContainer").hidden = true;
-  document.getElementById("internalDomainsContainer").hidden = true;
-  document.getElementById("blockedDomainsContainer").hidden = true;
-  document.getElementById("noCombineContainer").hidden = true;
-  document.getElementById("trustedPairsContainer").hidden = true;
+  document.getElementById("proUpsellCard").hidden = false;
+
+  // Show the Business feature cards but lock them: greyed out, no inputs,
+  // a "Business" badge in the title. CSS does the heavy lifting via .tier-locked.
+  BUSINESS_FEATURE_CONTAINERS.forEach((id) => {
+    const el = document.getElementById(id);
+    el.hidden = false;
+    el.classList.add("tier-locked");
+    el.classList.remove("managed-readonly");
+  });
 }
 
 function renderBusinessUI(me) {
+  document.getElementById("freePlanBanner").hidden = true;
   document.getElementById("proUpsellCard").hidden = true;
 
   const banner = document.getElementById("managedBanner");
   document.getElementById("managedOrgName").textContent = me.orgName || "your organization";
   banner.hidden = false;
 
+  BUSINESS_FEATURE_CONTAINERS.forEach((id) => {
+    const el = document.getElementById(id);
+    el.hidden = false;
+    el.classList.remove("tier-locked");
+  });
+
+  // The four list cards become read-only mirrors of the org policy.
   ["internalDomainsContainer", "blockedDomainsContainer", "noCombineContainer", "trustedPairsContainer"].forEach(
     (id) => {
-      const el = document.getElementById(id);
-      el.hidden = false;
-      el.classList.add("managed-readonly");
+      document.getElementById(id).classList.add("managed-readonly");
     }
   );
 

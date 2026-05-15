@@ -56,6 +56,13 @@
     </section>
 
     <main id="app-body" class="app-body app-body--hidden">
+      <!-- Free plan banner (Personal tier only) -->
+      <div id="freePlanBanner" class="free-plan-banner" hidden>
+        <div class="free-plan-banner__body">
+          You're on the <strong>Free plan</strong> — conflicting-domain warning on every send.
+        </div>
+      </div>
+
       <!-- Managed banner (Business tier only) -->
       <div id="managedBanner" class="managed-banner" hidden>
         <span class="managed-banner__icon">🛡️</span>
@@ -105,7 +112,10 @@
       <div class="setting-card" id="ccBccContainer">
         <div class="setting-header">
           <div class="setting-label-group">
-            <span class="ms-font-m setting-title">Include Cc / Bcc</span>
+            <span class="ms-font-m setting-title">
+              Include Cc / Bcc
+              <span class="tier-locked-badge">Business</span>
+            </span>
             <span class="ms-font-xs setting-desc">Also check Cc and Bcc fields for domain mismatches.</span>
           </div>
           <label class="switch">
@@ -115,27 +125,12 @@
         </div>
       </div>
 
-      <!-- Pro upsell card (Personal tier only) -->
-      <div id="proUpsellCard" class="setting-card pro-upsell-card" hidden>
-        <h3><span class="tier-locked-icon">🔒</span> Advanced policy controls</h3>
-        <p>Set org-wide rules so your whole team is protected:</p>
-        <ul>
-          <li>Block competitor or off-limits domains</li>
-          <li>Bypass list for your own internal domains</li>
-          <li>No-combine pairs for clients that must stay separated</li>
-          <li>Trusted pairs to silence false alarms</li>
-        </ul>
-        <a
-          class="pro-upsell-cta"
-          href="https://sendasta.com/pricing?utm_source=addin&utm_medium=upsell"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Upgrade to Business →</a>
-      </div>
-
-      <!-- Internal Domains (Business tier only) -->
-      <div class="setting-card list-card" id="internalDomainsContainer" hidden>
-        <span class="ms-font-m setting-title">Internal Domains</span>
+      <!-- Internal Domains -->
+      <div class="setting-card list-card" id="internalDomainsContainer">
+        <span class="ms-font-m setting-title">
+          Internal Domains
+          <span class="tier-locked-badge">Business</span>
+        </span>
         <span class="ms-font-xs setting-desc"
           >Treat these domains as your own — they won't trigger multi-domain alerts (e.g. a subsidiary or sister
           company).</span
@@ -153,9 +148,12 @@
         <ul id="internalDomainList" class="domain-list"></ul>
       </div>
 
-      <!-- Blocked Domains (Business tier only) -->
-      <div class="setting-card list-card" id="blockedDomainsContainer" hidden>
-        <span class="ms-font-m setting-title">Blocked Domains</span>
+      <!-- Blocked Domains -->
+      <div class="setting-card list-card" id="blockedDomainsContainer">
+        <span class="ms-font-m setting-title">
+          Blocked Domains
+          <span class="tier-locked-badge">Business</span>
+        </span>
         <span class="ms-font-xs setting-desc">Sending to any address at these domains is always blocked.</span>
         <div class="list-input-row">
           <input
@@ -170,9 +168,12 @@
         <ul id="blockedDomainList" class="domain-list"></ul>
       </div>
 
-      <!-- No-Combine Pairs (Business tier only) -->
-      <div class="setting-card list-card" id="noCombineContainer" hidden>
-        <span class="ms-font-m setting-title">No-Combine Pairs</span>
+      <!-- No-Combine Pairs -->
+      <div class="setting-card list-card" id="noCombineContainer">
+        <span class="ms-font-m setting-title">
+          No-Combine Pairs
+          <span class="tier-locked-badge">Business</span>
+        </span>
         <span class="ms-font-xs setting-desc"
           >These two domains must never appear in the same email (e.g. two competing clients).</span
         >
@@ -197,9 +198,12 @@
         <ul id="noCombineList" class="domain-list"></ul>
       </div>
 
-      <!-- Trusted Pairs (Business tier only) -->
-      <div class="setting-card list-card" id="trustedPairsContainer" hidden>
-        <span class="ms-font-m setting-title">Trusted Pairs</span>
+      <!-- Trusted Pairs -->
+      <div class="setting-card list-card" id="trustedPairsContainer">
+        <span class="ms-font-m setting-title">
+          Trusted Pairs
+          <span class="tier-locked-badge">Business</span>
+        </span>
         <span class="ms-font-xs setting-desc"
           >Always allow emails to both of these domains together — no alert will appear.</span
         >
@@ -222,6 +226,17 @@
           <button type="button" id="addTrustedPair" class="add-btn">Add</button>
         </div>
         <ul id="trustedPairList" class="domain-list"></ul>
+      </div>
+
+      <!-- Bottom upgrade CTA (Personal tier only) -->
+      <div id="proUpsellCard" class="pro-upsell-card" hidden>
+        <p class="pro-upsell-card__pitch">Unlock the locked features above with Business — $5/user/month.</p>
+        <a
+          class="pro-upsell-cta"
+          href="https://sendasta.com/pricing?utm_source=addin&utm_medium=upsell"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Upgrade to Business →</a>
       </div>
 
       <div class="footer-links ms-font-xs">

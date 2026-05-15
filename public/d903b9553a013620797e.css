@@ -373,6 +373,55 @@ input:checked + .slider:before {
 
 /* ── v2: Tier-aware UI ───────────────────────────────────────────────────────── */
 
+.free-plan-banner {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #52525b;
+  text-align: center;
+}
+
+.free-plan-banner__body strong {
+  color: #1f1f1f;
+  font-weight: 600;
+}
+
+/* "Business" badge inside a locked feature card's title */
+.tier-locked-badge {
+  display: none;
+  margin-left: 8px;
+  padding: 1px 6px;
+  background: #6b46c1;
+  color: white;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* A locked card: greyed body, no inputs, no list, badge visible. */
+.tier-locked .tier-locked-badge {
+  display: inline-block;
+}
+
+.tier-locked .setting-desc {
+  color: #9ca3af;
+}
+
+.tier-locked .list-input-row,
+.tier-locked .domain-list,
+.tier-locked .switch {
+  display: none;
+}
+
+.tier-locked .setting-title {
+  color: #6b7280;
+}
+
 .managed-banner {
   background: #f0f6ff;
   border: 1px solid #c7e0f4;
