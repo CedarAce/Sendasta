@@ -25,6 +25,8 @@ export default function BypassList() {
           placeholder="your-company.com"
           loading={loading}
           disabled={!canEdit || loading}
+          exportName="sendasta-bypass-list.csv"
+          importTitle="Import bypass list domains"
         />
       </section>
     </div>

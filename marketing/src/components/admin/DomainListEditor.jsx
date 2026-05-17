@@ -1,4 +1,10 @@
 import { useState } from 'react'
+import BulkImportModal from './BulkImportModal'
+import {
+  normalizeDomain,
+  isValidDomain,
+  downloadAsFile,
+} from '../../lib/domainValidation'
 
 export default function DomainListEditor({
   value = [],
@@ -6,59 +12,124 @@ export default function DomainListEditor({
   placeholder = 'example.com',
   disabled = false,
   loading = false,
+  exportName = 'sendasta-domains.csv',
+  importTitle = 'Import domains',
 }) {
-  const [input, setInput] = useState('')
+  const [draft, setDraft] = useState('')
+  const [error, setError] = useState('')
+  const [importOpen, setImportOpen] = useState(false)
 
-  const add = (e) => {
-    e.preventDefault()
-    const v = input.trim().toLowerCase()
-    setInput('')
-    if (!v || value.includes(v)) return
+  const commitDraft = () => {
+    const v = normalizeDomain(draft)
+    setError('')
+    if (!v) {
+      setDraft('')
+      return
+    }
+    if (!isValidDomain(v)) {
+      setError(`"${v}" doesn't look like a valid domain`)
+      return
+    }
+    if (value.includes(v)) {
+      setError(`"${v}" is already in the list`)
+      return
+    }
     onChange?.([...value, v])
+    setDraft('')
+  }
+
+  const onKey = (e) => {
+    if (e.key === 'Enter' || e.key === ',' || e.key === ' ') {
+      e.preventDefault()
+      commitDraft()
+    }
   }
 
   const remove = (d) => onChange?.(value.filter((x) => x !== d))
 
+  const onExport = () => {
+    const csv = 'domain\n' + value.join('\n') + '\n'
+    downloadAsFile(exportName, csv)
+  }
+
   return (
     <div>
-      <form onSubmit={add} className="flex items-center gap-2 mb-4">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={placeholder}
-          disabled={disabled}
-          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-accent disabled:bg-gray-50 disabled:text-gray-400"
-        />
+      {/* Toolbar */}
+      <div className="flex items-center justify-end gap-3 mb-3 text-sm">
         <button
-          type="submit"
+          type="button"
+          onClick={() => setImportOpen(true)}
           disabled={disabled}
-          className="bg-blue-accent hover:bg-blue-accent-hover disabled:opacity-50 text-white text-sm font-semibold px-4 py-2 rounded-lg"
+          className="text-blue-accent hover:underline disabled:text-gray-400 disabled:no-underline"
         >
-          Add
+          Import
         </button>
-      </form>
+        {value.length > 0 && (
+          <button
+            type="button"
+            onClick={onExport}
+            className="text-blue-accent hover:underline"
+          >
+            Export
+          </button>
+        )}
+      </div>
 
-      <ul className="divide-y divide-gray-100">
+      <ul className="border border-gray-200 rounded-lg divide-y divide-gray-100 overflow-hidden">
         {loading && (
-          <li className="text-sm text-gray-500 py-2">Loading…</li>
+          <li className="text-sm text-gray-500 py-2.5 px-3">Loading…</li>
         )}
-        {!loading && value.length === 0 && (
-          <li className="text-sm text-gray-500 py-2">No domains configured.</li>
-        )}
+
         {!loading &&
           value.map((d) => (
-            <li key={d} className="flex items-center justify-between py-2.5 text-sm">
+            <li
+              key={d}
+              className="flex items-center justify-between py-2.5 px-3 text-sm group bg-white"
+            >
               <span className="font-mono text-gray-800">{d}</span>
               <button
                 onClick={() => remove(d)}
                 disabled={disabled}
-                className="text-xs text-gray-400 hover:text-red-600 disabled:text-gray-300 disabled:hover:text-gray-300"
+                aria-label={`Remove ${d}`}
+                className="text-gray-400 hover:text-red-600 disabled:text-gray-300 disabled:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                Remove
+                ×
               </button>
             </li>
           ))}
+
+        {/* Always-present inline add row */}
+        {!loading && (
+          <li className="flex items-center py-1 px-2 bg-gray-50">
+            <span className="text-gray-400 mr-2 select-none">+</span>
+            <input
+              value={draft}
+              onChange={(e) => {
+                setDraft(e.target.value)
+                if (error) setError('')
+              }}
+              onKeyDown={onKey}
+              onBlur={commitDraft}
+              placeholder={value.length === 0 ? `e.g. ${placeholder}` : 'Add another'}
+              disabled={disabled}
+              className="flex-1 bg-transparent text-sm font-mono py-1.5 focus:outline-none disabled:text-gray-400 placeholder:font-sans placeholder:text-gray-400"
+            />
+          </li>
+        )}
       </ul>
+
+      {error && (
+        <p className="mt-2 text-xs text-red-600">{error}</p>
+      )}
+
+      <BulkImportModal
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onAdd={(next) => onChange?.(next)}
+        existing={value}
+        kind="domain"
+        title={importTitle}
+      />
     </div>
   )
 }

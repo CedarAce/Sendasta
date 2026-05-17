@@ -25,6 +25,8 @@ export default function WarningList() {
           placeholder="domain-to-warn-on.com"
           loading={loading}
           disabled={!canEdit || loading}
+          exportName="sendasta-warning-list.csv"
+          importTitle="Import warning list domains"
         />
       </section>
     </div>
