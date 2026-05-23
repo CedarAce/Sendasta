@@ -1,3 +1,6 @@
+import { getSupabaseAdmin } from "../lib/supabaseAdmin.mjs";
+import { normalizeEvent } from "../lib/events.mjs";
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -35,6 +38,19 @@ export default async function handler(req, res) {
       });
     } catch (e) {
       console.error("Failed to forward to webhook:", e);
+    }
+  }
+
+  // 3. Persist to Supabase (best-effort — never fail the request if it errors).
+  if (payload.action) {
+    try {
+      const supabase = getSupabaseAdmin();
+      if (supabase) {
+        const row = normalizeEvent(entry, { ip, country, city });
+        if (row) await supabase.from("sendasta_events").insert(row);
+      }
+    } catch (e) {
+      console.error("[SENDASTA] Supabase insert failed:", e);
     }
   }
 
