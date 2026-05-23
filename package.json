@@ -25,6 +25,7 @@
     "start:web": "office-addin-debugging start public/manifest-sendasta.xml web",
     "stop": "office-addin-debugging stop public/manifest-sendasta.xml",
     "validate": "office-addin-manifest validate public/manifest-sendasta.xml",
+    "test": "node --test lib/*.test.mjs",
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
