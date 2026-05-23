@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { track } from "../lib/track";
 
 // ▼ Replace with your Stripe Payment Link once created at dashboard.stripe.com
 // Leave as-is for now — the button will show a "contact us" popup instead
@@ -8,6 +9,8 @@ function trackEvent(eventName, params = {}) {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, params);
   }
+  // Also record first-party so the HQ funnel's "pricing intent" stage fills.
+  track("cta_click", { label: eventName, ...params });
 }
 
 function ContactModal({ onClose }) {
