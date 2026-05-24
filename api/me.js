@@ -1,14 +1,26 @@
-import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createClient } from "@supabase/supabase-js";
 // Node <22 (Vercel runs Node 20) has no native WebSocket; supabase-js inits its
 // realtime layer at construction and throws without a transport. Supplying `ws`
 // is what makes business-tier detection actually work here.
 import ws from "ws";
 
-// Microsoft's common JWKS endpoint covers AAD work/school accounts AND consumer MSA.
-const JWKS = createRemoteJWKSet(
-  new URL("https://login.microsoftonline.com/common/discovery/v2.0/keys")
-);
+// `jose` is ESM-only. Vercel compiles these handlers to CommonJS, so a static
+// `import ... from "jose"` becomes require() → ERR_REQUIRE_ESM at load (the
+// reason /api/me has been 500-ing → add-in always fell back to personal). Load
+// it via dynamic import() inside the handler (allowed from CJS) and cache the
+// JWKS. Microsoft's common JWKS covers AAD work/school AND consumer MSA.
+let _josePromise = null;
+function loadJose() {
+  if (!_josePromise) {
+    _josePromise = import("jose").then((jose) => ({
+      jwtVerify: jose.jwtVerify,
+      JWKS: jose.createRemoteJWKSet(
+        new URL("https://login.microsoftonline.com/common/discovery/v2.0/keys")
+      ),
+    }));
+  }
+  return _josePromise;
+}
 
 // Issuers we accept:
 //   - https://login.microsoftonline.com/{tid}/v2.0   (AAD tenant)
@@ -43,6 +55,7 @@ export default async function handler(req, res) {
       return send(res, PERSONAL);
     }
 
+    const { jwtVerify, JWKS } = await loadJose();
     const { payload } = await jwtVerify(ssoToken, JWKS, {
       audience,
       // Verify issuer ourselves below — jose's issuer option is string-equality,
