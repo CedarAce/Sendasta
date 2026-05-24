@@ -150,27 +150,13 @@ export default function PricingCards({ onContactClick }) {
             ))}
           </ul>
 
-          {STRIPE_BUSINESS_URL ? (
-            <a
-              href={STRIPE_BUSINESS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent("begin_checkout", { plan: "business", currency: "USD" })}
-              className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-            >
-              Start 14-day free trial
-            </a>
-          ) : (
-            <button
-              onClick={() => {
-                trackEvent("select_plan", { plan: "business_interest" });
-                onContactClick();
-              }}
-              className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-            >
-              Start 14-day free trial
-            </button>
-          )}
+          <Link
+            to="/signup"
+            onClick={() => trackEvent("begin_checkout", { plan: "business", currency: "USD" })}
+            className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
+          >
+            Start 14-day free trial
+          </Link>
           <p className="text-center text-xs text-gray-500 mt-2.5">
             14-day free trial, then $99/month for your whole team — no per-seat fees. Cancel anytime.
           </p>
