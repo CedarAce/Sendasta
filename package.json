@@ -36,6 +36,7 @@
     "core-js": "^3.9.1",
     "jose": "^6.2.3",
     "regenerator-runtime": "^0.13.7",
+    "stripe": "^17.7.0",
     "ws": "^8.21.0"
   },
   "devDependencies": {

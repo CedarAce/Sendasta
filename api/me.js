@@ -1,5 +1,9 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createClient } from "@supabase/supabase-js";
+// Node <22 (Vercel runs Node 20) has no native WebSocket; supabase-js inits its
+// realtime layer at construction and throws without a transport. Supplying `ws`
+// is what makes business-tier detection actually work here.
+import ws from "ws";
 
 // Microsoft's common JWKS endpoint covers AAD work/school accounts AND consumer MSA.
 const JWKS = createRemoteJWKSet(
@@ -64,6 +68,7 @@ export default async function handler(req, res) {
     }
     const supabase = createClient(supabaseUrl, serviceKey, {
       auth: { autoRefreshToken: false, persistSession: false },
+      realtime: { transport: ws },
     });
 
     // Look up the user by email in auth.users, then find their org membership.
