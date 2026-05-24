@@ -59,15 +59,18 @@ export default function TermsOfService() {
           </p>
         </Section>
 
-        <Section title="4. Enterprise Subscription">
+        <Section title="4. Business Subscription">
           <p>
-            The Enterprise plan is available for $299 per year for up to 25 users. For teams larger than
-            25 users, pricing is provided upon request. Enterprise subscriptions include access to the Admin
+            The Business plan is $99 per month per organization, covering up to 25 users. For teams larger
+            than 25 users, pricing is provided upon request. The Business plan includes access to the Admin
             Control Dashboard, custom domain policy configuration, and centralized deployment support.
           </p>
           <p>
-            Subscriptions auto-renew annually unless cancelled at least 30 days before the renewal date.
-            Refunds are available within 14 days of purchase. Contact{' '}
+            New Business subscriptions begin with a 14-day free trial; you will not be charged until the
+            trial ends, and you may cancel anytime before then at no cost. After the trial, subscriptions
+            are billed monthly and auto-renew each month unless cancelled before the next renewal date.
+            Cancelling stops future charges; access continues through the end of the current billing period.
+            Contact{' '}
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-accent hover:underline">{CONTACT_EMAIL}</a>{' '}
             for billing inquiries.
           </p>
