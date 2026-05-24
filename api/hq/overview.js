@@ -1,7 +1,7 @@
 // api/hq/overview.js
-import { requireHqAuth } from "../../lib/hqAuth.mjs";
-import { getSupabaseAdmin } from "../../lib/supabaseAdmin.mjs";
-import { buildOverview } from "../../lib/aggregate.mjs";
+import { requireHqAuth } from "../../lib/hqAuth.cjs";
+import { getSupabaseAdmin } from "../../lib/supabaseAdmin.cjs";
+import { buildOverview } from "../../lib/aggregate.cjs";
 
 export default async function handler(req, res) {
   if (!requireHqAuth(req, res)) return;

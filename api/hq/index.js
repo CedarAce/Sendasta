@@ -1,6 +1,6 @@
 // api/hq/index.js
 // Standalone HQ dashboard (HTML+JS). Password-gated. Reads /api/hq/* endpoints.
-import { requireHqAuth } from "../../lib/hqAuth.mjs";
+import { requireHqAuth } from "../../lib/hqAuth.cjs";
 
 export default function handler(req, res) {
   if (!requireHqAuth(req, res)) return;

@@ -1,5 +1,5 @@
-import { getSupabaseAdmin } from "../lib/supabaseAdmin.mjs";
-import { normalizeEvent } from "../lib/events.mjs";
+import { getSupabaseAdmin } from "../lib/supabaseAdmin.cjs";
+import { normalizeEvent } from "../lib/events.cjs";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
