@@ -131,8 +131,7 @@ export default function PricingCards({ onContactClick }) {
           </div>
 
           <p className="mt-3 text-sm leading-relaxed text-gray-700">
-            Everything in Personal, plus team-wide rules and a central admin console — wherever a
-            misdirected email can't be undone.
+            Everything in Personal, plus team-wide rules and a central admin console.
           </p>
 
           <div className="my-6 border-t border-blue-accent/20" />
