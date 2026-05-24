@@ -1,39 +1,105 @@
+import { useEffect, useState } from 'react'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
-import TodoBanner from '../../components/admin/TodoBanner'
+import { useOrg } from '../../context/OrgContext'
+import { startCheckout, openPortal } from '../../lib/billing'
 
 export default function Billing() {
+  const { org, trialState, loading, refresh } = useOrg()
+  const [busy, setBusy] = useState(false)
+  const [toast, setToast] = useState(null)
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    if (p.get('success')) {
+      setToast({ kind: 'ok', msg: 'Welcome to Sendasta Business! Your subscription is active.' })
+      refresh()
+    } else if (p.get('canceled')) {
+      setToast({ kind: 'info', msg: 'Checkout canceled — you can upgrade any time.' })
+    }
+    if (p.get('success') || p.get('canceled')) {
+      window.history.replaceState({}, '', '/admin/billing')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const kind = trialState?.kind
+  const isPaid = kind === 'paid' || kind === 'past_due'
+
+  const planLabel =
+    kind === 'paid' ? 'Business'
+    : kind === 'past_due' ? 'Business — past due'
+    : kind === 'canceled' ? 'Canceled'
+    : kind === 'trial_ended' ? 'Trial ended'
+    : 'Trial'
+
+  const planHint =
+    kind === 'trialing' ? `${trialState.daysLeft} day${trialState.daysLeft === 1 ? '' : 's'} left`
+    : kind === 'paid' ? 'active'
+    : ''
+
+  const statusValue =
+    org?.current_period_end && isPaid
+      ? new Date(org.current_period_end).toLocaleDateString()
+      : org?.trial_ends_at && (kind === 'trialing' || kind === 'trial_ended')
+      ? new Date(org.trial_ends_at).toLocaleDateString()
+      : '—'
+
+  const run = async (fn) => {
+    setBusy(true)
+    try {
+      await fn()
+    } catch (e) {
+      alert(e.message)
+      setBusy(false)
+    }
+  }
+
   return (
     <div className="max-w-5xl">
-      <AdminPageHeader
-        title="Billing"
-        subtitle="Manage your subscription, seats, and payment method."
-      />
-      <TodoBanner>TODO: wire to Stripe</TodoBanner>
+      <AdminPageHeader title="Billing" subtitle="Manage your subscription and payment method." />
+
+      {toast && (
+        <div
+          className={`mb-4 rounded-lg px-4 py-2.5 text-sm border ${
+            toast.kind === 'ok'
+              ? 'bg-green-50 text-green-800 border-green-200'
+              : 'bg-gray-50 text-gray-700 border-gray-200'
+          }`}
+        >
+          {toast.msg}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Stat label="Current plan" value="Business" hint="$5 per user / month" />
-        <Stat label="Seats" value="12 / 25" hint="13 available" />
-        <Stat label="Next renewal" value="Mar 5, 2027" hint="Billed annually" />
+        <Stat label="Current plan" value={loading ? '…' : planLabel} hint={planHint} />
+        <Stat label="Price" value="$99" hint="per month, flat" />
+        <Stat label={isPaid ? 'Renews' : 'Trial'} value={loading ? '…' : statusValue} hint="" />
       </div>
 
       <section className="bg-white rounded-lg border border-gray-200 p-6">
         <h2 className="text-base font-semibold text-navy mb-1">Subscription</h2>
         <p className="text-sm text-gray-600 mb-5">
-          Update payment method, change seat count, or download invoices.
+          {isPaid
+            ? 'Your Business subscription is active. Update your payment method, view invoices, or cancel anytime.'
+            : 'Upgrade to Business — $99/month flat for your whole team, billed monthly. Cancel anytime.'}
         </p>
-        <button
-          disabled
-          className="bg-blue-accent text-white font-semibold px-5 py-2.5 rounded-lg opacity-50 cursor-not-allowed text-sm inline-flex items-center gap-2"
-          title="Coming soon"
-        >
-          Manage Subscription
-          <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">Coming soon</span>
-        </button>
-      </section>
-
-      <section className="bg-white rounded-lg border border-gray-200 p-6 mt-6">
-        <h2 className="text-base font-semibold text-navy mb-1">Recent invoices</h2>
-        <p className="text-sm text-gray-500">No invoices yet.</p>
+        {isPaid ? (
+          <button
+            onClick={() => run(openPortal)}
+            disabled={busy}
+            className="bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-50"
+          >
+            {busy ? '…' : 'Manage subscription'}
+          </button>
+        ) : (
+          <button
+            onClick={() => run(startCheckout)}
+            disabled={busy}
+            className="bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-50"
+          >
+            {busy ? '…' : 'Upgrade to Business'}
+          </button>
+        )}
       </section>
     </div>
   )

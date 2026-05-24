@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import AdminSidebar from './AdminSidebar'
+import TrialBanner from './TrialBanner'
 
 export default function AdminLayout() {
   return (
@@ -9,6 +10,7 @@ export default function AdminLayout() {
     >
       <AdminSidebar />
       <main className="flex-1 ml-60 p-8">
+        <TrialBanner />
         <Outlet />
       </main>
     </div>
