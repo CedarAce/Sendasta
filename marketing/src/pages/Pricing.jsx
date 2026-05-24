@@ -18,7 +18,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I try Business before paying?',
-    a: "Yes — Business comes with a 30-day free trial. You won't be charged until the trial ends, and you can cancel anytime before then. If you have a larger team or specific compliance requirements, email info@sendasta.com and we'll set you up with whatever you need.",
+    a: "Yes — Business comes with a 14-day free trial. You won't be charged until the trial ends, and you can cancel anytime before then. If you have a larger team or specific compliance requirements, email info@sendasta.com and we'll set you up with whatever you need.",
   },
   {
     q: 'What information does Sendasta see?',
@@ -53,7 +53,7 @@ function FAQItem({ q, a }) {
 export default function Pricing() {
   usePageMeta({
     title: 'Pricing — Sendasta | Free Personal & Business Plans',
-    description: 'Free forever for personal use. $4/user/month for teams — central admin console, team-wide domain rules, and Microsoft 365 rollout. No contracts, cancel anytime.',
+    description: 'Free forever for personal use. $99/month flat for teams (up to 25 users) — central admin console, team-wide domain rules, and Microsoft 365 rollout. No contracts, cancel anytime.',
     canonical: 'https://sendasta.com/pricing',
   })
 

@@ -39,7 +39,7 @@ function ContactModal({ onClose }) {
           Drop us an email and we'll get you set up personally — usually within the same business day.
         </p>
         <a
-          href="mailto:info@sendasta.com?subject=Sendasta Business Trial&body=Hi, I'd like to start a 30-day free trial of Sendasta Business for my team."
+          href="mailto:info@sendasta.com?subject=Sendasta Business Trial&body=Hi, I'd like to start a 14-day free trial of Sendasta Business for my team."
           className="block w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-3 rounded-lg transition-colors text-sm mb-3"
           onClick={onClose}
         >
@@ -126,8 +126,8 @@ export default function PricingCards({ onContactClick }) {
         <div className="rounded-xl p-8 flex flex-col ring-2 ring-blue-accent h-full" style={{ backgroundColor: "#EEF4FF" }}>
           <span className="text-xs font-semibold text-blue-accent uppercase tracking-widest">Business</span>
           <div className="mt-3 flex items-baseline gap-1.5">
-            <span className="text-4xl font-bold text-navy">$5</span>
-            <span className="text-sm text-gray-500">per user / month</span>
+            <span className="text-4xl font-bold text-navy">$99</span>
+            <span className="text-sm text-gray-500">per month</span>
           </div>
 
           <p className="mt-3 text-sm leading-relaxed text-gray-700">
@@ -158,7 +158,7 @@ export default function PricingCards({ onContactClick }) {
               onClick={() => trackEvent("begin_checkout", { plan: "business", currency: "USD" })}
               className="mt-8 block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
             >
-              Start 30-day free trial
+              Start 14-day free trial
             </a>
           ) : (
             <button
@@ -168,11 +168,11 @@ export default function PricingCards({ onContactClick }) {
               }}
               className="mt-8 w-full bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
             >
-              Start 30-day free trial
+              Start 14-day free trial
             </button>
           )}
           <p className="text-center text-xs text-gray-500 mt-2.5">
-            30-day free trial, then $5/user/month. Cancel anytime.
+            14-day free trial, then $99/month for your whole team (up to 25 users). Cancel anytime.
           </p>
         </div>
       </div>
