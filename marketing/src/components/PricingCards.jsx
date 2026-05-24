@@ -158,7 +158,7 @@ export default function PricingCards({ onContactClick }) {
             Start 14-day free trial
           </Link>
           <p className="text-center text-xs text-gray-500 mt-2.5">
-            14-day free trial, then $99/month for your whole team — no per-seat fees. Cancel anytime.
+            14-day free trial, then $99/month. Cancel anytime.
           </p>
         </div>
       </div>
