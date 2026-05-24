@@ -6,14 +6,17 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
 
-          {/* Logo + tagline */}
+          {/* Logo + wordmark + tagline */}
           <div className="flex flex-col gap-3">
-            <img
-              src="/assets/logo-sendasta-white.svg"
-              alt="Sendasta"
-              className="h-7 w-auto"
-            />
-            <p className="text-gray-500 text-sm">
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/assets/logo-sendasta-white.svg"
+                alt=""
+                className="h-7 w-auto"
+              />
+              <span className="text-white font-bold text-lg tracking-tight">Sendasta</span>
+            </div>
+            <p className="text-gray-500 text-sm max-w-xs">
               Enterprise email misdirection prevention for Microsoft Outlook.
             </p>
           </div>
@@ -54,9 +57,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 pt-6 text-center">
+        <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-gray-600 text-sm">
             &copy; 2026 Sendasta. All rights reserved.
+          </p>
+          <p className="text-gray-500 text-sm">
+            Made in Ottawa, Canada <span aria-hidden="true">🍁</span>
           </p>
         </div>
       </div>
