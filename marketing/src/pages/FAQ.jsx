@@ -84,7 +84,7 @@ const FAQS = [
       },
       {
         q: 'What does the paid plan include?',
-        a: 'The Business plan adds team-wide shared rules, organization-level domain blocking, Cc/Bcc recipient checking, automatic rollout via Microsoft 365 Admin, and priority support. $99 per month, flat — one price for your whole team (up to 25 users).',
+        a: 'The Business plan adds team-wide shared rules, organization-level domain blocking, Cc/Bcc recipient checking, automatic rollout via Microsoft 365 Admin, and priority support. $99 per month, flat — one price for your whole team, no matter how many users.',
       },
       {
         q: 'Is there a free trial for the paid plan?',

@@ -53,7 +53,7 @@ function FAQItem({ q, a }) {
 export default function Pricing() {
   usePageMeta({
     title: 'Pricing — Sendasta | Free Personal & Business Plans',
-    description: 'Free forever for personal use. $99/month flat for teams (up to 25 users) — central admin console, team-wide domain rules, and Microsoft 365 rollout. No contracts, cancel anytime.',
+    description: 'Free forever for personal use. $99/month flat for teams — central admin console, team-wide domain rules, and Microsoft 365 rollout. No per-seat fees, no contracts, cancel anytime.',
     canonical: 'https://sendasta.com/pricing',
   })
 

@@ -61,9 +61,9 @@ export default function TermsOfService() {
 
         <Section title="4. Business Subscription">
           <p>
-            The Business plan is $99 per month per organization, covering up to 25 users. For teams larger
-            than 25 users, pricing is provided upon request. The Business plan includes access to the Admin
-            Control Dashboard, custom domain policy configuration, and centralized deployment support.
+            The Business plan is $99 per month per organization, covering all users in your organization
+            with no per-seat fees. The Business plan includes access to the Admin Control Dashboard, custom
+            domain policy configuration, and centralized deployment support.
           </p>
           <p>
             New Business subscriptions begin with a 14-day free trial; you will not be charged until the

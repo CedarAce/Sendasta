@@ -172,7 +172,7 @@ export default function PricingCards({ onContactClick }) {
             </button>
           )}
           <p className="text-center text-xs text-gray-500 mt-2.5">
-            14-day free trial, then $99/month for your whole team (up to 25 users). Cancel anytime.
+            14-day free trial, then $99/month for your whole team — no per-seat fees. Cancel anytime.
           </p>
         </div>
       </div>
