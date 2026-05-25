@@ -568,7 +568,7 @@ const HTML = `<!doctype html>
       const decodeCity = name => {
         if (!name) return "";
         try {
-          return decodeURIComponent(name.replace(/\+/g, " "));
+          return decodeURIComponent(name.replace(/\\+/g, " "));
         } catch (e) {
           return name;
         }
