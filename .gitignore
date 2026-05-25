@@ -128,3 +128,6 @@ dist
 
 # react-snap
 public/200.html
+
+# Claude Code local config / session data
+.claude/
