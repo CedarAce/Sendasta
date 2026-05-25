@@ -576,7 +576,7 @@ const HTML = `<!doctype html>
           label = "Scan Started";
         } else if (action === "email_blocked") {
           cls = "badge-red";
-          label = "Email Blocked" + (reason ? ` (${reason})` : "");
+          label = "Email Blocked" + (reason ? " (" + reason + ")" : "");
         } else if (action === "email_allowed") {
           cls = "badge-emerald";
           label = "Email Allowed";
