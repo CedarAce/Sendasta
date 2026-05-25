@@ -789,7 +789,7 @@ const HTML = `<!doctype html>
           
           const timeText = '<span title="' + esc(x.at) + '">' + fmtAgo(x.at) + '</span>';
           
-          return '<tr class="interactive-row" onclick="toggleProps(\'' + x.id + '\')">' +
+          return '<tr class="interactive-row" onclick="toggleProps(' + "'" + x.id + "'" + ')">' +
             '<td>' + timeText + '</td>' +
             '<td>' + getActionBadge(x.action, x.reason) + '</td>' +
             '<td>' + customerText + '</td>' +
