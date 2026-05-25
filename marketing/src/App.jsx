@@ -21,6 +21,7 @@ import Policies from './pages/admin/Policies'
 import Billing from './pages/admin/Billing'
 import Documentation from './pages/admin/Documentation'
 import Downloads from './pages/admin/Downloads'
+import Settings from './pages/admin/Settings'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="/admin/billing" element={<Billing />} />
           <Route path="/admin/documentation" element={<Documentation />} />
           <Route path="/admin/downloads" element={<Downloads />} />
+          <Route path="/admin/settings" element={<Settings />} />
           {/* Legacy redirects */}
           <Route path="/admin/alert-lists" element={<Navigate to="/admin/policies" replace />} />
           <Route path="/admin/warning-list" element={<Navigate to="/admin/policies" replace />} />

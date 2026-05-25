@@ -134,68 +134,7 @@ export default function Policies() {
           )}
         </div>
 
-        {/* Language preference */}
-        <LanguageSetting canEdit={canEdit} />
       </div>
     </div>
-  )
-}
-
-import { useEffect, useState as useStateAlias } from 'react'
-import { supabase } from '../../lib/supabaseClient'
-import { useOrg } from '../../context/OrgContext'
-
-const LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'fr', label: 'French', disabled: true },
-  { code: 'es', label: 'Spanish', disabled: true },
-  { code: 'de', label: 'German', disabled: true },
-]
-
-function LanguageSetting({ canEdit }) {
-  const { orgId, loading: orgLoading } = useOrg()
-  const [locale, setLocale] = useStateAlias('en')
-  const [saving, setSaving] = useStateAlias(false)
-
-  useEffect(() => {
-    if (orgLoading || !orgId) return
-    supabase.from('organizations').select('locale').eq('id', orgId).maybeSingle()
-      .then(({ data }) => { if (data?.locale) setLocale(data.locale) })
-  }, [orgId, orgLoading])
-
-  const save = async (val) => {
-    if (!canEdit || !orgId) return
-    setLocale(val)
-    setSaving(true)
-    await supabase.from('organizations').update({ locale: val }).eq('id', orgId)
-    setSaving(false)
-  }
-
-  return (
-    <section className="bg-white rounded-xl border border-gray-200 p-6">
-      <h2 className="text-base font-semibold text-navy mb-1">Warning language</h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Language used in Sendasta's warning dialogs shown to your team in Outlook.
-      </p>
-      <div className="flex flex-wrap gap-2">
-        {LANGUAGES.map(({ code, label, disabled }) => (
-          <button
-            key={code}
-            type="button"
-            disabled={disabled || !canEdit || saving}
-            onClick={() => save(code)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              locale === code
-                ? 'bg-blue-accent text-white border-blue-accent'
-                : disabled
-                ? 'text-gray-300 border-gray-200 cursor-not-allowed'
-                : 'text-gray-700 border-gray-200 hover:border-blue-accent hover:text-blue-accent'
-            }`}
-          >
-            {label}{disabled ? ' (soon)' : ''}
-          </button>
-        ))}
-      </div>
-    </section>
   )
 }
