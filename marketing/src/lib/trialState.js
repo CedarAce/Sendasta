@@ -1,7 +1,8 @@
 // marketing/src/lib/trialState.js
-// Derives the org's billing/trial state for UI. Light enforcement: the console
-// is never blocked — we only show banners. States: paid | trialing |
-// trial_ended | past_due | canceled | unknown.
+// Derives the org's billing/trial state for UI. AdminLayout hard-locks the
+// console on `trial_ended` and `canceled` (Billing page stays reachable);
+// `trialing (<=7d)` and `past_due` only show a TrialBanner nudge.
+// States: paid | trialing | trial_ended | past_due | canceled | unknown.
 export function computeTrialState(org) {
   if (!org) return { kind: 'unknown' }
   if (org.subscription_status === 'active') return { kind: 'paid' }

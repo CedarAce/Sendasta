@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import AdminPageHeader from '../../components/admin/AdminPageHeader'
 import { useAuth } from '../../context/AuthContext'
 import { useOrg } from '../../context/OrgContext'
 import { supabase } from '../../lib/supabaseClient'
@@ -59,12 +58,22 @@ export default function Dashboard() {
 
   const display = (n) => (n == null ? '—' : String(n))
 
+  const rulesHint =
+    stats.rulesConfigured === 0
+      ? 'No rules configured yet'
+      : stats.rulesConfigured === 1
+      ? '1 rule active'
+      : `${stats.rulesConfigured} rules active`
+
+  const showGettingStarted =
+    !orgLoading && stats.rulesConfigured !== null && stats.rulesConfigured === 0
+
   return (
     <div className="max-w-5xl">
-      <AdminPageHeader
-        title={`Welcome back, ${firstName}`}
-        subtitle="Here's a snapshot of your organization's Sendasta activity."
-      />
+      <header className="mb-6">
+        <h1 className="text-xl font-bold text-navy tracking-tight">Overview</h1>
+        <p className="text-sm text-gray-500 mt-0.5">What Sendasta is doing for your team</p>
+      </header>
 
       {error && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 mb-4">
@@ -72,42 +81,80 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Stat label="Active licenses" value={display(stats.activeLicenses)} hint="seats in use" />
-        <Stat label="Blocked sends this month" value="—" hint="Coming soon" />
-        <Stat
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <KpiCard
+          label="Mistakes caught"
+          value="—"
+          note="Analytics coming soon"
+          highlight
+        />
+        <KpiCard
+          label="Active seats"
+          value={display(stats.activeLicenses)}
+          note="members with access"
+        />
+        <KpiCard
           label="Rules configured"
           value={display(stats.rulesConfigured)}
-          hint="block + bypass + alert"
+          note={stats.rulesConfigured !== null ? rulesHint : 'Loading…'}
         />
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mt-6">
-        <h2 className="text-base font-semibold text-navy mb-2">Getting started</h2>
-        <ol className="text-sm text-gray-700 space-y-2 list-decimal pl-5">
-          <li>
-            Configure your <strong>Warning List</strong> and <strong>Bypass List</strong> for
-            organization-wide policies.
-          </li>
-          <li>
-            Add <strong>Alert Lists</strong> to warn users when they mix sensitive domain pairs.
-          </li>
-          <li>
-            Visit <strong>Downloads</strong> to deploy Sendasta to your users via Microsoft 365
-            admin center.
-          </li>
-        </ol>
+      {showGettingStarted && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
+          <h2 className="text-sm font-semibold text-navy mb-2">Get started in 3 steps</h2>
+          <ol className="text-sm text-gray-700 space-y-1.5 list-decimal pl-5">
+            <li>
+              Configure your <strong>Warning List</strong> and <strong>Bypass List</strong> for
+              org-wide policies.
+            </li>
+            <li>
+              Add <strong>Alert Lists</strong> to warn users when they mix sensitive domain pairs.
+            </li>
+            <li>
+              Visit <strong>Downloads</strong> to deploy Sendasta via the Microsoft 365 admin center.
+            </li>
+          </ol>
+        </div>
+      )}
+
+      <div className="bg-white rounded-xl border border-gray-200 p-5">
+        <h2 className="text-sm font-semibold text-navy mb-1">Alert history</h2>
+        <p className="text-sm text-gray-500">
+          Per-send alert analytics will appear here once your team starts using Sendasta. You'll see
+          which domains are triggering warnings, correction rates, and trends over time.
+        </p>
       </div>
     </div>
   )
 }
 
-function Stat({ label, value, hint }) {
+function KpiCard({ label, value, note, highlight }) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-5">
-      <div className="text-xs text-gray-500 uppercase tracking-wider">{label}</div>
-      <div className="text-3xl font-bold text-navy mt-2">{value}</div>
-      <div className="text-xs text-gray-500 mt-1">{hint}</div>
+    <div
+      className={`rounded-xl border p-5 flex flex-col gap-1.5 ${
+        highlight
+          ? 'bg-navy border-navy text-white'
+          : 'bg-white border-gray-200 text-gray-900'
+      }`}
+    >
+      <div
+        className={`text-[11px] font-semibold uppercase tracking-[0.06em] ${
+          highlight ? 'text-white/60' : 'text-gray-500'
+        }`}
+      >
+        {label}
+      </div>
+      <div
+        className={`text-4xl font-extrabold tracking-tight leading-none mt-1 ${
+          highlight ? 'text-white' : 'text-navy'
+        }`}
+      >
+        {value}
+      </div>
+      <div className={`text-xs mt-0.5 ${highlight ? 'text-white/50' : 'text-gray-400'}`}>
+        {note}
+      </div>
     </div>
   )
 }

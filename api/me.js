@@ -95,13 +95,29 @@ export default async function handler(req, res) {
 
     const { data: membership, error: memErr } = await supabase
       .from("organization_members")
-      .select("org_id, role, organizations:org_id (name), policies:org_id (blocked_domains, internal_domains, no_combine_pairs, trusted_pairs, version)")
+      .select("org_id, role, organizations:org_id (name, subscription_status, trial_ends_at), policies:org_id (blocked_domains, internal_domains, no_combine_pairs, trusted_pairs, version)")
       .eq("user_id", userRow.id)
       .eq("status", "active")
       .limit(1)
       .maybeSingle();
 
     if (memErr || !membership) return send(res, PERSONAL);
+
+    // Entitlement gate: only paying (or in-trial / grace) orgs get Business
+    // features in the add-in. An expired trial or canceled sub drops to
+    // personal — closing the leak where Business policy applied without payment.
+    const status = membership.organizations?.subscription_status ?? null;
+    const trialEnds = membership.organizations?.trial_ends_at
+      ? Date.parse(membership.organizations.trial_ends_at)
+      : 0;
+    const entitled =
+      status === "active" ||
+      status === "past_due" || // grace while Stripe retries
+      (status === "trialing" && Date.now() < trialEnds);
+    if (!entitled) {
+      console.log("[me] org not entitled (status=%s) → personal", status);
+      return send(res, PERSONAL);
+    }
 
     return send(res, {
       tier: "business",

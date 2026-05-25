@@ -124,9 +124,16 @@ export default function Navbar() {
             Contact
           </Link>
           <Link
+            to="/login"
+            onClick={() => setMobileOpen(false)}
+            className="mt-2 text-sm font-medium text-gray-200 hover:text-white border border-white/20 hover:border-white/40 px-5 py-2.5 rounded-lg transition-colors text-center"
+          >
+            Log In
+          </Link>
+          <Link
             to={pathname === '/' ? '#pricing' : '/#pricing'}
             onClick={handleSectionClick('pricing')}
-            className="mt-2 bg-blue-accent hover:bg-blue-accent-hover text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors text-center"
+            className="bg-blue-accent hover:bg-blue-accent-hover text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors text-center"
           >
             Get Started
           </Link>

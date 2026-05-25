@@ -1,8 +1,18 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import AdminSidebar from './AdminSidebar'
 import TrialBanner from './TrialBanner'
+import HardLockGate from './HardLockGate'
+import { useOrg } from '../../context/OrgContext'
 
 export default function AdminLayout() {
+  const { trialState } = useOrg()
+  const { pathname } = useLocation()
+
+  // Hard lock once the trial has ended or the subscription was canceled.
+  // Billing stays reachable so a locked admin can still pay or manage.
+  const locked = trialState?.kind === 'trial_ended' || trialState?.kind === 'canceled'
+  const allowThrough = pathname === '/admin/billing'
+
   return (
     <div
       className="min-h-screen flex bg-gray-50"
@@ -11,7 +21,7 @@ export default function AdminLayout() {
       <AdminSidebar />
       <main className="flex-1 ml-60 p-8">
         <TrialBanner />
-        <Outlet />
+        {locked && !allowThrough ? <HardLockGate /> : <Outlet />}
       </main>
     </div>
   )

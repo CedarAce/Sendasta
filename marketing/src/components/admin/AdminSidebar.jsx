@@ -1,16 +1,25 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-const NAV_ITEMS = [
-  { to: '/admin', label: 'Dashboard', end: true, icon: HomeIcon },
-  { to: '/admin/users', label: 'Users', icon: UsersIcon },
-  { to: '/admin/alert-lists', label: 'Alert Lists', icon: BellIcon },
-  { to: '/admin/warning-list', label: 'Warning List', icon: ShieldIcon },
-  { to: '/admin/bypass-list', label: 'Bypass List', icon: CheckIcon },
-  { to: '/admin/billing', label: 'Billing', icon: CardIcon },
-  { to: '/admin/languages', label: 'Languages', icon: GlobeIcon },
-  { to: '/admin/documentation', label: 'Documentation', icon: BookIcon },
-  { to: '/admin/downloads', label: 'Downloads', icon: DownloadIcon },
+const NAV_SECTIONS = [
+  {
+    items: [
+      { to: '/admin', label: 'Overview', end: true, icon: HomeIcon },
+      { to: '/admin/users', label: 'Users', icon: UsersIcon },
+      { to: '/admin/alert-lists', label: 'Alert Lists', icon: BellIcon },
+      { to: '/admin/warning-list', label: 'Warning List', icon: ShieldIcon },
+      { to: '/admin/bypass-list', label: 'Bypass List', icon: CheckIcon },
+      { to: '/admin/billing', label: 'Billing', icon: CardIcon },
+    ],
+  },
+  {
+    label: 'Resources',
+    items: [
+      { to: '/admin/languages', label: 'Languages', icon: GlobeIcon },
+      { to: '/admin/documentation', label: 'Documentation', icon: BookIcon },
+      { to: '/admin/downloads', label: 'Downloads', icon: DownloadIcon },
+    ],
+  },
 ]
 
 export default function AdminSidebar() {
@@ -23,39 +32,51 @@ export default function AdminSidebar() {
   }
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors ${
+    `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
       isActive
-        ? 'bg-navy-700 text-white border-l-2 border-blue-accent pl-[18px]'
-        : 'text-gray-400 hover:text-white hover:bg-navy-800 border-l-2 border-transparent'
+        ? 'bg-blue-accent/15 text-white'
+        : 'text-white/60 hover:text-white hover:bg-white/5'
     }`
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-60 bg-navy flex flex-col border-r border-white/10">
       <Link
         to="/admin"
-        className="flex items-center gap-2.5 px-5 py-5 border-b border-white/10"
+        className="flex items-center gap-2.5 px-4 py-4 border-b border-white/10"
       >
         <img src="/assets/logo-sendasta-white.svg" alt="" className="h-7 w-auto" />
-        <span className="text-white font-bold text-lg tracking-tight">Sendasta</span>
+        <div>
+          <div className="text-white font-bold text-base tracking-tight leading-tight">Sendasta</div>
+          <div className="text-white/40 text-[10.5px] leading-tight">Admin Console</div>
+        </div>
       </Link>
 
-      <nav className="flex-1 py-3 overflow-y-auto">
-        {NAV_ITEMS.map(({ to, label, end, icon: Icon }) => (
-          <NavLink key={to} to={to} end={end} className={linkClass}>
-            <Icon />
-            {label}
-          </NavLink>
+      <nav className="flex-1 px-3 py-3 overflow-y-auto flex flex-col gap-1">
+        {NAV_SECTIONS.map((section, i) => (
+          <div key={i} className={section.label ? 'mt-3' : ''}>
+            {section.label && (
+              <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-white/35 px-3 pb-1.5">
+                {section.label}
+              </div>
+            )}
+            {section.items.map(({ to, label, end, icon: Icon }) => (
+              <NavLink key={to} to={to} end={end} className={linkClass}>
+                <Icon />
+                {label}
+              </NavLink>
+            ))}
+          </div>
         ))}
       </nav>
 
-      <div className="mt-auto border-t border-white/10 px-5 py-4">
-        <div className="text-xs text-gray-400 truncate mb-2" title={user?.email}>
+      <div className="mt-auto border-t border-white/10 px-4 py-4">
+        <div className="text-xs text-white/40 truncate mb-2" title={user?.email}>
           {user?.email || 'Signed in'}
         </div>
         <button
           type="button"
           onClick={onLogOut}
-          className="text-sm text-gray-400 hover:text-white transition-colors"
+          className="text-sm text-white/50 hover:text-white transition-colors"
         >
           Log Out
         </button>

@@ -108,7 +108,7 @@ React Router app (`marketing/src/App.jsx`) with three route groups: marketing pa
 ## Environment variables
 
 - **Client-exposed** (Vite, must be prefixed `VITE_`): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`. Set in `marketing/.env.local` (gitignored).
-- **Server-only** (Vercel project env, no prefix): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `AZURE_AAD_AUDIENCE`, `HQ_PASSWORD`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_ANNUAL`, `GOOGLE_SHEETS_WEBHOOK_URL`, plus the legacy `GUMROAD_PRODUCT_ID` for `api/validate.js`.
+- **Server-only** (Vercel project env, no prefix): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `AZURE_AAD_AUDIENCE`, `HQ_PASSWORD`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID` (single flat $99/mo price), `GOOGLE_SHEETS_WEBHOOK_URL`, plus the legacy `GUMROAD_PRODUCT_ID` for `api/validate.js`.
 
 ## Reference docs in this repo
 

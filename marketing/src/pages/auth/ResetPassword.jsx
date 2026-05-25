@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../../components/AuthLayout'
 import { supabase } from '../../lib/supabaseClient'
@@ -13,6 +13,28 @@ export default function ResetPassword() {
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  // checking → ready (valid recovery session) | invalid (no/expired token)
+  const [status, setStatus] = useState('checking')
+
+  // The recovery token arrives in the URL hash; supabase-js consumes it
+  // (detectSessionInUrl) to establish a session and fire PASSWORD_RECOVERY.
+  // Either signal means the user may set a new password; otherwise the link is
+  // missing/expired and we show a clear recovery path instead of a dead form.
+  useEffect(() => {
+    let cancelled = false
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (cancelled) return
+      if (event === 'PASSWORD_RECOVERY' || session) setStatus('ready')
+    })
+    supabase.auth.getSession().then(({ data }) => {
+      if (cancelled) return
+      setStatus((s) => (data.session ? 'ready' : s === 'checking' ? 'invalid' : s))
+    })
+    return () => {
+      cancelled = true
+      sub.subscription.unsubscribe()
+    }
+  }, [])
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -33,6 +55,35 @@ export default function ResetPassword() {
       return
     }
     navigate('/admin', { replace: true })
+  }
+
+  if (status === 'checking') {
+    return (
+      <AuthLayout title="Verifying your link" subtitle="One moment…">
+        <p className="text-sm text-gray-600">Checking your reset link.</p>
+      </AuthLayout>
+    )
+  }
+
+  if (status === 'invalid') {
+    return (
+      <AuthLayout
+        title="This link is invalid or expired"
+        subtitle="Password reset links expire after 1 hour and can only be used once."
+        footer={
+          <Link to="/login" className="text-blue-accent hover:underline font-medium">
+            Back to log in
+          </Link>
+        }
+      >
+        <Link
+          to="/forgot-password"
+          className="block text-center bg-blue-accent hover:bg-blue-accent-hover text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          Request a new reset link
+        </Link>
+      </AuthLayout>
+    )
   }
 
   return (
