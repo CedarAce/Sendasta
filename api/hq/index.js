@@ -943,13 +943,13 @@ const HTML = `<!doctype html>
                 '<input type="text" class="feed-search-input" oninput="onFeedSearch(this)" placeholder="🔍 Filter feed..." />' +
               '</div>' +
               '<div class="feed-chips">' +
-                '<button class="chip active" data-filter="all" onclick="setChipFilter(\'all\')">All</button>' +
-                '<button class="chip" data-filter="page_view" onclick="setChipFilter(\'page_view\')">Page Views</button>' +
-                '<button class="chip" data-filter="scan_started" onclick="setChipFilter(\'scan_started\')">Outlook Scans</button>' +
-                '<button class="chip" data-filter="email_blocked" onclick="setChipFilter(\'email_blocked\')">Blocked</button>' +
-                '<button class="chip" data-filter="email_allowed" onclick="setChipFilter(\'email_allowed\')">Allowed</button>' +
-                '<button class="chip" data-filter="auth" onclick="setChipFilter(\'auth\')">Signups &amp; Auth</button>' +
-                '<button class="chip" data-filter="billing" onclick="setChipFilter(\'billing\')">Billing</button>' +
+                '<button class="chip active" data-filter="all" onclick="setChipFilter(\\'all\\')">All</button>' +
+                '<button class="chip" data-filter="page_view" onclick="setChipFilter(\\'page_view\\')">Page Views</button>' +
+                '<button class="chip" data-filter="scan_started" onclick="setChipFilter(\\'scan_started\\')">Outlook Scans</button>' +
+                '<button class="chip" data-filter="email_blocked" onclick="setChipFilter(\\'email_blocked\\')">Blocked</button>' +
+                '<button class="chip" data-filter="email_allowed" onclick="setChipFilter(\\'email_allowed\\')">Allowed</button>' +
+                '<button class="chip" data-filter="auth" onclick="setChipFilter(\\'auth\\')">Signups &amp; Auth</button>' +
+                '<button class="chip" data-filter="billing" onclick="setChipFilter(\\'billing\\')">Billing</button>' +
               '</div>' +
             '</div>' +
           '</div>' +
