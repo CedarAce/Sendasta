@@ -6,16 +6,13 @@ const NAV_SECTIONS = [
     items: [
       { to: '/admin', label: 'Overview', end: true, icon: HomeIcon },
       { to: '/admin/users', label: 'Users', icon: UsersIcon },
-      { to: '/admin/alert-lists', label: 'Alert Lists', icon: BellIcon },
-      { to: '/admin/warning-list', label: 'Warning List', icon: ShieldIcon },
-      { to: '/admin/bypass-list', label: 'Bypass List', icon: CheckIcon },
+      { to: '/admin/policies', label: 'Policies', icon: ShieldIcon },
       { to: '/admin/billing', label: 'Billing', icon: CardIcon },
     ],
   },
   {
     label: 'Resources',
     items: [
-      { to: '/admin/languages', label: 'Languages', icon: GlobeIcon },
       { to: '/admin/documentation', label: 'Documentation', icon: BookIcon },
       { to: '/admin/downloads', label: 'Downloads', icon: DownloadIcon },
     ],

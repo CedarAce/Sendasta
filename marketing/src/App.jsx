@@ -13,14 +13,12 @@ import Signup from './pages/auth/Signup'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import ResetPassword from './pages/auth/ResetPassword'
 import AuthCallback from './pages/auth/AuthCallback'
+import { Navigate } from 'react-router-dom'
 import AdminLayout from './components/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
 import Users from './pages/admin/Users'
-import AlertLists from './pages/admin/AlertLists'
-import WarningList from './pages/admin/WarningList'
-import BypassList from './pages/admin/BypassList'
+import Policies from './pages/admin/Policies'
 import Billing from './pages/admin/Billing'
-import Languages from './pages/admin/Languages'
 import Documentation from './pages/admin/Documentation'
 import Downloads from './pages/admin/Downloads'
 
@@ -64,13 +62,15 @@ export default function App() {
         >
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/users" element={<Users />} />
-          <Route path="/admin/alert-lists" element={<AlertLists />} />
-          <Route path="/admin/warning-list" element={<WarningList />} />
-          <Route path="/admin/bypass-list" element={<BypassList />} />
+          <Route path="/admin/policies" element={<Policies />} />
           <Route path="/admin/billing" element={<Billing />} />
-          <Route path="/admin/languages" element={<Languages />} />
           <Route path="/admin/documentation" element={<Documentation />} />
           <Route path="/admin/downloads" element={<Downloads />} />
+          {/* Legacy redirects */}
+          <Route path="/admin/alert-lists" element={<Navigate to="/admin/policies" replace />} />
+          <Route path="/admin/warning-list" element={<Navigate to="/admin/policies" replace />} />
+          <Route path="/admin/bypass-list" element={<Navigate to="/admin/policies" replace />} />
+          <Route path="/admin/languages" element={<Navigate to="/admin/policies" replace />} />
         </Route>
       </Routes>
     </>

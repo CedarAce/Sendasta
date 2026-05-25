@@ -18,6 +18,8 @@ export default function PairListEditor({
   const [draftB, setDraftB] = useState('')
   const [error, setError] = useState('')
   const [importOpen, setImportOpen] = useState(false)
+  const [selecting, setSelecting] = useState(false)
+  const [selected, setSelected] = useState(new Set())
 
   const samePair = (p1, p2) =>
     (p1.a === p2.a && p1.b === p2.b) || (p1.a === p2.b && p1.b === p2.a)
@@ -67,78 +69,131 @@ export default function PairListEditor({
     downloadAsFile(exportName, csv)
   }
 
+  const toggleItem = (i) => {
+    setSelected((prev) => {
+      const next = new Set(prev)
+      next.has(i) ? next.delete(i) : next.add(i)
+      return next
+    })
+  }
+
+  const cancelSelect = () => { setSelecting(false); setSelected(new Set()) }
+
+  const deleteSelected = () => {
+    onChange?.(value.filter((_, i) => !selected.has(i)))
+    cancelSelect()
+  }
+
   return (
     <div>
       {/* Toolbar */}
-      <div className="flex items-center justify-end gap-3 mb-3 text-sm">
-        <button
-          type="button"
-          onClick={() => setImportOpen(true)}
-          disabled={disabled}
-          className="text-blue-accent hover:underline disabled:text-gray-400 disabled:no-underline"
-        >
-          Import
-        </button>
-        {value.length > 0 && (
+      {selecting ? (
+        <div className="flex items-center gap-3 mb-3 text-sm">
           <button
             type="button"
-            onClick={onExport}
+            onClick={() => setSelected(new Set(value.map((_, i) => i)))}
             className="text-blue-accent hover:underline"
           >
-            Export
+            Select all
           </button>
-        )}
-      </div>
+          <span className="text-gray-300">|</span>
+          <span className="text-gray-500">{selected.size} selected</span>
+          <span className="flex-1" />
+          {selected.size > 0 && (
+            <button type="button" onClick={deleteSelected} className="text-red-600 font-medium hover:underline">
+              Delete {selected.size}
+            </button>
+          )}
+          <button type="button" onClick={cancelSelect} className="text-gray-500 hover:underline">
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-end gap-3 mb-3 text-sm">
+          {value.length > 1 && (
+            <button
+              type="button"
+              onClick={() => setSelecting(true)}
+              disabled={disabled}
+              className="text-gray-500 hover:text-gray-700 disabled:text-gray-300"
+            >
+              Select
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setImportOpen(true)}
+            disabled={disabled}
+            className="text-blue-accent hover:underline disabled:text-gray-400 disabled:no-underline"
+          >
+            Import
+          </button>
+          {value.length > 0 && (
+            <button type="button" onClick={onExport} className="text-blue-accent hover:underline">
+              Export
+            </button>
+          )}
+        </div>
+      )}
 
       <ul className="border border-gray-200 rounded-lg divide-y divide-gray-100 overflow-hidden">
-        {loading && (
-          <li className="text-sm text-gray-500 py-2.5 px-3">Loading…</li>
-        )}
+        {loading && <li className="text-sm text-gray-500 py-2.5 px-3">Loading…</li>}
 
-        {!loading &&
-          value.map((p, i) => (
+        {!loading && value.map((p, i) => {
+          const isChecked = selected.has(i)
+          return (
             <li
               key={`${p.a}::${p.b}::${i}`}
-              className="flex items-center justify-between py-2.5 px-3 text-sm group bg-white"
+              onClick={selecting ? () => toggleItem(i) : undefined}
+              className={`flex items-center py-2.5 px-3 text-sm bg-white ${
+                selecting ? 'cursor-pointer select-none hover:bg-gray-50' : 'group'
+              } ${isChecked ? 'bg-blue-50' : ''}`}
             >
-              <div className="font-mono text-gray-800 flex items-center gap-2">
+              {selecting && (
+                <span className={`mr-3 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isChecked ? 'bg-blue-accent border-blue-accent' : 'border-gray-300'
+                }`}>
+                  {isChecked && (
+                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </span>
+              )}
+              <div className="font-mono text-gray-800 flex items-center gap-2 flex-1">
                 <span>{p.a}</span>
-                <span className="text-gray-400">×</span>
+                <span className="text-gray-400">+</span>
                 <span>{p.b}</span>
               </div>
-              <button
-                onClick={() => remove(i)}
-                disabled={disabled}
-                aria-label={`Remove pair ${p.a} × ${p.b}`}
-                className="text-gray-400 hover:text-red-600 disabled:text-gray-300 disabled:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                ×
-              </button>
+              {!selecting && (
+                <button
+                  onClick={() => remove(i)}
+                  disabled={disabled}
+                  aria-label={`Remove pair ${p.a} + ${p.b}`}
+                  className="text-gray-400 hover:text-red-600 disabled:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  ×
+                </button>
+              )}
             </li>
-          ))}
+          )
+        })}
 
-        {/* Inline add row */}
-        {!loading && (
+        {!loading && !selecting && (
           <li className="flex items-center gap-2 py-1 px-2 bg-gray-50">
             <span className="text-gray-400 select-none">+</span>
             <input
               value={draftA}
-              onChange={(e) => {
-                setDraftA(e.target.value)
-                if (error) setError('')
-              }}
+              onChange={(e) => { setDraftA(e.target.value); if (error) setError('') }}
               onKeyDown={onKey}
               placeholder="domain-a.com"
               disabled={disabled}
               className="flex-1 bg-transparent text-sm font-mono py-1.5 focus:outline-none disabled:text-gray-400 placeholder:font-sans placeholder:text-gray-400 min-w-0"
             />
-            <span className="text-gray-400 text-sm">×</span>
+            <span className="text-gray-400 text-sm">+</span>
             <input
               value={draftB}
-              onChange={(e) => {
-                setDraftB(e.target.value)
-                if (error) setError('')
-              }}
+              onChange={(e) => { setDraftB(e.target.value); if (error) setError('') }}
               onKeyDown={onKey}
               onBlur={commitDraft}
               placeholder="domain-b.com"
