@@ -11,16 +11,18 @@ export default async function handler(req, res) {
 
   const entry = req.body || {};
   
-  // Extract geolocation from Vercel headers
+  // Extract geolocation and user agent from Vercel headers
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || "";
   const country = req.headers['x-vercel-ip-country'] || "";
   const city = req.headers['x-vercel-ip-city'] || "";
+  const userAgent = req.headers['user-agent'] || "";
   
   const payload = { 
     ...entry, 
     ip,
     country,
     city,
+    userAgent,
     at: new Date().toISOString() 
   };
   
@@ -46,7 +48,7 @@ export default async function handler(req, res) {
     try {
       const supabase = getSupabaseAdmin();
       if (supabase) {
-        const row = normalizeEvent(entry, { ip, country, city });
+        const row = normalizeEvent(entry, { ip, country, city, userAgent });
         if (row) await supabase.from("sendasta_events").insert(row);
       }
     } catch (e) {
