@@ -7,11 +7,13 @@ export default function Billing() {
   const { org, trialState, loading, refresh } = useOrg()
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState(null)
+  const [polling, setPolling] = useState(false)
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search)
     if (p.get('success')) {
       setToast({ kind: 'ok', msg: 'Welcome to Sendasta Business! Your subscription is active.' })
+      setPolling(true)
       refresh()
     } else if (p.get('canceled')) {
       setToast({ kind: 'info', msg: 'Checkout canceled — you can upgrade any time.' })
@@ -21,6 +23,19 @@ export default function Billing() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Poll after checkout until current_period_end is populated (webhook fires async)
+  useEffect(() => {
+    if (!polling) return
+    if (org?.current_period_end) { setPolling(false); return }
+    let attempts = 0
+    const id = setInterval(async () => {
+      attempts++
+      await refresh()
+      if (attempts >= 15) { setPolling(false); clearInterval(id) }
+    }, 2000)
+    return () => clearInterval(id)
+  }, [polling, org?.current_period_end, refresh])
 
   const kind = trialState?.kind
   const isPaid = kind === 'paid' || kind === 'past_due'
@@ -72,8 +87,8 @@ export default function Billing() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Stat label="Current plan" value={loading ? '…' : planLabel} hint={planHint} />
-        <Stat label="Price" value="$99" hint="per month, flat" />
-        <Stat label={isPaid ? 'Renews' : 'Trial'} value={loading ? '…' : statusValue} hint="" />
+        <Stat label="Price" value="$99/mo" hint="flat rate · billed monthly" />
+        <Stat label={isPaid ? 'Renews' : 'Trial'} value={loading || polling ? '…' : statusValue} hint="" />
       </div>
 
       <section className="bg-white rounded-lg border border-gray-200 p-6">
