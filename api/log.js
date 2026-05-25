@@ -14,7 +14,10 @@ export default async function handler(req, res) {
   // Extract geolocation and user agent from Vercel headers
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || "";
   const country = req.headers['x-vercel-ip-country'] || "";
-  const city = req.headers['x-vercel-ip-city'] || "";
+  let city = req.headers['x-vercel-ip-city'] || "";
+  try {
+    city = decodeURIComponent(city.replace(/\+/g, " "));
+  } catch (e) {}
   const userAgent = req.headers['user-agent'] || "";
   
   const payload = { 

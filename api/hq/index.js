@@ -443,10 +443,45 @@ const HTML = `<!doctype html>
     /* Live Feed Actions bar */
     .feed-header-bar {
       display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .feed-header-top {
+      display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      gap: 16px;
+    }
+    .feed-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      padding: 6px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+      outline: none;
+    }
+    .chip:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .chip.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent);
+      color: #60a5fa;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
     }
     .feed-search-input {
       background: rgba(0, 0, 0, 0.3);
@@ -528,6 +563,15 @@ const HTML = `<!doctype html>
         if (s < 3600) return Math.round(s / 60) + "m ago";
         if (s < 86400) return Math.round(s / 3600) + "h ago";
         return Math.round(s / 86400) + "d ago";
+      };
+
+      const decodeCity = name => {
+        if (!name) return "";
+        try {
+          return decodeURIComponent(name.replace(/\+/g, " "));
+        } catch (e) {
+          return name;
+        }
       };
 
       // Native Country Flags generator
@@ -705,7 +749,7 @@ const HTML = `<!doctype html>
           const parts = name.split(",");
           const cityName = parts[0].trim();
           const countryCode = parts[1] ? parts[1].trim() : "";
-          return (countryCode ? getFlagEmoji(countryCode) + " " : "") + esc(cityName);
+          return (countryCode ? getFlagEmoji(countryCode) + " " : "") + esc(decodeCity(cityName));
         };
 
         return '<div class="panel col-12">' +
@@ -763,8 +807,10 @@ const HTML = `<!doctype html>
         '</div>';
       }
 
-      // Store recent events globally for searching
+      // Store recent events globally for searching and filtering
       let globalRecentEvents = [];
+      let currentFilterChip = 'all';
+      let currentSearchQuery = '';
 
       function renderLiveFeedRows(events) {
         const tbody = document.getElementById("live-feed-tbody");
@@ -778,8 +824,9 @@ const HTML = `<!doctype html>
         tbody.innerHTML = events.map(x => {
           const uaInfo = parseUA(x.user_agent);
           const flag = getFlagEmoji(x.country);
+          const decodedCityName = decodeCity(x.city);
           const locationText = x.country 
-            ? flag + ' ' + esc(x.city || "Unknown")
+            ? flag + ' ' + esc(decodedCityName || "Unknown")
             : '🌐 Local/VPN';
           const ipText = x.ip ? '<br/><span class="muted" style="font-size: 10px;">' + esc(x.ip) + '</span>' : '';
           
@@ -817,7 +864,7 @@ const HTML = `<!doctype html>
                 path: x.path,
                 ip: x.ip,
                 country: x.country,
-                city: x.city,
+                city: decodedCityName,
                 user_agent: x.user_agent,
                 props: x.props
               }, null, 2)) + '</pre>' +
@@ -826,44 +873,84 @@ const HTML = `<!doctype html>
         }).join("");
       }
 
-      function handleSearch(query) {
-        const q = query.toLowerCase().trim();
-        if (!q) {
-          renderLiveFeedRows(globalRecentEvents);
-          return;
+      window.setChipFilter = (chipVal) => {
+        currentFilterChip = chipVal;
+        
+        // Update active class on DOM buttons
+        const chips = document.querySelectorAll('.feed-chips .chip');
+        chips.forEach(c => {
+          c.classList.remove('active');
+          if (c.getAttribute('data-filter') === chipVal) {
+            c.classList.add('active');
+          }
+        });
+        
+        applyFilter();
+      };
+
+      window.onFeedSearch = e => {
+        currentSearchQuery = e.value;
+        applyFilter();
+      };
+
+      function applyFilter() {
+        const q = currentSearchQuery.toLowerCase().trim();
+        let filtered = globalRecentEvents;
+        
+        // 1. Apply Chip filter
+        if (currentFilterChip !== 'all') {
+          filtered = filtered.filter(x => {
+            if (currentFilterChip === 'page_view') return x.action === 'page_view';
+            if (currentFilterChip === 'scan_started') return x.action === 'scan_started';
+            if (currentFilterChip === 'email_blocked') return x.action === 'email_blocked';
+            if (currentFilterChip === 'email_allowed') return x.action === 'email_allowed';
+            if (currentFilterChip === 'auth') return x.action === 'user_signed_up' || x.action === 'user_logged_in' || x.action.startsWith('user_');
+            if (currentFilterChip === 'billing') return x.action === 'checkout_started' || x.action === 'subscription_active' || x.action.includes('checkout') || x.action.includes('sub');
+            return true;
+          });
         }
         
-        const filtered = globalRecentEvents.filter(x => {
-          const uaInfo = parseUA(x.user_agent);
-          return (
-            (x.company_domain && x.company_domain.toLowerCase().includes(q)) ||
-            (x.sender_email && x.sender_email.toLowerCase().includes(q)) ||
-            (x.email && x.email.toLowerCase().includes(q)) ||
-            (x.action && x.action.toLowerCase().includes(q)) ||
-            (x.reason && x.reason.toLowerCase().includes(q)) ||
-            (x.city && x.city.toLowerCase().includes(q)) ||
-            (x.country && x.country.toLowerCase().includes(q)) ||
-            (x.ip && x.ip.toLowerCase().includes(q)) ||
-            (x.source && x.source.toLowerCase().includes(q)) ||
-            uaInfo.os.toLowerCase().includes(q) ||
-            uaInfo.browser.toLowerCase().includes(q)
-          );
-        });
+        // 2. Apply Text search filter
+        if (q) {
+          filtered = filtered.filter(x => {
+            const uaInfo = parseUA(x.user_agent);
+            const decodedCityName = decodeCity(x.city);
+            return (
+              (x.company_domain && x.company_domain.toLowerCase().includes(q)) ||
+              (x.sender_email && x.sender_email.toLowerCase().includes(q)) ||
+              (x.email && x.email.toLowerCase().includes(q)) ||
+              (x.action && x.action.toLowerCase().includes(q)) ||
+              (x.reason && x.reason.toLowerCase().includes(q)) ||
+              (decodedCityName && decodedCityName.toLowerCase().includes(q)) ||
+              (x.country && x.country.toLowerCase().includes(q)) ||
+              (x.ip && x.ip.toLowerCase().includes(q)) ||
+              (x.source && x.source.toLowerCase().includes(q)) ||
+              uaInfo.os.toLowerCase().includes(q) ||
+              uaInfo.browser.toLowerCase().includes(q)
+            );
+          });
+        }
         
         renderLiveFeedRows(filtered);
       }
 
       function liveFeedPanel() {
-        // Wire up the search input handler in the global scope
-        window.onFeedSearch = e => {
-          handleSearch(e.value);
-        };
-
         return '<div class="panel col-12">' +
           '<div class="ph">' +
             '<div class="feed-header-bar">' +
-              '<span>Live Intelligence Feed (Recent 100 Events)</span>' +
-              '<input type="text" class="feed-search-input" oninput="onFeedSearch(this)" placeholder="🔍 Filter feed..." />' +
+              '<div class="feed-header-top">' +
+                '<span>Live Intelligence Feed (Recent 100 Events)</span>' +
+                '<input type="text" class="feed-search-input" oninput="onFeedSearch(this)" placeholder="🔍 Filter feed..." />' +
+              '</div>' +
+              '<div class="feed-chips">' +
+                '<button class="chip active" data-filter="all" onclick="setChipFilter(\'all\')">All</button>' +
+                '<button class="chip" data-filter="page_view" onclick="setChipFilter(\'page_view\')">Page Views</button>' +
+                '<button class="chip" data-filter="scan_started" onclick="setChipFilter(\'scan_started\')">Outlook Scans</button>' +
+                '<button class="chip" data-filter="email_blocked" onclick="setChipFilter(\'email_blocked\')">Blocked</button>' +
+                '<button class="chip" data-filter="email_allowed" onclick="setChipFilter(\'email_allowed\')">Allowed</button>' +
+                '<button class="chip" data-filter="auth" onclick="setChipFilter(\'auth\')">Signups &amp; Auth</button>' +
+                '<button class="chip" data-filter="billing" onclick="setChipFilter(\'billing\')">Billing</button>' +
+              '</div>' +
             '</div>' +
           '</div>' +
           '<div style="overflow-x: auto;">' +
