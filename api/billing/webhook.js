@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     if (event.type === "customer.subscription.created" || event.type === "customer.subscription.updated") {
       const sub = event.data.object;
       const mapped = mapStatus(sub.status);
-      const periodEnd = sub.current_period_end
+      const periodEnd = sub.current_period_end > 0
         ? new Date(sub.current_period_end * 1000).toISOString()
         : null;
 
