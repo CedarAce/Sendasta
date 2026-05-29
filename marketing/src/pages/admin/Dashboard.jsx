@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useOrg } from '../../context/OrgContext'
 import { supabase } from '../../lib/supabaseClient'
+import { fetchOrgReport } from '../../lib/analytics'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -14,7 +16,16 @@ export default function Dashboard() {
     activeLicenses: null,
     rulesConfigured: null,
   })
+  const [mistakes, setMistakes] = useState(null)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchOrgReport(30)
+      .then((r) => { if (!cancelled) setMistakes(r.totals.blocks) })
+      .catch(() => { if (!cancelled) setMistakes(0) })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     if (orgLoading || !orgId) return
@@ -84,8 +95,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <KpiCard
           label="Mistakes caught"
-          value="—"
-          note="Analytics coming soon"
+          value={mistakes == null ? '…' : String(mistakes)}
+          note="last 30 days"
           highlight
         />
         <KpiCard
@@ -118,13 +129,19 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 className="text-sm font-semibold text-navy mb-1">Alert history</h2>
+      <Link
+        to="/admin/reporting"
+        className="block bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-accent/40 hover:shadow-sm transition-all group"
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-navy mb-1">Reporting</h2>
+          <span className="text-sm text-blue-accent group-hover:underline">View →</span>
+        </div>
         <p className="text-sm text-gray-500">
-          Per-send alert analytics will appear here once your team starts using Sendasta. You'll see
-          which domains are triggering warnings, correction rates, and trends over time.
+          See how many mistakes Sendasta caught, why emails were blocked, and the trend over time —
+          with no personal data ever leaving your team's inbox.
         </p>
-      </div>
+      </Link>
     </div>
   )
 }

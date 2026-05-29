@@ -5,6 +5,7 @@ const NAV_SECTIONS = [
   {
     items: [
       { to: '/admin', label: 'Overview', end: true, icon: HomeIcon },
+      { to: '/admin/reporting', label: 'Reporting', icon: ChartIcon },
       { to: '/admin/users', label: 'Users', icon: UsersIcon },
       { to: '/admin/policies', label: 'Policies', icon: ShieldIcon },
       { to: '/admin/billing', label: 'Billing', icon: CardIcon },
@@ -101,6 +102,13 @@ function HomeIcon() {
   return (
     <Icon>
       <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M5 10v10h14V10" />
+    </Icon>
+  )
+}
+function ChartIcon() {
+  return (
+    <Icon>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 14l4-4 3 3 5-6" />
     </Icon>
   )
 }

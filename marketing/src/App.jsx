@@ -16,6 +16,7 @@ import AuthCallback from './pages/auth/AuthCallback'
 import { Navigate } from 'react-router-dom'
 import AdminLayout from './components/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
+import Reporting from './pages/admin/Reporting'
 import Users from './pages/admin/Users'
 import Policies from './pages/admin/Policies'
 import Billing from './pages/admin/Billing'
@@ -62,6 +63,7 @@ export default function App() {
           }
         >
           <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/reporting" element={<Reporting />} />
           <Route path="/admin/users" element={<Users />} />
           <Route path="/admin/policies" element={<Policies />} />
           <Route path="/admin/billing" element={<Billing />} />

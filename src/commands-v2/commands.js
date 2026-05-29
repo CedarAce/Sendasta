@@ -130,7 +130,7 @@ function evaluateRecipients(asyncResult) {
   if (blockedDomains.length > 0) {
     const hits = [...new Set(recipientDomains.filter((d) => blockedDomains.includes(d)))];
     if (hits.length > 0) {
-      log({ action: "email_blocked", reason: "blocked_domain", companyDomain: senderDomain, senderEmail, recipientEmails });
+      log({ action: "email_blocked", reason: "blocked_domain", companyDomain: senderDomain, senderEmail, recipientEmails, recipientDomains: [...new Set(recipientDomains)] });
       event.completed({
         allowEvent: false,
         errorMessage: `⚠️ Recipient on restricted list\n\nThe following recipient domain${hits.length > 1 ? "s are" : " is"} on your organization's restricted list:\n\n${hits.map((d) => `• ${d}`).join("\n")}\n\nAre you sure you want to send this email?`,
@@ -143,7 +143,7 @@ function evaluateRecipients(asyncResult) {
   for (const pair of noCombinePairs) {
     const [domainA, domainB] = pair;
     if (recipientDomains.includes(domainA) && recipientDomains.includes(domainB)) {
-      log({ action: "email_blocked", reason: "no_combine", companyDomain: senderDomain, senderEmail, recipientEmails });
+      log({ action: "email_blocked", reason: "no_combine", companyDomain: senderDomain, senderEmail, recipientEmails, recipientDomains: [...new Set(recipientDomains)] });
       event.completed({
         allowEvent: false,
         errorMessage: `Conflicting recipients detected\n\nYour organization's policy does not allow sending to these domains together:\n\n• ${domainA}\n• ${domainB}\n\nReview recipients before proceeding.`,
@@ -170,7 +170,7 @@ function evaluateRecipients(asyncResult) {
   }
 
   // 5. Multi-domain alert
-  log({ action: "email_blocked", reason: "multi_domain_alert", companyDomain: senderDomain, senderEmail, recipientEmails });
+  log({ action: "email_blocked", reason: "multi_domain_alert", companyDomain: senderDomain, senderEmail, recipientEmails, recipientDomains: externalDomains });
   event.completed({
     allowEvent: false,
     errorMessage: `Multiple external domains detected\n\nThis email is addressed to ${externalDomains.length} external organization${externalDomains.length > 1 ? "s" : ""}:\n\n${externalDomains.map((d) => `• ${d}`).join("\n")}\n\nConfirm this is intentional.`,
