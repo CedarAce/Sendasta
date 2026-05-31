@@ -4,10 +4,12 @@ import { useAuth } from '../../context/AuthContext'
 import { useOrg } from '../../context/OrgContext'
 import { supabase } from '../../lib/supabaseClient'
 import { fetchOrgReport } from '../../lib/analytics'
+import { useSetup } from '../../context/SetupContext'
 
 export default function Dashboard() {
   const { user } = useAuth()
   const { orgId, loading: orgLoading } = useOrg()
+  const { completedCount, total, allDone, loading: setupLoading } = useSetup()
   const fullName = user?.user_metadata?.full_name
   const firstName =
     fullName?.trim().split(/\s+/)[0] || user?.email?.split('@')[0] || 'there'
@@ -76,8 +78,7 @@ export default function Dashboard() {
       ? '1 rule active'
       : `${stats.rulesConfigured} rules active`
 
-  const showGettingStarted =
-    !orgLoading && stats.rulesConfigured !== null && stats.rulesConfigured === 0
+  const showSetupPrompt = !setupLoading && !allDone
 
   return (
     <div className="max-w-5xl">
@@ -111,22 +112,21 @@ export default function Dashboard() {
         />
       </div>
 
-      {showGettingStarted && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
-          <h2 className="text-sm font-semibold text-navy mb-2">Get started in 3 steps</h2>
-          <ol className="text-sm text-gray-700 space-y-1.5 list-decimal pl-5">
-            <li>
-              Configure your <strong>Warning List</strong> and <strong>Bypass List</strong> for
-              org-wide policies.
-            </li>
-            <li>
-              Add <strong>Alert Lists</strong> to warn users when they mix sensitive domain pairs.
-            </li>
-            <li>
-              Visit <strong>Downloads</strong> to deploy Sendasta via the Microsoft 365 admin center.
-            </li>
-          </ol>
-        </div>
+      {showSetupPrompt && (
+        <Link
+          to="/admin/setup"
+          className="flex items-center justify-between gap-4 bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6 hover:border-blue-accent/40 transition-colors group"
+        >
+          <div>
+            <h2 className="text-sm font-semibold text-navy mb-1">Finish setting up Sendasta</h2>
+            <p className="text-sm text-gray-600">
+              {completedCount} of {total} steps complete — a few more and your team is protected.
+            </p>
+          </div>
+          <span className="text-sm font-medium text-blue-accent group-hover:underline whitespace-nowrap">
+            Continue →
+          </span>
+        </Link>
       )}
 
       <Link

@@ -3,6 +3,7 @@ import AdminSidebar from './AdminSidebar'
 import TrialBanner from './TrialBanner'
 import HardLockGate from './HardLockGate'
 import { useOrg } from '../../context/OrgContext'
+import { SetupProvider } from '../../context/SetupContext'
 
 export default function AdminLayout() {
   const { trialState } = useOrg()
@@ -14,15 +15,17 @@ export default function AdminLayout() {
   const allowThrough = pathname === '/admin/billing'
 
   return (
-    <div
-      className="min-h-screen flex bg-gray-50"
-      style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
-    >
-      <AdminSidebar />
-      <main className="flex-1 ml-60 p-8">
-        <TrialBanner />
-        {locked && !allowThrough ? <HardLockGate /> : <Outlet />}
-      </main>
-    </div>
+    <SetupProvider>
+      <div
+        className="min-h-screen flex bg-gray-50"
+        style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+      >
+        <AdminSidebar />
+        <main className="flex-1 ml-60 p-8">
+          <TrialBanner />
+          {locked && !allowThrough ? <HardLockGate /> : <Outlet />}
+        </main>
+      </div>
+    </SetupProvider>
   )
 }

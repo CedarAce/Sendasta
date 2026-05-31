@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useSetup } from '../../context/SetupContext'
 
 const NAV_SECTIONS = [
   {
@@ -24,6 +25,8 @@ const NAV_SECTIONS = [
 export default function AdminSidebar() {
   const navigate = useNavigate()
   const { user, signOut } = useAuth()
+  const { completedCount, total, allDone, loading: setupLoading } = useSetup()
+  const showSetup = !setupLoading && !allDone
 
   const onLogOut = async () => {
     await signOut()
@@ -51,6 +54,15 @@ export default function AdminSidebar() {
       </Link>
 
       <nav className="flex-1 px-3 py-3 overflow-y-auto flex flex-col gap-1">
+        {showSetup && (
+          <NavLink to="/admin/setup" className={linkClass}>
+            <RocketIcon />
+            <span className="flex-1">Setup Center</span>
+            <span className="text-[10.5px] font-semibold tabular-nums text-white/50">
+              {completedCount}/{total}
+            </span>
+          </NavLink>
+        )}
         {NAV_SECTIONS.map((section, i) => (
           <div key={i} className={section.label ? 'mt-3' : ''}>
             {section.label && (
@@ -98,6 +110,17 @@ function Icon({ children }) {
   )
 }
 
+function RocketIcon() {
+  return (
+    <Icon>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 13c-1.5 1.5-2 5-2 5s3.5-.5 5-2m6.5-9.5a8 8 0 00-9 9M14.5 4.5a8 8 0 019 9m-5.5-5.5a2 2 0 11-2.83 2.83A2 2 0 0117.5 8.5z"
+      />
+    </Icon>
+  )
+}
 function HomeIcon() {
   return (
     <Icon>
