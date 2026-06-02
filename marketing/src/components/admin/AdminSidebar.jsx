@@ -22,7 +22,7 @@ const NAV_SECTIONS = [
   },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ open = false, onClose = () => {} }) {
   const navigate = useNavigate()
   const { user, signOut } = useAuth()
   const { completedCount, total, allDone, loading: setupLoading } = useSetup()
@@ -41,7 +41,21 @@ export default function AdminSidebar() {
     }`
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-60 bg-navy flex flex-col border-r border-white/10">
+    <aside
+      className={`fixed left-0 top-0 h-screen w-60 bg-navy flex flex-col border-r border-white/10 z-40 transition-transform duration-200 md:translate-x-0 ${
+        open ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="md:hidden absolute top-3 right-3 text-white/50 hover:text-white p-1"
+        aria-label="Close menu"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
       <Link
         to="/admin"
         className="flex items-center gap-2.5 px-4 py-4 border-b border-white/10"
