@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PricingCards from '../components/PricingCards'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -260,6 +260,392 @@ function RolloutFigure() {
   )
 }
 
+/* ─── Hero animation (ported from Claude Design: upgrades/hero_animation.html) ─ */
+
+const heroAnimStyles = `
+.hero-anim {
+  --navy: #0A1628; --navy-800: #0d1e38;
+  --blue-accent: #2D7DD2; --blue-accent-hover: #2569b8;
+  --office-blue: #0078d7;
+  --danger: #d13438; --danger-bg: #fde7e9;
+  --success: #107c10; --success-bg: #dff6dd;
+  --ease: cubic-bezier(.4,0,.2,1); --ease-out: cubic-bezier(.16,1,.3,1);
+}
+.hero-anim *, .hero-anim *::before, .hero-anim *::after { box-sizing: border-box; }
+
+/* ── Animation stage ──────────────────────────────────────── */
+.hero-anim .stage {
+  width: 100%; max-width: 1140px; aspect-ratio: 16 / 9.2;
+  background: transparent; border: none;
+  overflow: visible; position: relative; isolation: isolate;
+}
+.hero-anim .stage::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(45,125,210,0.18) 0%, transparent 60%); z-index: 0;
+}
+
+/* ── Outlook compose ──────────────────────────────────────── */
+.hero-anim .compose {
+  position: absolute; inset: 3% 3.5%;
+  background: #fff; border-radius: 12px; box-shadow: 0 20px 60px -10px rgba(0,0,0,0.4);
+  color: #1f1f1f; overflow: hidden; z-index: 1; display: flex; flex-direction: column;
+}
+.hero-anim .compose-ribbon {
+  height: 36px; background: #f3f2f1; border-bottom: 1px solid #e1e1e1;
+  display: flex; align-items: center; padding: 0 14px; gap: 8px; flex-shrink: 0;
+}
+.hero-anim .ribbon-dot { width: 9px; height: 9px; border-radius: 50%; }
+.hero-anim .ribbon-dot.red { background: #ff5f57; }
+.hero-anim .ribbon-dot.yellow { background: #febc2e; }
+.hero-anim .ribbon-dot.green { background: #28c840; }
+.hero-anim .ribbon-title { margin-left: 14px; font-size: 11.5px; font-weight: 600; color: #605e5c; }
+
+.hero-anim .compose-body { padding: 16px 22px; flex: 1; display: flex; flex-direction: column; }
+.hero-anim .field { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #edebe9; min-height: 48px; position: relative; }
+.hero-anim .field-label { width: 56px; color: #605e5c; font-size: 11.5px; font-weight: 600; flex-shrink: 0; }
+.hero-anim .field-value { flex: 1; min-width: 0; display: inline-flex; align-items: center; gap: 8px; position: relative; }
+
+/* ── Chips ─────────────────────────────────────────────────── */
+.hero-anim .chip { display: inline-flex; align-items: center; gap: 8px; background: #edebe9; border-radius: 16px; padding: 4px 12px 4px 4px; font-size: 11.5px; transform-origin: left center; }
+.hero-anim .chip-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--office-blue); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+.hero-anim .chip-text { display: inline-flex; flex-direction: column; line-height: 1.15; gap: 1px; }
+.hero-anim .chip-name { font-size: 12px; font-weight: 600; color: #1f1f1f; }
+.hero-anim .chip-email { font-size: 10.5px; color: #605e5c; }
+.hero-anim .chip.danger { background: var(--danger-bg); box-shadow: 0 0 0 1.5px var(--danger); }
+.hero-anim .chip.danger .chip-avatar { background: var(--danger); }
+.hero-anim .chip.danger .chip-name, .hero-anim .chip.danger .chip-email { color: var(--danger); }
+.hero-anim .chip.danger .chip-email b { font-weight: 800; }
+.hero-anim .chip.success { background: var(--success-bg); }
+.hero-anim .chip.success .chip-avatar { background: var(--success); }
+.hero-anim .chip.success .chip-name { color: var(--success); }
+
+/* ── Recipient slot ────────────────────────────────────────── */
+.hero-anim .recipient-slot { position: relative; min-width: 240px; height: 32px; display: inline-flex; align-items: center; }
+.hero-anim .recipient-slot > * { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.hero-anim .typing-display { display: inline-flex; align-items: center; font-size: 13px; color: #1f1f1f; opacity: 0; transition: opacity 220ms var(--ease); }
+.hero-anim .typing-display.show { opacity: 1; }
+.hero-anim .typed-text { white-space: nowrap; display: inline-block; }
+.hero-anim .caret { display: inline-block; width: 1.5px; height: 16px; background: var(--office-blue); margin-left: 1px; animation: haBlink 1s infinite step-end; }
+@keyframes haBlink { 50% { background: transparent; } }
+
+.hero-anim .wrong-chip { opacity: 0; transform: translateY(-50%) scale(0.9); transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out); pointer-events: none; }
+.hero-anim .wrong-chip.in { opacity: 1; transform: translateY(-50%) scale(1); }
+
+/* ── Autocomplete dropdown ────────────────────────────────── */
+.hero-anim .dropdown {
+  position: absolute; top: 56px; left: 56px; width: 320px;
+  background: #fff; border: 1px solid #d2d0ce; box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  border-radius: 6px; z-index: 5;
+  opacity: 0; transform: translateY(-6px); pointer-events: none;
+  transition: opacity 200ms var(--ease), transform 220ms var(--ease-out);
+}
+.hero-anim .dropdown.open { opacity: 1; transform: translateY(0); }
+.hero-anim .dd-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid #f3f2f1; font-size: 12px; background: transparent; transition: background 160ms var(--ease); }
+.hero-anim .dd-row:last-child { border-bottom: none; }
+.hero-anim .dd-row.hot { background: rgba(209,52,56,0.10); }
+.hero-anim .dd-row .av { width: 26px; height: 26px; border-radius: 50%; color: #fff; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hero-anim .dd-row .av.green { background: var(--success); }
+.hero-anim .dd-row .av.red { background: var(--danger); }
+.hero-anim .dd-row .meta { flex: 1; min-width: 0; }
+.hero-anim .dd-row .name { font-weight: 600; color: #1f1f1f; font-size: 12.5px; }
+.hero-anim .dd-row .email { color: #605e5c; font-size: 11px; margin-top: 1px; }
+
+/* ── Subject + body ───────────────────────────────────────── */
+.hero-anim .subject-text { white-space: nowrap; display: inline-block; color: #1f1f1f; font-size: 13px; }
+.hero-anim .body-area { padding: 16px 0 0; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.hero-anim .body-line { height: 8px; background: #f3f2f1; border-radius: 4px; opacity: 0; transform: translateY(4px); transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out); }
+.hero-anim .body-line.in { opacity: 1; transform: translateY(0); }
+
+/* ── Send bar ─────────────────────────────────────────────── */
+.hero-anim .send-bar { border-top: 1px solid #edebe9; padding: 12px 22px; background: #faf9f8; }
+.hero-anim .send-btn { font: 600 12.5px 'Inter', sans-serif; background: var(--office-blue); color: #fff; border: none; padding: 8px 22px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 120ms var(--ease), transform 120ms var(--ease); }
+.hero-anim .send-btn svg { width: 13px; height: 13px; }
+.hero-anim .send-btn.press { background: #005a9e; transform: scale(0.95); }
+
+/* ── Sendasta dialog (Fluent, light mode) — matches real add-in ── */
+.hero-anim .warning {
+  position: absolute; left: 50%; top: 50%;
+  width: 66%; max-width: 480px; background: #fff; border-radius: 4px;
+  box-shadow: 0 25.6px 57.6px rgba(0,0,0,0.22), 0 4.8px 14.4px rgba(0,0,0,0.18);
+  overflow: hidden; z-index: 15; color: #1f1f1f;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  opacity: 0; transform: translate(-50%, -46%) scale(0.94);
+  transition: opacity 300ms var(--ease-out), transform 380ms var(--ease-out);
+}
+.hero-anim .warning.in { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.hero-anim .dlg-title { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px 6px; font-size: 17px; font-weight: 600; color: #1b1a19; }
+.hero-anim .dlg-close { color: #605e5c; display: inline-flex; }
+.hero-anim .dlg-close svg { width: 13px; height: 13px; }
+.hero-anim .dlg-body { display: flex; gap: 14px; padding: 8px 20px 4px; }
+.hero-anim .dlg-x { flex-shrink: 0; padding-top: 2px; }
+.hero-anim .dlg-x svg { width: 26px; height: 26px; }
+.hero-anim .dlg-content { font-size: 14px; line-height: 1.45; color: #1f1f1f; }
+.hero-anim .dlg-heading { font-size: 14.5px; margin-bottom: 12px; }
+.hero-anim .dlg-content p { margin: 12px 0; }
+.hero-anim .dlg-content ul { margin: 8px 0; padding-left: 20px; list-style: disc outside; }
+.hero-anim .dlg-content li { margin: 3px 0; display: list-item; }
+.hero-anim .dlg-content li::marker { color: var(--danger); }
+.hero-anim .dlg-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 20px 20px; }
+.hero-anim .dlg-btn { min-width: 118px; font: 600 14px 'Segoe UI', system-ui, sans-serif; padding: 8px 16px; border-radius: 2px; cursor: pointer; transition: box-shadow 200ms var(--ease), background 120ms var(--ease); }
+.hero-anim .dlg-btn.secondary { background: #fff; border: 1px solid #8a8886; color: #201f1e; }
+.hero-anim .dlg-btn.primary { background: #f4959b; border: 1px solid #f4959b; color: #201f1e; box-shadow: 0 0 0 0 rgba(209,52,56,0); }
+.hero-anim .dlg-btn.primary.hot { background: #ef7f88; box-shadow: 0 0 0 4px rgba(209,52,56,0.25); }
+
+/* ── Cursor ───────────────────────────────────────────────── */
+.hero-anim .cursor {
+  position: absolute; width: 16px; height: 22px; z-index: 20; left: 30%; top: 40%;
+  opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  transition: left 560ms var(--ease), top 560ms var(--ease), opacity 200ms var(--ease), transform 110ms var(--ease);
+}
+.hero-anim .cursor.show { opacity: 1; }
+.hero-anim .cursor.down { transform: scale(0.82); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-anim .cursor { display: none; }
+  .hero-anim .typing-display { display: none; }
+  .hero-anim .wrong-chip, .hero-anim .warning { opacity: 1 !important; transform: translate(-50%,-50%) scale(1) !important; }
+  .hero-anim .wrong-chip { transform: translateY(-50%) scale(1) !important; }
+  .hero-anim .body-line { opacity: 1 !important; transform: none !important; }
+  .hero-anim .subject-text { width: auto !important; }
+}
+`
+
+function HeroAnimation() {
+  const rootRef = useRef(null)
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const $ = (sel) => root.querySelector(sel)
+    const els = {
+      typing: $('#ha-typing'), typed: $('#ha-typed'), wrongChip: $('#ha-wrongChip'),
+      dropdown: $('#ha-dropdown'), wrongRow: $('#ha-wrongRow'), subject: $('#ha-subject'),
+      bodyLines: root.querySelectorAll('.body-line'), sendBtn: $('#ha-sendBtn'),
+      warning: $('#ha-warning'), dontSend: $('#ha-dontSend'), cursor: $('#ha-cursor'),
+    }
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let timers = []
+    const after = (ms, fn) => { timers.push(setTimeout(fn, ms)) }
+    const clearAll = () => { timers.forEach(clearTimeout); timers = [] }
+
+    // Smooth cursor move: coords are % of the stage.
+    function moveCursor(x, y, dur) {
+      if (dur != null) els.cursor.style.transitionDuration = dur + 'ms, ' + dur + 'ms, 200ms, 110ms'
+      els.cursor.style.left = x + '%'
+      els.cursor.style.top = y + '%'
+    }
+    function click(cb) {
+      els.cursor.classList.add('down')
+      after(120, function () { els.cursor.classList.remove('down'); if (cb) cb() })
+    }
+
+    // Real character typing into an element; each char is its own timer.
+    function type(el, text, perChar, done) {
+      let i = 0
+      ;(function step() {
+        if (i > text.length) { if (done) done(); return }
+        el.textContent = text.slice(0, i)
+        i++
+        after(perChar, step)
+      })()
+    }
+
+    function reset() {
+      els.typing.classList.remove('show')
+      els.typed.textContent = ''
+      els.wrongChip.classList.remove('in')
+      els.dropdown.classList.remove('open')
+      els.wrongRow.classList.remove('hot')
+      els.subject.textContent = ''
+      els.bodyLines.forEach(function (l) { l.classList.remove('in') })
+      els.sendBtn.classList.remove('press')
+      els.warning.classList.remove('in')
+      els.dontSend.classList.remove('hot')
+      els.cursor.classList.remove('show', 'down')
+      els.cursor.style.transitionDuration = '0ms'
+      moveCursor(30, 22)
+    }
+
+    function run() {
+      reset()
+      if (reduce) {
+        els.wrongChip.classList.add('in')
+        els.subject.textContent = 'Q2 renewal — final pricing'
+        els.bodyLines.forEach(function (l) { l.classList.add('in') })
+        els.warning.classList.add('in')
+        return
+      }
+
+      // 1. Cursor drifts in, start typing "John"
+      after(500, function () {
+        els.cursor.classList.add('show')
+        moveCursor(33, 17, 400)
+        els.typing.classList.add('show')
+        type(els.typed, 'John', 130)
+      })
+
+      // 2. Autocomplete opens
+      after(1250, function () { els.dropdown.classList.add('open') })
+
+      // 3. Cursor glides down to the wrong row
+      after(1650, function () { moveCursor(32, 35, 620) })
+      after(2350, function () { els.wrongRow.classList.add('hot') })
+
+      // 4. Click the wrong recipient → chip lands, dropdown & typing clear
+      after(2650, function () {
+        click(function () {
+          els.dropdown.classList.remove('open')
+          els.wrongRow.classList.remove('hot')
+          els.typing.classList.remove('show')
+          els.wrongChip.classList.add('in')
+        })
+      })
+
+      // 5. Fill subject + body
+      after(3150, function () { type(els.subject, 'Q2 renewal — final pricing', 55) })
+      after(4300, function () {
+        els.bodyLines.forEach(function (l, i) {
+          after(i * 130, function () { l.classList.add('in') })
+        })
+      })
+
+      // 6. Move to Send and press
+      after(4900, function () { els.cursor.classList.add('show'); moveCursor(15, 83, 600) })
+      after(5600, function () { click(function () { els.sendBtn.classList.add('press') }) })
+      after(5850, function () { els.sendBtn.classList.remove('press') })
+
+      // 7. Warning intervenes
+      after(5950, function () { els.warning.classList.add('in') })
+
+      // 8. Cursor moves in to "Don't send" and hovers — the payoff, held
+      after(6550, function () { moveCursor(63, 62, 640) })
+      after(7250, function () { els.dontSend.classList.add('hot') })
+
+      // 9. Fade out for a clean loop
+      after(9600, function () {
+        els.warning.classList.remove('in')
+        els.dontSend.classList.remove('hot')
+        els.wrongChip.classList.remove('in')
+        els.cursor.classList.remove('show')
+      })
+      after(10200, run)
+    }
+
+    run()
+    return () => clearAll()
+  }, [])
+
+  return (
+    <div ref={rootRef} className="hero-anim mt-16 max-w-6xl mx-auto w-full flex justify-center">
+      <style>{heroAnimStyles}</style>
+      <div className="stage" aria-label="Animated Sendasta demo">
+        <div className="compose">
+          <div className="compose-ribbon">
+            <span className="ribbon-dot red"></span>
+            <span className="ribbon-dot yellow"></span>
+            <span className="ribbon-dot green"></span>
+            <span className="ribbon-title">New message</span>
+          </div>
+
+          <div className="compose-body">
+            <div className="field">
+              <span className="field-label">To</span>
+              <div className="field-value">
+                <span className="chip success">
+                  <span className="chip-avatar">MC</span>
+                  <span className="chip-text">
+                    <span className="chip-name">Maya Chen</span>
+                    <span className="chip-email">maya@acme.com</span>
+                  </span>
+                </span>
+
+                <span className="recipient-slot">
+                  <span className="typing-display" id="ha-typing">
+                    <span className="typed-text" id="ha-typed"></span>
+                    <span className="caret"></span>
+                  </span>
+                  <span className="chip danger wrong-chip" id="ha-wrongChip">
+                    <span className="chip-avatar">JS</span>
+                    <span className="chip-text">
+                      <span className="chip-name">John Smith</span>
+                      <span className="chip-email">john@<b>competitor.com</b></span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+
+              <div className="dropdown" id="ha-dropdown">
+                <div className="dd-row">
+                  <span className="av green">JS</span>
+                  <div className="meta">
+                    <div className="name">John Smith</div>
+                    <div className="email">john@acme.com · Engineering</div>
+                  </div>
+                </div>
+                <div className="dd-row" id="ha-wrongRow">
+                  <span className="av red">JS</span>
+                  <div className="meta">
+                    <div className="name">John Smith</div>
+                    <div className="email">john@competitor.com</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="field">
+              <span className="field-label">Subject</span>
+              <span className="subject-text" id="ha-subject"></span>
+            </div>
+
+            <div className="body-area">
+              <div className="body-line" style={{ width: '88%' }}></div>
+              <div className="body-line" style={{ width: '72%' }}></div>
+              <div className="body-line" style={{ width: '58%' }}></div>
+            </div>
+          </div>
+
+          <div className="send-bar">
+            <button className="send-btn" id="ha-sendBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send
+            </button>
+          </div>
+        </div>
+
+        <div className="warning" id="ha-warning" role="alertdialog">
+          <div className="dlg-title">
+            <span>Message from Add-in: Sendasta</span>
+            <span className="dlg-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></span>
+          </div>
+          <div className="dlg-body">
+            <div className="dlg-x">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#d13438" strokeWidth="3" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+            </div>
+            <div className="dlg-content">
+              <div className="dlg-heading">Multiple external domains detected</div>
+              <p>This email is addressed to 2 external organizations:</p>
+              <ul>
+                <li>acme.com</li>
+                <li>competitor.com</li>
+              </ul>
+              <p>Confirm this is intentional.</p>
+            </div>
+          </div>
+          <div className="dlg-actions">
+            <button className="dlg-btn secondary">Send anyway</button>
+            <button className="dlg-btn primary" id="ha-dontSend">Don't send</button>
+          </div>
+        </div>
+
+        <svg className="cursor" id="ha-cursor" viewBox="0 0 14 18" fill="#1f2937">
+          <path d="M1 1 L1 14 L5 11 L7 16 L9 15 L7 11 L13 11 Z" stroke="white" strokeWidth="1"/>
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+
 /* ─── Hero ──────────────────────────────────────────────────────────────── */
 
 function Hero({ onDemoClick }) {
@@ -298,18 +684,8 @@ function Hero({ onDemoClick }) {
         <p className="mt-4 text-gray-500 text-xs">Free for personal use · No credit card · Works on Outlook web, desktop, and Mac</p>
       </div>
 
-      {/* Demo video */}
-      <div className="mt-16 max-w-5xl mx-auto rounded-none md:rounded-xl overflow-hidden border-y md:border border-white/10 shadow-2xl w-[calc(100%+3rem)] -mx-6 md:w-full md:mx-auto">
-        <video
-          className="w-full"
-          src="/assets/videos/video01.mp4"
-          poster="/assets/videos/video01_poster.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-      </div>
+      {/* Animated demo */}
+      <HeroAnimation />
     </section>
   )
 }
