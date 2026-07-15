@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PricingCards from '../components/PricingCards'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -274,8 +274,13 @@ const heroAnimStyles = `
 .hero-anim *, .hero-anim *::before, .hero-anim *::after { box-sizing: border-box; }
 
 /* ── Animation stage ──────────────────────────────────────── */
+/* Fixed design canvas; scaled down to fit narrow viewports via
+   transform in JS so every element shrinks proportionally instead
+   of reflowing/clipping. */
+.hero-anim-wrap { width: 100%; max-width: 1140px; overflow: hidden; }
 .hero-anim .stage {
-  width: 100%; max-width: 1140px; aspect-ratio: 16 / 9.2;
+  width: 1140px; height: 654px;
+  transform-origin: top left;
   background: transparent; border: none;
   overflow: visible; position: relative; isolation: isolate;
 }
@@ -401,26 +406,65 @@ const heroAnimStyles = `
 .hero-anim .cursor.down { transform: scale(0.82); }
 `
 
+const STAGE_W = 1140
+const STAGE_H = 654
+
 function HeroAnimation() {
   const rootRef = useRef(null)
+  const wrapRef = useRef(null)
+
+  // Scale the fixed-size stage to fit the wrapper's width (mobile included)
+  // so every element inside shrinks proportionally instead of clipping.
+  useLayoutEffect(() => {
+    const wrap = wrapRef.current
+    const stage = rootRef.current?.querySelector('.stage')
+    if (!wrap || !stage) return
+
+    function applyScale() {
+      const scale = Math.min(1, wrap.clientWidth / STAGE_W)
+      stage.style.transform = 'scale(' + scale + ')'
+      wrap.style.height = (STAGE_H * scale) + 'px'
+    }
+
+    applyScale()
+    const ro = new ResizeObserver(applyScale)
+    ro.observe(wrap)
+    return () => ro.disconnect()
+  }, [])
 
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
     const $ = (sel) => root.querySelector(sel)
+    const stage = $('.stage')
     const els = {
       typing: $('#ha-typing'), typed: $('#ha-typed'), wrongChip: $('#ha-wrongChip'),
       dropdown: $('#ha-dropdown'), wrongRow: $('#ha-wrongRow'), subject: $('#ha-subject'),
       bodyLines: root.querySelectorAll('.body-line'), sendBtn: $('#ha-sendBtn'),
       warning: $('#ha-warning'), dontSend: $('#ha-dontSend'), cursor: $('#ha-cursor'),
     }
+    const SPEED = 1.25
     let timers = []
-    const after = (ms, fn) => { timers.push(setTimeout(fn, ms)) }
+    const after = (ms, fn) => { timers.push(setTimeout(fn, ms / SPEED)) }
     const clearAll = () => { timers.forEach(clearTimeout); timers = [] }
+
+    // Cursor target as % of the stage, computed from the actual rendered
+    // position of `el` so the cursor lands exactly on it regardless of layout/scale.
+    function targetOf(el) {
+      const s = stage.getBoundingClientRect()
+      const r = el.getBoundingClientRect()
+      return {
+        x: ((r.left + r.width / 2 - s.left) / s.width) * 100,
+        y: ((r.top + r.height / 2 - s.top) / s.height) * 100,
+      }
+    }
 
     // Smooth cursor move: coords are % of the stage.
     function moveCursor(x, y, dur) {
-      if (dur != null) els.cursor.style.transitionDuration = dur + 'ms, ' + dur + 'ms, 200ms, 110ms'
+      if (dur != null) {
+        const d = dur / SPEED
+        els.cursor.style.transitionDuration = d + 'ms, ' + d + 'ms, 200ms, 110ms'
+      }
       els.cursor.style.left = x + '%'
       els.cursor.style.top = y + '%'
     }
@@ -493,7 +537,7 @@ function HeroAnimation() {
       })
 
       // 6. Move to Send and press
-      after(4900, function () { els.cursor.classList.add('show'); moveCursor(15, 83, 600) })
+      after(4900, function () { els.cursor.classList.add('show'); const p = targetOf(els.sendBtn); moveCursor(p.x, p.y, 600) })
       after(5600, function () { click(function () { els.sendBtn.classList.add('press') }) })
       after(5850, function () { els.sendBtn.classList.remove('press') })
 
@@ -501,7 +545,7 @@ function HeroAnimation() {
       after(5950, function () { els.warning.classList.add('in') })
 
       // 8. Cursor moves in to "Don't send" and hovers — the payoff, held
-      after(6550, function () { moveCursor(63, 62, 640) })
+      after(6550, function () { const p = targetOf(els.dontSend); moveCursor(p.x, p.y, 640) })
       after(7250, function () { els.dontSend.classList.add('hot') })
 
       // 9. Fade out for a clean loop
@@ -521,6 +565,7 @@ function HeroAnimation() {
   return (
     <div ref={rootRef} className="hero-anim mt-16 max-w-6xl mx-auto w-full flex justify-center">
       <style>{heroAnimStyles}</style>
+      <div ref={wrapRef} className="hero-anim-wrap">
       <div className="stage" aria-label="Animated Sendasta demo">
         <div className="compose">
           <div className="compose-ribbon">
@@ -623,6 +668,7 @@ function HeroAnimation() {
         <svg className="cursor" id="ha-cursor" viewBox="0 0 14 18" fill="#1f2937">
           <path d="M1 1 L1 14 L5 11 L7 16 L9 15 L7 11 L13 11 Z" stroke="white" strokeWidth="1"/>
         </svg>
+      </div>
       </div>
     </div>
   )
