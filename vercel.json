@@ -11,6 +11,7 @@
     { "source": "/reset-password", "destination": "/index.html" },
     { "source": "/auth/callback", "destination": "/index.html" },
     { "source": "/admin/:path*", "destination": "/index.html" },
-    { "source": "/hq", "destination": "/api/hq" }
+    { "source": "/hq", "destination": "/api/hq" },
+    { "source": "/api/hq/:resource(overview|companies|funnel|recent)", "destination": "/api/hq?resource=:resource" }
   ]
 }

@@ -1,11 +1,68 @@
 // api/hq/index.js
-// Standalone HQ dashboard (HTML+JS). Password-gated. Reads /api/hq/* endpoints.
+// Standalone HQ dashboard (HTML+JS). Password-gated.
+// Also serves the /api/hq/{overview,companies,funnel,recent} data endpoints
+// (dispatched via ?resource=, rewritten in vercel.json) so the whole /hq
+// surface stays within a single Serverless Function on the Hobby plan.
 import { requireHqAuth } from "../../lib/hqAuth.cjs";
+import { getSupabaseAdmin } from "../../lib/supabaseAdmin.cjs";
+import { buildOverview, buildCompanies, buildFunnel } from "../../lib/aggregate.cjs";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (!requireHqAuth(req, res)) return;
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.send(HTML);
+
+  const { resource } = req.query;
+  if (!resource) {
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.send(HTML);
+    return;
+  }
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return res.status(500).json({ error: "Supabase not configured" });
+
+  const since30d = new Date(Date.now() - 30 * 864e5).toISOString();
+
+  switch (resource) {
+    case "overview": {
+      const { data, error } = await supabase
+        .from("sendasta_events")
+        .select("at,action,ip,company_domain,country,city,user_agent")
+        .gte("at", since30d)
+        .limit(50000);
+      if (error) return res.status(502).json({ error: error.message });
+      return res.json(buildOverview(data || []));
+    }
+    case "companies": {
+      const { data, error } = await supabase
+        .from("sendasta_events")
+        .select("at,action,company_domain,sender_email")
+        .not("company_domain", "is", null)
+        .gte("at", since30d)
+        .limit(50000);
+      if (error) return res.status(502).json({ error: error.message });
+      return res.json(buildCompanies(data || []));
+    }
+    case "funnel": {
+      const { data, error } = await supabase
+        .from("sendasta_events")
+        .select("at,action,ip,email,company_domain")
+        .gte("at", since30d)
+        .limit(50000);
+      if (error) return res.status(502).json({ error: error.message });
+      return res.json(buildFunnel(data || [], 30));
+    }
+    case "recent": {
+      const { data, error } = await supabase
+        .from("sendasta_events")
+        .select("id,at,source,action,reason,company_domain,sender_email,email,org_id,path,country,city,ip,user_agent,props")
+        .order("at", { ascending: false })
+        .limit(100);
+      if (error) return res.status(502).json({ error: error.message });
+      return res.json(data || []);
+    }
+    default:
+      return res.status(404).json({ error: "Unknown resource" });
+  }
 }
 
 const HTML = `<!doctype html>
