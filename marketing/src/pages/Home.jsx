@@ -399,15 +399,6 @@ const heroAnimStyles = `
 }
 .hero-anim .cursor.show { opacity: 1; }
 .hero-anim .cursor.down { transform: scale(0.82); }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-anim .cursor { display: none; }
-  .hero-anim .typing-display { display: none; }
-  .hero-anim .wrong-chip, .hero-anim .warning { opacity: 1 !important; transform: translate(-50%,-50%) scale(1) !important; }
-  .hero-anim .wrong-chip { transform: translateY(-50%) scale(1) !important; }
-  .hero-anim .body-line { opacity: 1 !important; transform: none !important; }
-  .hero-anim .subject-text { width: auto !important; }
-}
 `
 
 function HeroAnimation() {
@@ -423,7 +414,6 @@ function HeroAnimation() {
       bodyLines: root.querySelectorAll('.body-line'), sendBtn: $('#ha-sendBtn'),
       warning: $('#ha-warning'), dontSend: $('#ha-dontSend'), cursor: $('#ha-cursor'),
     }
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let timers = []
     const after = (ms, fn) => { timers.push(setTimeout(fn, ms)) }
     const clearAll = () => { timers.forEach(clearTimeout); timers = [] }
@@ -468,13 +458,6 @@ function HeroAnimation() {
 
     function run() {
       reset()
-      if (reduce) {
-        els.wrongChip.classList.add('in')
-        els.subject.textContent = 'Q2 renewal — final pricing'
-        els.bodyLines.forEach(function (l) { l.classList.add('in') })
-        els.warning.classList.add('in')
-        return
-      }
 
       // 1. Cursor drifts in, start typing "John"
       after(500, function () {
