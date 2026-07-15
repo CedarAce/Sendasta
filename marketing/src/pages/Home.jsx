@@ -563,7 +563,7 @@ function HeroAnimation() {
   }, [])
 
   return (
-    <div ref={rootRef} className="hero-anim mt-16 max-w-6xl mx-auto w-full flex justify-center">
+    <div ref={rootRef} className="hero-anim mt-16 max-w-6xl flex justify-center -mx-6 px-2 w-[calc(100%+3rem)] sm:mx-auto sm:px-0 sm:w-full">
       <style>{heroAnimStyles}</style>
       <div ref={wrapRef} className="hero-anim-wrap">
       <div className="stage" aria-label="Animated Sendasta demo">
