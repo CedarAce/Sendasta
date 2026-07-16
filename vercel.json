@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/for-it-admins", "destination": "/index.html" },
+    { "source": "/industries", "destination": "/index.html" },
     { "source": "/pricing", "destination": "/index.html" },
     { "source": "/faq", "destination": "/index.html" },
     { "source": "/privacy-policy", "destination": "/index.html" },

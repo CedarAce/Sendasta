@@ -4,6 +4,7 @@ import MarketingLayout from './components/MarketingLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import ForITAdmins from './pages/ForITAdmins'
+import Industries from './pages/Industries'
 import Pricing from './pages/Pricing'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
@@ -42,6 +43,7 @@ export default function App() {
         <Route element={<MarketingLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/for-it-admins" element={<ForITAdmins />} />
+          <Route path="/industries" element={<Industries />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

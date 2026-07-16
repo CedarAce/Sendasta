@@ -67,7 +67,7 @@ server.listen(0, async () => {
       headless: chromium.headless,
     });
 
-    const routes = ['/', '/for-it-admins'];
+    const routes = ['/', '/for-it-admins', '/industries'];
 
     for (const route of routes) {
       console.log(`Prerendering ${route}...`);

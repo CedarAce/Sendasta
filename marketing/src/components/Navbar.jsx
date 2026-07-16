@@ -45,6 +45,9 @@ export default function Navbar() {
           <NavLink to="/for-it-admins" className={linkClass}>
             Setup Guide
           </NavLink>
+          <NavLink to="/industries" className={linkClass}>
+            Industries
+          </NavLink>
           <Link
             to={pathname === '/' ? '#pricing' : '/#pricing'}
             onClick={handleSectionClick('pricing')}
@@ -108,6 +111,13 @@ export default function Navbar() {
             onClick={() => setMobileOpen(false)}
           >
             Setup Guide
+          </NavLink>
+          <NavLink
+            to="/industries"
+            className={linkClass}
+            onClick={() => setMobileOpen(false)}
+          >
+            Industries
           </NavLink>
           <Link
             to={pathname === '/' ? '#pricing' : '/#pricing'}
