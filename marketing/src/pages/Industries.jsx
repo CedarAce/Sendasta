@@ -50,7 +50,8 @@ const INDUSTRIES = [
     eyebrow: 'For Law Firms',
     headline: 'The privilege-leak safeguard for law firms handling confidential matters.',
     body: 'Autocomplete doesn’t know the difference between "John Smith, your associate" and "John Smith, opposing counsel" — and it’s the exhausted 9pm filing-deadline sends where it swaps them. That’s not an awkward email, it’s a privilege waiver, a conflict-of-interest problem, and potentially a malpractice claim or bar complaint.',
-    ctaLabel: 'See how it works for law firms',
+    ctaLabel: 'Read how it works for law firms',
+    ctaHref: '/industries/law-firms',
   },
   {
     id: 'm-and-a-advisors',
@@ -58,7 +59,8 @@ const INDUSTRIES = [
     eyebrow: 'For M&A Advisors',
     headline: 'The deal-leak safeguard for advisors running live transactions.',
     body: 'A live deal means a dozen "John"s across three data rooms, all needing an update before the deadline. One misdirected term sheet or cap table doesn’t just embarrass you — it can leak pricing to a competing bidder or trigger an NDA breach that costs you the client’s trust for good.',
-    ctaLabel: 'See how it works for M&A advisors',
+    ctaLabel: 'Read how it works for M&A advisors',
+    ctaHref: '/industries/m-and-a-advisors',
   },
   {
     id: 'healthcare',
@@ -66,7 +68,8 @@ const INDUSTRIES = [
     eyebrow: 'For Healthcare Teams',
     headline: 'The HIPAA-safe send check for teams handling patient email.',
     body: 'It’s not negligence — it’s an understaffed clinic rushing between patients with two similarly-named charts open at once. But a misdirected email carrying PHI is a HIPAA violation with real fines, mandatory breach notification, and a possible OCR complaint, not just an awkward apology call.',
-    ctaLabel: 'See how it works for healthcare teams',
+    ctaLabel: 'Read how it works for healthcare teams',
+    ctaHref: '/industries/healthcare',
   },
   {
     id: 'accounting',
@@ -74,7 +77,8 @@ const INDUSTRIES = [
     eyebrow: 'For Accounting Firms',
     headline: 'The client-mixup safeguard for firms during tax season.',
     body: 'Tax season means a stack of similarly-named clients and an exhausted preparer at 11pm in April. A tax return or 1099 sent to the wrong client isn’t a typo — it’s an identity-theft liability for your firm and a client relationship you don’t get back.',
-    ctaLabel: 'See how it works for accounting firms',
+    ctaLabel: 'Read how it works for accounting firms',
+    ctaHref: '/industries/accounting',
   },
   {
     id: 'engineering-firms',
@@ -82,7 +86,8 @@ const INDUSTRIES = [
     eyebrow: 'For Engineering Firms',
     headline: 'The IP-leak safeguard for engineering firms sharing drawings and specs.',
     body: 'Revision rounds move fast, and autocomplete doesn’t care that "Client Engineering" at the firm across town isn’t who this drawing set is for. Sending proprietary CAD files or project specs to the wrong recipient — or a competing bidder — walks your IP out the door and can cost you the bid entirely.',
-    ctaLabel: 'See how it works for engineering firms',
+    ctaLabel: 'Read how it works for engineering firms',
+    ctaHref: '/industries/engineering-firms',
   },
 ]
 
@@ -132,7 +137,7 @@ export default function Industries() {
                 {industry.body}
               </p>
               <a
-                href="/#pricing"
+                href={industry.ctaHref || '/#pricing'}
                 className="mt-5 inline-flex items-center gap-1.5 text-blue-accent hover:underline font-semibold text-sm"
               >
                 {industry.ctaLabel}

@@ -2,6 +2,11 @@
   "rewrites": [
     { "source": "/for-it-admins", "destination": "/index.html" },
     { "source": "/industries", "destination": "/index.html" },
+    { "source": "/industries/law-firms", "destination": "/index.html" },
+    { "source": "/industries/m-and-a-advisors", "destination": "/index.html" },
+    { "source": "/industries/healthcare", "destination": "/index.html" },
+    { "source": "/industries/accounting", "destination": "/index.html" },
+    { "source": "/industries/engineering-firms", "destination": "/index.html" },
     { "source": "/pricing", "destination": "/index.html" },
     { "source": "/faq", "destination": "/index.html" },
     { "source": "/privacy-policy", "destination": "/index.html" },

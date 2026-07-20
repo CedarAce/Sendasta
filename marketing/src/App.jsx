@@ -5,6 +5,11 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import ForITAdmins from './pages/ForITAdmins'
 import Industries from './pages/Industries'
+import LawFirmsArticle from './pages/industries/LawFirms'
+import MAndAAdvisorsArticle from './pages/industries/MAndAAdvisors'
+import HealthcareArticle from './pages/industries/Healthcare'
+import AccountingArticle from './pages/industries/Accounting'
+import EngineeringArticle from './pages/industries/Engineering'
 import Pricing from './pages/Pricing'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
@@ -44,6 +49,11 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/for-it-admins" element={<ForITAdmins />} />
           <Route path="/industries" element={<Industries />} />
+          <Route path="/industries/law-firms" element={<LawFirmsArticle />} />
+          <Route path="/industries/m-and-a-advisors" element={<MAndAAdvisorsArticle />} />
+          <Route path="/industries/healthcare" element={<HealthcareArticle />} />
+          <Route path="/industries/accounting" element={<AccountingArticle />} />
+          <Route path="/industries/engineering-firms" element={<EngineeringArticle />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
