@@ -90,11 +90,7 @@ export default function MAndAAdvisorsArticle() {
             </p>
           </div>
           <div className="mt-10">
-            <SendDialogMockup
-              heading="Blocked domain detected"
-              note="This email is addressed to a competing bidder:"
-              domains={['rivalcapitalpartners.com']}
-            />
+            <SendDialogMockup type="blocked" domains={['rivalcapitalpartners.com']} />
             <p className="mt-3 text-center text-xs text-gray-400">
               What the sender sees in Outlook — before the email leaves the outbox.
             </p>

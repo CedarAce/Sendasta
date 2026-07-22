@@ -92,11 +92,7 @@ export default function HealthcareArticle() {
             </p>
           </div>
           <div className="mt-10">
-            <SendDialogMockup
-              heading="Personal email domain detected"
-              note="This email is addressed to a personal email domain:"
-              domains={['gmail.com']}
-            />
+            <SendDialogMockup type="blocked" domains={['gmail.com']} />
             <p className="mt-3 text-center text-xs text-gray-400">
               What the sender sees in Outlook — before the email leaves the outbox.
             </p>

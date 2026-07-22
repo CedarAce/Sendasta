@@ -94,11 +94,7 @@ export default function LawFirmsArticle() {
             </p>
           </div>
           <div className="mt-10">
-            <SendDialogMockup
-              heading="Flagged combination detected"
-              note="This email is addressed to a client and opposing counsel on the same thread:"
-              domains={['clientco.com', 'opposingcounsel-law.com']}
-            />
+            <SendDialogMockup type="no-combine" domains={['clientco.com', 'opposingcounsel-law.com']} />
             <p className="mt-3 text-center text-xs text-gray-400">
               What the sender sees in Outlook — before the email leaves the outbox.
             </p>

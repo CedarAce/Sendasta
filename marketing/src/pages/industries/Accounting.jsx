@@ -91,11 +91,7 @@ export default function AccountingArticle() {
             </p>
           </div>
           <div className="mt-10">
-            <SendDialogMockup
-              heading="Flagged combination detected"
-              note="This email is addressed to two client domains that shouldn't appear together:"
-              domains={['smithfamilytrust.com', 'jonesenterprises.com']}
-            />
+            <SendDialogMockup type="no-combine" domains={['smithfamilytrust.com', 'jonesenterprises.com']} />
             <p className="mt-3 text-center text-xs text-gray-400">
               What the sender sees in Outlook — before the email leaves the outbox.
             </p>

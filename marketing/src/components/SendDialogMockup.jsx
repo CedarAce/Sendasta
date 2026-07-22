@@ -1,4 +1,33 @@
-export default function SendDialogMockup({ heading, note, domains, confirmText = 'Confirm this is intentional.' }) {
+// Mirrors the exact copy Sendasta shows in Outlook, per evaluateRecipients()
+// in src/commands-v2/commands.js — keep these three cases in sync with that file.
+function buildContent(type, domains) {
+  if (type === 'blocked') {
+    return {
+      heading: '⚠️ Recipient on restricted list',
+      note: `The following recipient domain${domains.length > 1 ? 's are' : ' is'} on your organization's restricted list:`,
+      list: domains,
+      footer: 'Are you sure you want to send this email?',
+    }
+  }
+  if (type === 'no-combine') {
+    return {
+      heading: 'Conflicting recipients detected',
+      note: "Your organization's policy does not allow sending to these domains together:",
+      list: domains,
+      footer: 'Review recipients before proceeding.',
+    }
+  }
+  // 'multi-domain'
+  return {
+    heading: 'Multiple external domains detected',
+    note: `This email is addressed to ${domains.length} external organization${domains.length > 1 ? 's' : ''}:`,
+    list: domains,
+    footer: 'Confirm this is intentional.',
+  }
+}
+
+export default function SendDialogMockup({ type, domains }) {
+  const { heading, note, list, footer } = buildContent(type, domains)
   return (
     <div
       className="max-w-md mx-auto rounded-[4px] bg-white shadow-[0_25.6px_57.6px_rgba(0,0,0,0.16),0_4.8px_14.4px_rgba(0,0,0,0.12)] overflow-hidden select-none"
@@ -17,13 +46,11 @@ export default function SendDialogMockup({ heading, note, domains, confirmText =
         </svg>
         <div className="text-[13.5px] leading-relaxed text-[#1f1f1f]">
           <p className="font-semibold mb-2 text-[14px]">{heading}</p>
-          {note && <p className="my-2">{note}</p>}
-          {domains?.length > 0 && (
-            <ul className="my-2 pl-5 space-y-0.5 list-disc marker:text-[#d13438]">
-              {domains.map((d) => <li key={d}>{d}</li>)}
-            </ul>
-          )}
-          <p className="my-2">{confirmText}</p>
+          <p className="my-2">{note}</p>
+          <ul className="my-2 pl-5 space-y-0.5 list-disc marker:text-[#d13438]">
+            {list.map((d) => <li key={d}>{d}</li>)}
+          </ul>
+          <p className="my-2">{footer}</p>
         </div>
       </div>
       <div className="flex justify-end gap-2 px-5 pb-5 pt-3">
