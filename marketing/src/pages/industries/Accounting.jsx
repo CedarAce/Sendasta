@@ -1,4 +1,6 @@
 import { usePageMeta } from '../../hooks/usePageMeta'
+import { ReceiptIcon } from '../../components/industryIcons'
+import SendDialogMockup from '../../components/SendDialogMockup'
 
 const FAQS = [
   {
@@ -46,6 +48,9 @@ export default function AccountingArticle() {
           <a href="/industries" className="text-xs font-semibold text-blue-accent uppercase tracking-widest hover:underline">
             ← Industries
           </a>
+          <div className="mt-6 w-14 h-14 rounded-full bg-blue-accent/10 border-2 border-blue-accent/30 flex items-center justify-center text-blue-accent">
+            <ReceiptIcon className="w-7 h-7" />
+          </div>
           <span className="mt-4 block text-xs font-semibold text-blue-accent uppercase tracking-widest">For Accounting Firms</span>
           <h1 className="mt-3 text-4xl md:text-5xl font-extrabold text-white leading-tight">
             A tax return sent to the wrong client isn't a typo — it's an identity-theft liability.
@@ -83,6 +88,16 @@ export default function AccountingArticle() {
               Beyond the compliance exposure, there's the relationship cost: a client whose SSN and
               financials went to a stranger doesn't stay a client, and word travels fast among the
               referral network that built your book of business in the first place.
+            </p>
+          </div>
+          <div className="mt-10">
+            <SendDialogMockup
+              heading="Flagged combination detected"
+              note="This email is addressed to two client domains that shouldn't appear together:"
+              domains={['smithfamilytrust.com', 'jonesenterprises.com']}
+            />
+            <p className="mt-3 text-center text-xs text-gray-400">
+              What the sender sees in Outlook — before the email leaves the outbox.
             </p>
           </div>
         </div>

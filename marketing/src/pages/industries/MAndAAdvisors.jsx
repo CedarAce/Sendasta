@@ -1,4 +1,6 @@
 import { usePageMeta } from '../../hooks/usePageMeta'
+import { HandshakeIcon } from '../../components/industryIcons'
+import SendDialogMockup from '../../components/SendDialogMockup'
 
 const FAQS = [
   {
@@ -46,6 +48,9 @@ export default function MAndAAdvisorsArticle() {
           <a href="/industries" className="text-xs font-semibold text-blue-accent uppercase tracking-widest hover:underline">
             ← Industries
           </a>
+          <div className="mt-6 w-14 h-14 rounded-full bg-blue-accent/10 border-2 border-blue-accent/30 flex items-center justify-center text-blue-accent">
+            <HandshakeIcon className="w-7 h-7" />
+          </div>
           <span className="mt-4 block text-xs font-semibold text-blue-accent uppercase tracking-widest">For M&A Advisors</span>
           <h1 className="mt-3 text-4xl md:text-5xl font-extrabold text-white leading-tight">
             One wrong recipient can hand your pricing to the bidder you're negotiating against.
@@ -82,6 +87,16 @@ export default function MAndAAdvisorsArticle() {
               And it isn't limited to pricing. Cap tables, management presentations, and diligence
               materials sent to the wrong domain can tip off employees, competitors, or the market before
               the deal is ready to be announced — turning a controlled process into a fire drill.
+            </p>
+          </div>
+          <div className="mt-10">
+            <SendDialogMockup
+              heading="Blocked domain detected"
+              note="This email is addressed to a competing bidder:"
+              domains={['rivalcapitalpartners.com']}
+            />
+            <p className="mt-3 text-center text-xs text-gray-400">
+              What the sender sees in Outlook — before the email leaves the outbox.
             </p>
           </div>
         </div>
